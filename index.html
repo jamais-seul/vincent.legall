@@ -3,765 +3,703 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Réunion Life — Simulation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>War Arena — Prototype</title>
 <style>
-:root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #f1f5f9;
-  --muted: #94a3b8;
-  --accent: #22d3ee;
-  --green: #34d399;
-  --orange: #fb923c;
-  --pink: #f472b6;
-  --red: #f87171;
-  --border: #334155;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { margin:0; padding:0; box-sizing:border-box; }
 body {
-  font-family: 'Nunito', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  line-height: 1.45;
+  background:#0a0e17;
+  color:#e2e8f0;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow:hidden;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
 }
-#app { max-width: 920px; margin: 0 auto; padding: 1rem; }
-
-/* Screens */
-.screen { display: none; }
-.screen.active { display: block; }
-
-/* Header */
-.topbar {
-  display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 14px; padding: .7rem 1rem; margin-bottom: 1rem;
+#menu {
+  position:absolute; inset:0; background:#0a0e17;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  z-index:20; gap:12px;
 }
-.topbar .money { font-weight: 800; color: var(--green); font-size: 1.1rem; }
-.topbar .loc { color: var(--accent); font-weight: 700; }
-.bars { display: flex; flex-wrap: wrap; gap: .5rem; flex: 1; }
+#menu h1 { font-size:2rem; color:#38bdf8; margin-bottom:4px; }
+#menu p { color:#64748b; margin-bottom:16px; }
+.class-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:10px; max-width:700px; width:90%;
+}
+.class-card {
+  background:#111827; border:2px solid #1e293b; border-radius:12px;
+  padding:12px; cursor:pointer; transition:.15s;
+}
+.class-card:hover, .class-card.selected { border-color:#38bdf8; background:#1e293b; }
+.class-card h3 { font-size:15px; margin-bottom:4px; }
+.class-card .stats { font-size:11px; color:#94a3b8; line-height:1.4; }
+#menu button {
+  margin-top:16px; padding:12px 32px; border:0; border-radius:10px;
+  background:#38bdf8; color:#0f172a; font-weight:700; font-size:16px; cursor:pointer;
+}
+#hud {
+  display:none; padding:8px 14px; background:#0f172a; border-bottom:1px solid #1e293b;
+  align-items:center; gap:16px; font-size:13px; flex-wrap:wrap;
+}
+.bar-box { display:flex; align-items:center; gap:6px; }
 .bar {
-  flex: 1; min-width: 90px; background: #0f172a; border-radius: 8px;
-  overflow: hidden; height: 22px; position: relative; border: 1px solid var(--border);
+  width:90px; height:12px; background:#1e293b; border-radius:4px; overflow:hidden;
 }
-.bar span {
-  position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
-  font-size: .7rem; font-weight: 700; z-index: 1; text-shadow: 0 1px 2px #000;
+.bar div { height:100%; transition:width .2s; }
+#canvas-wrap {
+  flex:1; display:flex; justify-content:center; align-items:center;
+  background:#020617; position:relative;
 }
-.bar .fill { height: 100%; transition: width .4s; }
-.bar.hunger .fill { background: #f97316; }
-.bar.energy .fill { background: #38bdf8; }
-.bar.social .fill { background: #a78bfa; }
-.bar.fun .fill { background: #f472b6; }
-
-/* Cards & buttons */
-.card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 14px; padding: 1.1rem; margin-bottom: 1rem;
+canvas {
+  image-rendering: pixelated;
+  border:2px solid #1e293b;
+  max-width:100%; max-height:100%;
 }
-h1, h2, h3 { font-weight: 800; }
-h1 { font-size: 1.6rem; margin-bottom: .4rem; }
-h2 { font-size: 1.25rem; margin-bottom: .6rem; color: var(--accent); }
-.sub { color: var(--muted); margin-bottom: 1rem; font-size: .95rem; }
-
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: .35rem;
-  background: var(--accent); color: #0f172a; border: 0; padding: .55rem 1rem;
-  border-radius: 10px; font-weight: 700; font-size: .9rem; cursor: pointer;
-  font-family: inherit; transition: filter .15s;
+#msg {
+  position:absolute; top:20px; left:50%; transform:translateX(-50%);
+  background:rgba(15,23,42,.9); padding:8px 18px; border-radius:8px;
+  font-size:14px; opacity:0; transition:opacity .3s; pointer-events:none;
+  border:1px solid #334155;
 }
-.btn:hover { filter: brightness(1.1); }
-.btn.sec { background: #334155; color: var(--text); }
-.btn.green { background: var(--green); color: #064e3b; }
-.btn.orange { background: var(--orange); color: #7c2d12; }
-.btn.pink { background: var(--pink); color: #831843; }
-.btn.red { background: var(--red); color: #7f1d1d; }
-.btn:disabled { opacity: .45; cursor: not-allowed; }
-.btn-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
-
-/* Character creation */
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
-@media(max-width:600px){ .grid2 { grid-template-columns: 1fr; } }
-input, select {
-  width: 100%; padding: .6rem .8rem; border-radius: 10px; border: 1px solid var(--border);
-  background: #0f172a; color: var(--text); font-family: inherit; font-size: .95rem;
-}
-label { font-weight: 700; font-size: .85rem; display: block; margin-bottom: .25rem; }
-
-/* Locations & houses */
-.loc-grid, .house-grid, .job-grid, .npc-grid, .shop-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: .7rem;
-}
-.item {
-  background: #0f172a; border: 1px solid var(--border); border-radius: 12px;
-  padding: .9rem; cursor: pointer; transition: border-color .15s;
-}
-.item:hover { border-color: var(--accent); }
-.item h3 { font-size: 1rem; margin-bottom: .25rem; }
-.item p { font-size: .82rem; color: var(--muted); }
-.item .price { color: var(--green); font-weight: 800; margin-top: .4rem; }
-.item.owned { border-color: var(--green); }
-.item.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(34,211,238,.3); }
-
-/* Log */
-#log {
-  max-height: 180px; overflow-y: auto; font-size: .88rem;
-  background: #0f172a; border-radius: 10px; padding: .7rem;
-  border: 1px solid var(--border); margin-top: .8rem;
-}
-#log div { margin-bottom: .3rem; color: var(--muted); }
-#log div.imp { color: var(--accent); font-weight: 700; }
-
-/* Inventory / furniture */
-.inv { display: flex; flex-wrap: wrap; gap: .4rem; }
-.tag {
-  background: #334155; padding: .25rem .6rem; border-radius: 999px;
-  font-size: .78rem; font-weight: 700;
-}
-
-/* Time */
-.time { font-weight: 700; color: var(--orange); }
-
-/* Avatar */
-.avatar {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: linear-gradient(135deg, #22d3ee, #a78bfa);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.8rem; margin-bottom: .5rem;
+#msg.show { opacity:1; }
+#controls {
+  display:none; text-align:center; padding:6px; font-size:12px; color:#475569;
+  background:#0f172a; border-top:1px solid #1e293b;
 }
 </style>
 </head>
 <body>
-<div id="app">
 
-  <!-- ========== CRÉATION ========== -->
-  <div id="screen-create" class="screen active">
-    <div class="card">
-      <h1>🌴 Réunion Life</h1>
-      <p class="sub">Crée ton personnage et commence ta nouvelle vie sur l’île de la Réunion.</p>
+<div id="menu">
+  <h1>⚔️ War Arena</h1>
+  <p>Prototype — Choisis ton combattant</p>
+  <div class="class-grid" id="classGrid"></div>
+  <button onclick="startGame()">Lancer la partie</button>
+</div>
 
-      <div class="grid2">
-        <div>
-          <label>Prénom</label>
-          <input id="cName" placeholder="Ex : Léa, Kevin, Marine…" maxlength="20" value="Léa">
-        </div>
-        <div>
-          <label>Style</label>
-          <select id="cStyle">
-            <option value="😎">Cool</option>
-            <option value="😊">Sympa</option>
-            <option value="💪">Sportif</option>
-            <option value="🎨">Artiste</option>
-            <option value="📚">Studieux</option>
-            <option value="🌺">Créole</option>
-          </select>
-        </div>
-      </div>
+<div id="hud">
+  <div id="playerName" style="font-weight:700;color:#38bdf8">—</div>
+  <div class="bar-box">❤️ <div class="bar"><div id="hpBar" style="width:100%;background:#ef4444"></div></div></div>
+  <div class="bar-box">🍖 <div class="bar"><div id="hungerBar" style="width:100%;background:#f97316"></div></div></div>
+  <div id="ammo">Munitions : —</div>
+  <div id="kills" style="margin-left:auto">Kills : 0</div>
+  <div id="alive">Vivants : —</div>
+</div>
 
-      <div style="margin-top:1rem">
-        <label>Personnalité (influence les dialogues)</label>
-        <select id="cTrait">
-          <option value="sociable">Sociable</option>
-          <option value="ambitieux">Ambitieux</option>
-          <option value="relax">Relax</option>
-          <option value="romantique">Romantique</option>
-          <option value="bagarreur">Bagarreur</option>
-        </select>
-      </div>
+<div id="canvas-wrap">
+  <canvas id="c" width="800" height="600"></canvas>
+  <div id="msg"></div>
+</div>
 
-      <div class="btn-row">
-        <button class="btn green" onclick="startGame()">Commencer ma vie →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== JEU ========== -->
-  <div id="screen-game" class="screen">
-    <div class="topbar">
-      <div class="avatar" id="pAvatar">😊</div>
-      <div>
-        <div style="font-weight:800" id="pName">—</div>
-        <div class="loc" id="pLoc">—</div>
-      </div>
-      <div class="money" id="pMoney">0 €</div>
-      <div class="time" id="pTime">Lundi 8h</div>
-      <div class="bars">
-        <div class="bar hunger"><span>Faim</span><div class="fill" id="bHunger" style="width:80%"></div></div>
-        <div class="bar energy"><span>Énergie</span><div class="fill" id="bEnergy" style="width:90%"></div></div>
-        <div class="bar social"><span>Social</span><div class="fill" id="bSocial" style="width:50%"></div></div>
-        <div class="bar fun"><span>Fun</span><div class="fill" id="bFun" style="width:60%"></div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2 id="mainTitle">Que fais-tu ?</h2>
-      <div id="mainContent"></div>
-      <div class="btn-row" id="mainActions"></div>
-      <div id="log"></div>
-    </div>
-  </div>
-
+<div id="controls">
+  ZQSD / WASD = bouger · Souris = viser · Clic = tirer · E = ramasser · R = recharger
 </div>
 
 <script>
 "use strict";
 
-/* ========== DATA ========== */
-const TOWNS = [
-  { id:"saintdenis", name:"Saint-Denis", desc:"Capitale, animée, jobs faciles", emoji:"🏙️" },
-  { id:"saintpierre", name:"Saint-Pierre", desc:"Sud, plages et ambiance", emoji:"🏖️" },
-  { id:"saintpaul", name:"Saint-Paul", desc:"Ouest, marchés et coucher de soleil", emoji:"🌅" },
-  { id:"saintbenoit", name:"Saint-Benoît", desc:"Est, nature et calme", emoji:"🌿" },
-  { id:"cilaos", name:"Cilaos", desc:"Cirque, montagne, air pur", emoji:"⛰️" },
-  { id:"saintleu", name:"Saint-Leu", desc:"Spot de surf et détente", emoji:"🏄" }
+/* ===================== DATA ===================== */
+const CLASSES = [
+  { id:"assault", name:"Assault", hp:100, speed:2.4, hungerRate:0.012, accuracy:0.85, color:"#38bdf8",
+    desc:"Équilibré, bon à tout", weapon:"rifle" },
+  { id:"scout", name:"Scout", hp:75, speed:3.2, hungerRate:0.018, accuracy:0.75, color:"#34d399",
+    desc:"Très rapide, fragile", weapon:"smg" },
+  { id:"tank", name:"Tank", hp:160, speed:1.7, hungerRate:0.02, accuracy:0.7, color:"#f97316",
+    desc:"Très résistant, lent", weapon:"shotgun" },
+  { id:"sniper", name:"Sniper", hp:80, speed:2.0, hungerRate:0.01, accuracy:0.95, color:"#a78bfa",
+    desc:"Précision extrême", weapon:"sniper" },
+  { id:"medic", name:"Médic", hp:90, speed:2.3, hungerRate:0.011, accuracy:0.8, color:"#f472b6",
+    desc:"Soigne un peu en ramassant", weapon:"pistol" },
+  { id:"heavy", name:"Heavy", hp:140, speed:1.5, hungerRate:0.022, accuracy:0.65, color:"#ef4444",
+    desc:"Gros dégâts, très lent", weapon:"lmg" },
+  { id:"ghost", name:"Ghost", hp:70, speed:2.8, hungerRate:0.014, accuracy:0.88, color:"#94a3b8",
+    desc:"Discret et précis", weapon:"smg" },
+  { id:"berserk", name:"Berserk", hp:110, speed:2.6, hungerRate:0.025, accuracy:0.72, color:"#fbbf24",
+    desc:"Agressif, faim rapide", weapon:"shotgun" }
 ];
 
-const HOUSES = [
-  { id:"studio_sd", town:"saintdenis", name:"Studio centre-ville", price:18500, confort:1, emoji:"🏢" },
-  { id:"appart_sd", town:"saintdenis", name:"Appart 2 pièces", price:32000, confort:2, emoji:"🏠" },
-  { id:"case_sp", town:"saintpierre", name:"Case créole", price:28000, confort:2, emoji:"🏡" },
-  { id:"appart_sp", town:"saintpierre", name:"Appart vue mer", price:41000, confort:3, emoji:"🌊" },
-  { id:"maison_spaul", town:"saintpaul", name:"Petite maison", price:35000, confort:3, emoji:"🌴" },
-  { id:"studio_sben", town:"saintbenoit", name:"Studio nature", price:16000, confort:1, emoji:"🍃" },
-  { id:"chalet_cil", town:"cilaos", name:"Chalet montagne", price:24000, confort:2, emoji:"🏔️" },
-  { id:"bungalow_leu", town:"saintleu", name:"Bungalow surf", price:29000, confort:2, emoji:"🏄" }
-];
-
-const JOBS = [
-  { id:"caissier", name:"Caissier(e) supermarché", pay:85, energy:-25, fun:-10, town:"saintdenis", emoji:"🛒" },
-  { id:"serveur", name:"Serveur(se) restaurant", pay:95, energy:-30, fun:5, town:"saintpierre", emoji:"🍽️" },
-  { id:"maçon", name:"Aide-maçon", pay:120, energy:-40, fun:-15, town:"saintpaul", emoji:"🧱" },
-  { id:"guide", name:"Guide touristique", pay:110, energy:-20, fun:20, town:"cilaos", emoji:"🗺️" },
-  { id:"surf", name:"Moniteur de surf", pay:100, energy:-25, fun:30, town:"saintleu", emoji:"🏄" },
-  { id:"marche", name:"Vendeur au marché", pay:75, energy:-20, fun:10, town:"saintpaul", emoji:"🥭" },
-  { id:"bureau", name:"Employé de bureau", pay:130, energy:-15, fun:-20, town:"saintdenis", emoji:"💼" },
-  { id:"agriculteur", name:"Aide agricole", pay:90, energy:-35, fun:5, town:"saintbenoit", emoji:"🌱" }
-];
-
-const NPCs = [
-  { id:"maya", name:"Maya", trait:"sympa", age:24, town:"saintdenis", rel:0, emoji:"👩" },
-  { id:"kevin", name:"Kévin", trait:"sportif", age:27, town:"saintpierre", rel:0, emoji:"👨" },
-  { id:"sharon", name:"Sharon", trait:"romantique", age:22, town:"saintleu", rel:0, emoji:"💃" },
-  { id:"jean", name:"Jean-Marc", trait:"calme", age:31, town:"cilaos", rel:0, emoji:"🧔" },
-  { id:"lea", name:"Léa", trait:"ambitieuse", age:26, town:"saintpaul", rel:0, emoji:"👩‍💼" },
-  { id:"tom", name:"Tom", trait:"bagarreur", age:29, town:"saintdenis", rel:0, emoji:"👊" }
-];
-
-const FOODS = [
-  { id:"riz", name:"Riz cantonais", price:6, hunger:30, emoji:"🍚" },
-  { id:"cari", name:"Cari poulet", price:12, hunger:50, emoji:"🍗" },
-  { id:"bouchons", name:"Bouchons", price:8, hunger:35, emoji:"🥟" },
-  { id:"samoussa", name:"Samoussas", price:5, hunger:25, emoji:"🥟" },
-  { id:"rougail", name:"Rougail saucisse", price:11, hunger:45, emoji:"🌭" },
-  { id:"salade", name:"Salade locale", price:7, hunger:20, emoji:"🥗" }
-];
-
-const FURNITURE = [
-  { id:"canape", name:"Canapé", price:180, confort:1, emoji:"🛋️" },
-  { id:"lit", name:"Lit confortable", price:250, confort:2, emoji:"🛏️" },
-  { id:"tv", name:"Télévision", price:150, confort:1, emoji:"📺" },
-  { id:"table", name:"Table à manger", price:120, confort:1, emoji:"🪑" },
-  { id:"frigo", name:"Frigo", price:200, confort:1, emoji:"🧊" },
-  { id:"plante", name:"Plantes", price:40, confort:1, emoji:"🪴" }
-];
-
-const DAYS = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
-
-/* ========== STATE ========== */
-let state = {
-  name: "",
-  style: "😊",
-  trait: "sociable",
-  money: 25000,
-  hunger: 80,
-  energy: 90,
-  social: 50,
-  fun: 60,
-  day: 0,
-  hour: 8,
-  town: null,
-  house: null,
-  job: null,
-  inventory: [],
-  furniture: [],
-  relationships: {},
-  log: []
+const WEAPONS = {
+  pistol:  { name:"Pistolet", dmg:18, fireRate:280, range:320, spread:0.08, ammo:12, reload:900, color:"#e2e8f0" },
+  smg:     { name:"SMG", dmg:12, fireRate:90, range:280, spread:0.14, ammo:30, reload:1200, color:"#94a3b8" },
+  rifle:   { name:"Fusil d'assaut", dmg:22, fireRate:160, range:420, spread:0.06, ammo:25, reload:1400, color:"#38bdf8" },
+  shotgun: { name:"Fusil à pompe", dmg:12, fireRate:700, range:180, spread:0.28, ammo:6, reload:1600, color:"#f97316", pellets:6 },
+  sniper:  { name:"Sniper", dmg:65, fireRate:1100, range:700, spread:0.01, ammo:5, reload:2000, color:"#a78bfa" },
+  lmg:     { name:"Mitrailleuse", dmg:16, fireRate:110, range:380, spread:0.12, ammo:50, reload:2800, color:"#ef4444" }
 };
 
-/* ========== UTILS ========== */
-function $(id){ return document.getElementById(id); }
-function clamp(v){ return Math.max(0, Math.min(100, v)); }
-function log(msg, imp=false){
-  state.log.unshift({msg, imp, t: `${DAYS[state.day%7]} ${state.hour}h`});
-  if(state.log.length > 40) state.log.pop();
-  renderLog();
-}
-function renderLog(){
-  const el = $("log");
-  if(!el) return;
-  el.innerHTML = state.log.slice(0,12).map(l =>
-    `<div class="${l.imp?"imp":""}">[${l.t}] ${l.msg}</div>`
-  ).join("");
-}
-function updateBars(){
-  $("bHunger").style.width = state.hunger + "%";
-  $("bEnergy").style.width = state.energy + "%";
-  $("bSocial").style.width = state.social + "%";
-  $("bFun").style.width = state.fun + "%";
-  $("pMoney").textContent = state.money.toLocaleString("fr-FR") + " €";
-  $("pTime").textContent = `${DAYS[state.day%7]} ${state.hour}h`;
-  $("pName").textContent = state.name;
-  $("pAvatar").textContent = state.style;
-  const town = TOWNS.find(t => t.id === state.town);
-  $("pLoc").textContent = town ? town.emoji + " " + town.name : "—";
-}
-function advanceTime(hours){
-  state.hour += hours;
-  while(state.hour >= 24){
-    state.hour -= 24;
-    state.day++;
-    // decay
-    state.hunger = clamp(state.hunger - 15);
-    state.energy = clamp(state.energy - 8);
-    state.social = clamp(state.social - 5);
-    state.fun = clamp(state.fun - 6);
-  }
-  updateBars();
-  checkDeath();
-}
-function checkDeath(){
-  if(state.hunger <= 0 || state.energy <= 0){
-    log("Tu es épuisé(e)… Tu t’évanouis et on t’emmène à l’hôpital. (-800 €)", true);
-    state.money = Math.max(0, state.money - 800);
-    state.hunger = 50;
-    state.energy = 40;
-    advanceTime(8);
-  }
-}
+const MAP_W = 1600;
+const MAP_H = 1200;
 
-/* ========== START ========== */
+/* ===================== STATE ===================== */
+let selectedClass = CLASSES[0];
+let game = null;
+let canvas, ctx;
+let keys = {};
+let mouse = { x:0, y:0, down:false };
+
+/* ===================== MENU ===================== */
+function buildMenu(){
+  const grid = document.getElementById("classGrid");
+  CLASSES.forEach((c,i) => {
+    const d = document.createElement("div");
+    d.className = "class-card" + (i===0 ? " selected" : "");
+    d.innerHTML = `<h3 style="color:${c.color}">${c.name}</h3>
+      <div class="stats">${c.desc}<br>PV ${c.hp} · Vitesse ${c.speed}<br>Arme : ${WEAPONS[c.weapon].name}</div>`;
+    d.onclick = () => {
+      document.querySelectorAll(".class-card").forEach(el => el.classList.remove("selected"));
+      d.classList.add("selected");
+      selectedClass = c;
+    };
+    grid.appendChild(d);
+  });
+}
+buildMenu();
+
+/* ===================== GAME ===================== */
 function startGame(){
-  state.name = $("cName").value.trim() || "Inconnu";
-  state.style = $("cStyle").value;
-  state.trait = $("cTrait").value;
-  state.money = 25000;
-  $("screen-create").classList.remove("active");
-  $("screen-game").classList.add("active");
-  log(`Bienvenue ${state.name} ! Tu débarques sur l’île avec 25 000 €.`, true);
-  showChooseTown();
-}
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("hud").style.display = "flex";
+  document.getElementById("controls").style.display = "block";
 
-/* ========== SCREENS ========== */
-function clearMain(){
-  $("mainContent").innerHTML = "";
-  $("mainActions").innerHTML = "";
-}
+  canvas = document.getElementById("c");
+  ctx = canvas.getContext("2d");
 
-function showChooseTown(){
-  clearMain();
-  $("mainTitle").textContent = "Choisis ta ville de départ";
-  const grid = document.createElement("div");
-  grid.className = "loc-grid";
-  TOWNS.forEach(t => {
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerHTML = `<h3>${t.emoji} ${t.name}</h3><p>${t.desc}</p>`;
-    d.onclick = () => {
-      state.town = t.id;
-      log(`Tu t’installes à ${t.name}.`);
-      showChooseHouse();
-    };
-    grid.appendChild(d);
+  game = createGame(selectedClass);
+  window.addEventListener("keydown", e => { keys[e.key.toLowerCase()] = true; if([" ","arrowup","arrowdown","arrowleft","arrowright"].includes(e.key.toLowerCase())) e.preventDefault(); });
+  window.addEventListener("keyup", e => { keys[e.key.toLowerCase()] = false; });
+  canvas.addEventListener("mousemove", e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left) * (canvas.width / r.width);
+    mouse.y = (e.clientY - r.top) * (canvas.height / r.height);
   });
-  $("mainContent").appendChild(grid);
+  canvas.addEventListener("mousedown", () => mouse.down = true);
+  canvas.addEventListener("mouseup", () => mouse.down = false);
+
+  requestAnimationFrame(loop);
+  showMsg("Survive ! Ramasse armes et nourriture.");
 }
 
-function showChooseHouse(){
-  clearMain();
-  $("mainTitle").textContent = "Achète une maison (dans ton budget)";
-  const available = HOUSES.filter(h => h.town === state.town && h.price <= state.money);
-  if(!available.length){
-    $("mainContent").innerHTML = `<p>Aucune maison abordable ici. Tu reçois une aide de 5 000 €.</p>`;
-    state.money += 5000;
-    updateBars();
-  }
-  const grid = document.createElement("div");
-  grid.className = "house-grid";
-  (available.length ? available : HOUSES.filter(h => h.town === state.town)).forEach(h => {
-    const d = document.createElement("div");
-    d.className = "item" + (h.price > state.money ? "" : "");
-    d.innerHTML = `<h3>${h.emoji} ${h.name}</h3>
-      <p>Confort : ${"★".repeat(h.confort)}</p>
-      <div class="price">${h.price.toLocaleString("fr-FR")} €</div>`;
-    d.onclick = () => {
-      if(h.price > state.money){ log("Pas assez d’argent !"); return; }
-      state.house = h.id;
-      state.money -= h.price;
-      log(`Tu as acheté : ${h.name} pour ${h.price.toLocaleString("fr-FR")} €`, true);
-      updateBars();
-      showHub();
-    };
-    grid.appendChild(d);
-  });
-  $("mainContent").appendChild(grid);
-}
+function createGame(cls){
+  const player = {
+    id: "player",
+    name: cls.name,
+    x: MAP_W/2,
+    y: MAP_H/2,
+    hp: cls.hp,
+    maxHp: cls.hp,
+    hunger: 100,
+    speed: cls.speed,
+    hungerRate: cls.hungerRate,
+    accuracy: cls.accuracy,
+    color: cls.color,
+    angle: 0,
+    weapon: cls.weapon,
+    ammo: WEAPONS[cls.weapon].ammo,
+    reserve: WEAPONS[cls.weapon].ammo * 3,
+    lastShot: 0,
+    reloading: false,
+    reloadEnd: 0,
+    kills: 0,
+    alive: true,
+    isPlayer: true,
+    radius: 14
+  };
 
-function showHub(){
-  clearMain();
-  updateBars();
-  const town = TOWNS.find(t => t.id === state.town);
-  const house = HOUSES.find(h => h.id === state.house);
-  $("mainTitle").textContent = `${town.emoji} ${town.name} — Que fais-tu ?`;
-
-  let html = `<p>Maison : <b>${house ? house.emoji + " " + house.name : "Aucune"}</b></p>`;
-  if(state.job){
-    const j = JOBS.find(j => j.id === state.job);
-    html += `<p>Emploi : <b>${j.emoji} ${j.name}</b> (${j.pay} € / service)</p>`;
-  } else {
-    html += `<p style="color:var(--orange)">Tu n’as pas encore de travail.</p>`;
-  }
-  html += `<p style="margin-top:.5rem">Meubles : ${state.furniture.length ? state.furniture.map(f => FURNITURE.find(x=>x.id===f)?.emoji).join(" ") : "aucun"}</p>`;
-  $("mainContent").innerHTML = html;
-
-  const actions = [
-    { label: "💼 Travailler", fn: doWork, show: !!state.job },
-    { label: "🔍 Chercher un job", fn: showJobs, show: !state.job },
-    { label: "🛒 Faire les courses", fn: showShop },
-    { label: "🍳 Cuisiner / Manger", fn: showEat },
-    { label: "🛋️ Meubles", fn: showFurniture },
-    { label: "🗣️ Voir des gens", fn: showNPCs },
-    { label: "🌴 Se promener / Loisirs", fn: doLeisure },
-    { label: "✈️ Changer de ville", fn: showTravel },
-    { label: "😴 Dormir", fn: doSleep },
-    { label: "💾 Sauvegarder", fn: saveGame }
-  ];
-
-  actions.filter(a => a.show !== false).forEach(a => {
-    const b = document.createElement("button");
-    b.className = "btn sec";
-    b.textContent = a.label;
-    b.onclick = a.fn;
-    $("mainActions").appendChild(b);
-  });
-}
-
-/* ========== ACTIONS ========== */
-function showJobs(){
-  clearMain();
-  $("mainTitle").textContent = "Emplois disponibles";
-  const local = JOBS.filter(j => j.town === state.town);
-  const grid = document.createElement("div");
-  grid.className = "job-grid";
-  local.forEach(j => {
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerHTML = `<h3>${j.emoji} ${j.name}</h3>
-      <p>${j.pay} € / service · Énergie ${j.energy} · Fun ${j.fun > 0 ? "+"+j.fun : j.fun}</p>`;
-    d.onclick = () => {
-      state.job = j.id;
-      log(`Tu as été embauché(e) comme ${j.name} !`, true);
-      showHub();
-    };
-    grid.appendChild(d);
-  });
-  $("mainContent").appendChild(grid);
-  const back = document.createElement("button");
-  back.className = "btn sec";
-  back.textContent = "← Retour";
-  back.onclick = showHub;
-  $("mainActions").appendChild(back);
-}
-
-function doWork(){
-  const j = JOBS.find(j => j.id === state.job);
-  if(!j) return;
-  if(state.energy < 20){ log("Trop fatigué(e) pour travailler."); return; }
-  state.money += j.pay;
-  state.energy = clamp(state.energy + j.energy);
-  state.fun = clamp(state.fun + j.fun);
-  state.hunger = clamp(state.hunger - 10);
-  advanceTime(4);
-  log(`Tu as travaillé (${j.name}) → +${j.pay} €`, true);
-  showHub();
-}
-
-function showShop(){
-  clearMain();
-  $("mainTitle").textContent = "Courses — Marché local";
-  const grid = document.createElement("div");
-  grid.className = "shop-grid";
-  FOODS.forEach(f => {
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerHTML = `<h3>${f.emoji} ${f.name}</h3>
-      <p>+${f.hunger} faim</p>
-      <div class="price">${f.price} €</div>`;
-    d.onclick = () => {
-      if(state.money < f.price){ log("Pas assez d’argent."); return; }
-      state.money -= f.price;
-      state.inventory.push(f.id);
-      log(`Acheté : ${f.name}`);
-      updateBars();
-    };
-    grid.appendChild(d);
-  });
-  $("mainContent").appendChild(grid);
-  const back = document.createElement("button");
-  back.className = "btn sec";
-  back.textContent = "← Retour";
-  back.onclick = showHub;
-  $("mainActions").appendChild(back);
-}
-
-function showEat(){
-  clearMain();
-  $("mainTitle").textContent = "Manger";
-  if(!state.inventory.length){
-    $("mainContent").innerHTML = `<p>Tu n’as rien à manger. Va faire les courses !</p>`;
-  } else {
-    const grid = document.createElement("div");
-    grid.className = "shop-grid";
-    // count items
-    const counts = {};
-    state.inventory.forEach(id => counts[id] = (counts[id]||0)+1);
-    Object.keys(counts).forEach(id => {
-      const f = FOODS.find(x => x.id === id);
-      if(!f) return;
-      const d = document.createElement("div");
-      d.className = "item";
-      d.innerHTML = `<h3>${f.emoji} ${f.name}</h3><p>x${counts[id]} · +${f.hunger} faim</p>`;
-      d.onclick = () => {
-        const idx = state.inventory.indexOf(id);
-        if(idx >= 0) state.inventory.splice(idx,1);
-        state.hunger = clamp(state.hunger + f.hunger);
-        advanceTime(1);
-        log(`Tu as mangé : ${f.name}`);
-        updateBars();
-        showEat();
-      };
-      grid.appendChild(d);
+  const bots = [];
+  const botClasses = CLASSES.filter(c => c.id !== cls.id);
+  for(let i=0; i<6; i++){
+    const bc = botClasses[i % botClasses.length];
+    bots.push({
+      id: "bot"+i,
+      name: bc.name + " " + (i+1),
+      x: 200 + Math.random()*(MAP_W-400),
+      y: 200 + Math.random()*(MAP_H-400),
+      hp: bc.hp,
+      maxHp: bc.hp,
+      hunger: 80 + Math.random()*20,
+      speed: bc.speed * 0.9,
+      hungerRate: bc.hungerRate,
+      accuracy: bc.accuracy * 0.8,
+      color: bc.color,
+      angle: Math.random()*Math.PI*2,
+      weapon: bc.weapon,
+      ammo: WEAPONS[bc.weapon].ammo,
+      reserve: WEAPONS[bc.weapon].ammo * 2,
+      lastShot: 0,
+      reloading: false,
+      reloadEnd: 0,
+      kills: 0,
+      alive: true,
+      isPlayer: false,
+      radius: 14,
+      target: null,
+      moveTimer: 0,
+      dirX: 0,
+      dirY: 0
     });
-    $("mainContent").appendChild(grid);
-  }
-  const back = document.createElement("button");
-  back.className = "btn sec";
-  back.textContent = "← Retour";
-  back.onclick = showHub;
-  $("mainActions").appendChild(back);
-}
-
-function showFurniture(){
-  clearMain();
-  $("mainTitle").textContent = "Meubles & déco";
-  const grid = document.createElement("div");
-  grid.className = "shop-grid";
-  FURNITURE.forEach(f => {
-    const owned = state.furniture.includes(f.id);
-    const d = document.createElement("div");
-    d.className = "item" + (owned ? " owned" : "");
-    d.innerHTML = `<h3>${f.emoji} ${f.name}</h3>
-      <p>${owned ? "Déjà possédé" : "Confort +"+f.confort}</p>
-      <div class="price">${owned ? "✓" : f.price + " €"}</div>`;
-    d.onclick = () => {
-      if(owned) return;
-      if(state.money < f.price){ log("Pas assez d’argent."); return; }
-      state.money -= f.price;
-      state.furniture.push(f.id);
-      state.fun = clamp(state.fun + 8);
-      log(`Acheté : ${f.name}`, true);
-      updateBars();
-      showFurniture();
-    };
-    grid.appendChild(d);
-  });
-  $("mainContent").appendChild(grid);
-  const back = document.createElement("button");
-  back.className = "btn sec";
-  back.textContent = "← Retour";
-  back.onclick = showHub;
-  $("mainActions").appendChild(back);
-}
-
-function showNPCs(){
-  clearMain();
-  $("mainTitle").textContent = "Personnes présentes";
-  const local = NPCs.filter(n => n.town === state.town);
-  const grid = document.createElement("div");
-  grid.className = "npc-grid";
-  local.forEach(n => {
-    const rel = state.relationships[n.id] || 0;
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerHTML = `<h3>${n.emoji} ${n.name}</h3>
-      <p>${n.trait} · ${n.age} ans</p>
-      <p>Relation : ${rel}/100</p>`;
-    d.onclick = () => showNPCActions(n);
-    grid.appendChild(d);
-  });
-  $("mainContent").appendChild(grid);
-  const back = document.createElement("button");
-  back.className = "btn sec";
-  back.textContent = "← Retour";
-  back.onclick = showHub;
-  $("mainActions").appendChild(back);
-}
-
-function showNPCActions(n){
-  clearMain();
-  const rel = state.relationships[n.id] || 0;
-  $("mainTitle").textContent = `${n.emoji} ${n.name}`;
-  $("mainContent").innerHTML = `<p>Relation actuelle : <b>${rel}/100</b></p>
-    <p style="color:var(--muted)">${n.trait} · ${n.age} ans · ${TOWNS.find(t=>t.id===n.town).name}</p>`;
-
-  const actions = [
-    { label: "💬 Discuter", fn: () => interact(n, "talk") },
-    { label: "😄 Blaguer", fn: () => interact(n, "joke") },
-    { label: "❤️ Draguer", fn: () => interact(n, "flirt"), show: rel >= 20 },
-    { label: "💋 Embrasser", fn: () => interact(n, "kiss"), show: rel >= 50 },
-    { label: "👊 Se bagarrer", fn: () => interact(n, "fight") },
-    { label: "← Retour", fn: showNPCs }
-  ];
-  actions.filter(a => a.show !== false).forEach(a => {
-    const b = document.createElement("button");
-    b.className = "btn sec";
-    b.textContent = a.label;
-    b.onclick = a.fn;
-    $("mainActions").appendChild(b);
-  });
-}
-
-function interact(n, type){
-  let delta = 0;
-  let msg = "";
-  const rel = state.relationships[n.id] || 0;
-
-  if(type === "talk"){
-    delta = 8 + Math.floor(Math.random()*6);
-    msg = `Tu discutes avec ${n.name}.`;
-    state.social = clamp(state.social + 12);
-  } else if(type === "joke"){
-    delta = Math.random() > 0.3 ? 12 : -5;
-    msg = delta > 0 ? `${n.name} rit de ta blague !` : `${n.name} n’a pas trouvé ça drôle…`;
-    state.social = clamp(state.social + 8);
-    state.fun = clamp(state.fun + 10);
-  } else if(type === "flirt"){
-    delta = state.trait === "romantique" ? 15 : 10;
-    if(Math.random() < 0.25) delta = -8;
-    msg = delta > 0 ? `Tu flirtes avec ${n.name}… ça a l’air de plaire.` : `${n.name} n’est pas réceptif(ve).`;
-    state.social = clamp(state.social + 10);
-  } else if(type === "kiss"){
-    delta = 18;
-    msg = `Tu embrasses ${n.name} ! 💕`;
-    state.social = clamp(state.social + 15);
-    state.fun = clamp(state.fun + 20);
-  } else if(type === "fight"){
-    delta = -25;
-    msg = `Tu te bagarres avec ${n.name} !`;
-    state.energy = clamp(state.energy - 20);
-    state.social = clamp(state.social - 15);
-    if(state.trait === "bagarreur") delta = -15;
   }
 
-  state.relationships[n.id] = clamp(rel + delta);
-  advanceTime(1);
-  log(msg + ` (relation ${delta >= 0 ? "+" : ""}${delta})`, true);
-  showNPCActions(n);
-}
+  // Pickups
+  const pickups = [];
+  const weaponIds = Object.keys(WEAPONS);
+  for(let i=0; i<12; i++){
+    pickups.push({
+      type: "weapon",
+      weapon: weaponIds[i % weaponIds.length],
+      x: 150 + Math.random()*(MAP_W-300),
+      y: 150 + Math.random()*(MAP_H-300),
+      taken: false
+    });
+  }
+  for(let i=0; i<10; i++){
+    pickups.push({
+      type: "food",
+      x: 150 + Math.random()*(MAP_W-300),
+      y: 150 + Math.random()*(MAP_H-300),
+      taken: false,
+      value: 25 + Math.floor(Math.random()*20)
+    });
+  }
+  for(let i=0; i<6; i++){
+    pickups.push({
+      type: "health",
+      x: 150 + Math.random()*(MAP_W-300),
+      y: 150 + Math.random()*(MAP_H-300),
+      taken: false,
+      value: 30
+    });
+  }
 
-function doLeisure(){
-  clearMain();
-  $("mainTitle").textContent = "Loisirs";
-  const options = [
-    { name: "Aller à la plage", fun: 25, energy: -10, time: 2, emoji: "🏖️" },
-    { name: "Randonnée", fun: 20, energy: -25, time: 3, emoji: "🥾" },
-    { name: "Écouter de la musique", fun: 15, energy: 5, time: 1, emoji: "🎵" },
-    { name: "Regarder la TV", fun: 12, energy: 5, time: 2, emoji: "📺" },
-    { name: "Faire la sieste", fun: 5, energy: 30, time: 2, emoji: "😴" }
+  // Simple obstacles
+  const walls = [
+    {x:400, y:300, w:200, h:30},
+    {x:900, y:500, w:30, h:220},
+    {x:600, y:800, w:280, h:30},
+    {x:200, y:600, w:30, h:180},
+    {x:1100, y:250, w:180, h:30},
+    {x:1300, y:700, w:30, h:200}
   ];
-  const grid = document.createElement("div");
-  grid.className = "shop-grid";
-  options.forEach(o => {
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerHTML = `<h3>${o.emoji} ${o.name}</h3>
-      <p>Fun ${o.fun > 0 ? "+"+o.fun : o.fun} · Énergie ${o.energy > 0 ? "+"+o.energy : o.energy}</p>`;
-    d.onclick = () => {
-      state.fun = clamp(state.fun + o.fun);
-      state.energy = clamp(state.energy + o.energy);
-      state.hunger = clamp(state.hunger - 5);
-      advanceTime(o.time);
-      log(`Tu as fait : ${o.name}`);
-      showHub();
-    };
-    grid.appendChild(d);
-  });
-  $("mainContent").appendChild(grid);
-  const back = document.createElement("button");
-  back.className = "btn sec";
-  back.textContent = "← Retour";
-  back.onclick = showHub;
-  $("mainActions").appendChild(back);
+
+  return { player, bots, pickups, walls, bullets: [], particles: [], time:0 };
 }
 
-function showTravel(){
-  clearMain();
-  $("mainTitle").textContent = "Voyager sur l’île";
-  const grid = document.createElement("div");
-  grid.className = "loc-grid";
-  TOWNS.forEach(t => {
-    if(t.id === state.town) return;
-    const d = document.createElement("div");
-    d.className = "item";
-    d.innerHTML = `<h3>${t.emoji} ${t.name}</h3><p>${t.desc}</p><p style="color:var(--muted)">Coût : 15 € · 2h</p>`;
-    d.onclick = () => {
-      if(state.money < 15){ log("Pas assez d’argent pour le trajet."); return; }
-      state.money -= 15;
-      state.town = t.id;
-      advanceTime(2);
-      log(`Tu arrives à ${t.name}.`, true);
-      showHub();
-    };
-    grid.appendChild(d);
-  });
-  $("mainContent").appendChild(grid);
-  const back = document.createElement("button");
-  back.className = "btn sec";
-  back.textContent = "← Retour";
-  back.onclick = showHub;
-  $("mainActions").appendChild(back);
-}
+/* ===================== UPDATE ===================== */
+function update(dt){
+  if(!game) return;
+  game.time += dt;
+  const p = game.player;
 
-function doSleep(){
-  state.energy = clamp(state.energy + 60);
-  state.hunger = clamp(state.hunger - 10);
-  advanceTime(8);
-  log("Tu as dormi profondément.");
-  showHub();
-}
-
-function saveGame(){
-  localStorage.setItem("reunion_life_save", JSON.stringify(state));
-  log("Partie sauvegardée !", true);
-}
-
-function loadGame(){
-  try {
-    const s = localStorage.getItem("reunion_life_save");
-    if(s){
-      state = JSON.parse(s);
-      $("screen-create").classList.remove("active");
-      $("screen-game").classList.add("active");
-      updateBars();
-      showHub();
-      log("Partie chargée.", true);
+  // Player movement
+  if(p.alive){
+    let dx=0, dy=0;
+    if(keys["z"] || keys["w"] || keys["arrowup"]) dy -= 1;
+    if(keys["s"] || keys["arrowdown"]) dy += 1;
+    if(keys["q"] || keys["a"] || keys["arrowleft"]) dx -= 1;
+    if(keys["d"] || keys["arrowright"]) dx += 1;
+    if(dx || dy){
+      const len = Math.hypot(dx,dy);
+      dx /= len; dy /= len;
+      const nx = p.x + dx * p.speed * 60 * dt;
+      const ny = p.y + dy * p.speed * 60 * dt;
+      if(!collides(nx, p.y, p.radius)) p.x = nx;
+      if(!collides(p.x, ny, p.radius)) p.y = ny;
+      p.x = Math.max(p.radius, Math.min(MAP_W-p.radius, p.x));
+      p.y = Math.max(p.radius, Math.min(MAP_H-p.radius, p.y));
     }
-  } catch(e){}
+    // Aim
+    const cam = getCam();
+    p.angle = Math.atan2(mouse.y + cam.y - p.y, mouse.x + cam.x - p.x);
+
+    // Shoot
+    if(mouse.down) tryShoot(p);
+
+    // Reload
+    if(keys["r"] && !p.reloading && p.ammo < WEAPONS[p.weapon].ammo && p.reserve > 0){
+      p.reloading = true;
+      p.reloadEnd = game.time + WEAPONS[p.weapon].reload / 1000;
+    }
+    if(p.reloading && game.time >= p.reloadEnd){
+      const need = WEAPONS[p.weapon].ammo - p.ammo;
+      const take = Math.min(need, p.reserve);
+      p.ammo += take;
+      p.reserve -= take;
+      p.reloading = false;
+    }
+
+    // Pickup
+    if(keys["e"]) tryPickup(p);
+
+    // Hunger
+    p.hunger = Math.max(0, p.hunger - p.hungerRate * 60 * dt);
+    if(p.hunger <= 0) p.hp -= 8 * dt;
+  }
+
+  // Bots AI
+  game.bots.forEach(b => {
+    if(!b.alive) return;
+    b.hunger = Math.max(0, b.hunger - b.hungerRate * 60 * dt);
+    if(b.hunger <= 0) b.hp -= 6 * dt;
+
+    b.moveTimer -= dt;
+    if(b.moveTimer <= 0){
+      b.moveTimer = 0.6 + Math.random()*1.2;
+      // target nearest enemy or pickup
+      let nearest = null, nd = 9999;
+      const all = [game.player, ...game.bots].filter(o => o.alive && o !== b);
+      all.forEach(o => {
+        const d = Math.hypot(o.x-b.x, o.y-b.y);
+        if(d < nd){ nd = d; nearest = o; }
+      });
+      b.target = nearest;
+
+      // also seek food if hungry
+      if(b.hunger < 40){
+        const food = game.pickups.find(pk => !pk.taken && pk.type==="food");
+        if(food) b.target = food;
+      }
+    }
+
+    if(b.target){
+      const tx = b.target.x, ty = b.target.y;
+      const dx = tx - b.x, dy = ty - b.y;
+      const dist = Math.hypot(dx,dy);
+      b.angle = Math.atan2(dy, dx);
+
+      if(b.target.hp !== undefined && dist < WEAPONS[b.weapon].range * 0.85){
+        // shoot
+        tryShoot(b);
+        // strafe a bit
+        if(dist < 120){
+          const sx = -dy / dist, sy = dx / dist;
+          const nx = b.x + sx * b.speed * 40 * dt;
+          const ny = b.y + sy * b.speed * 40 * dt;
+          if(!collides(nx,b.y,b.radius)) b.x = nx;
+          if(!collides(b.x,ny,b.radius)) b.y = ny;
+        }
+      } else {
+        // move toward
+        if(dist > 10){
+          const nx = b.x + (dx/dist) * b.speed * 55 * dt;
+          const ny = b.y + (dy/dist) * b.speed * 55 * dt;
+          if(!collides(nx,b.y,b.radius)) b.x = nx;
+          if(!collides(b.x,ny,b.radius)) b.y = ny;
+        }
+      }
+    }
+
+    // bot reload
+    if(!b.reloading && b.ammo <= 0 && b.reserve > 0){
+      b.reloading = true;
+      b.reloadEnd = game.time + WEAPONS[b.weapon].reload / 1000;
+    }
+    if(b.reloading && game.time >= b.reloadEnd){
+      const need = WEAPONS[b.weapon].ammo - b.ammo;
+      const take = Math.min(need, b.reserve);
+      b.ammo += take;
+      b.reserve -= take;
+      b.reloading = false;
+    }
+
+    // bot pickup nearby
+    game.pickups.forEach(pk => {
+      if(pk.taken) return;
+      if(Math.hypot(pk.x-b.x, pk.y-b.y) < 28){
+        applyPickup(b, pk);
+      }
+    });
+
+    if(b.hp <= 0){ b.alive = false; b.hp = 0; }
+  });
+
+  // Bullets
+  for(let i=game.bullets.length-1; i>=0; i--){
+    const bul = game.bullets[i];
+    bul.x += Math.cos(bul.angle) * bul.speed * dt;
+    bul.y += Math.sin(bul.angle) * bul.speed * dt;
+    bul.life -= dt;
+    if(bul.life <= 0){ game.bullets.splice(i,1); continue; }
+
+    // wall hit
+    if(collides(bul.x, bul.y, 3)){
+      spawnHit(bul.x, bul.y);
+      game.bullets.splice(i,1);
+      continue;
+    }
+
+    // hit entities
+    const targets = [game.player, ...game.bots].filter(t => t.alive && t.id !== bul.owner);
+    for(const t of targets){
+      if(Math.hypot(t.x-bul.x, t.y-bul.y) < t.radius + 4){
+        t.hp -= bul.dmg;
+        spawnHit(bul.x, bul.y);
+        game.bullets.splice(i,1);
+        if(t.hp <= 0){
+          t.alive = false;
+          t.hp = 0;
+          const killer = [game.player, ...game.bots].find(k => k.id === bul.owner);
+          if(killer) killer.kills++;
+          showMsg(`${t.name} éliminé !`);
+        }
+        break;
+      }
+    }
+  }
+
+  // Particles
+  for(let i=game.particles.length-1; i>=0; i--){
+    const pt = game.particles[i];
+    pt.x += pt.vx * dt;
+    pt.y += pt.vy * dt;
+    pt.life -= dt;
+    if(pt.life <= 0) game.particles.splice(i,1);
+  }
+
+  if(p.hp <= 0 && p.alive){
+    p.alive = false;
+    showMsg("Tu es mort ! Recharge la page pour recommencer.");
+  }
+
+  updateHUD();
 }
 
-// Auto-load if save exists
-loadGame();
+function tryShoot(ent){
+  if(ent.reloading || ent.ammo <= 0) return;
+  const w = WEAPONS[ent.weapon];
+  if(game.time - ent.lastShot < w.fireRate / 1000) return;
+  ent.lastShot = game.time;
+  ent.ammo--;
+
+  const pellets = w.pellets || 1;
+  for(let i=0; i<pellets; i++){
+    const spread = (Math.random()-0.5) * w.spread * (1.4 - ent.accuracy);
+    game.bullets.push({
+      x: ent.x + Math.cos(ent.angle)*18,
+      y: ent.y + Math.sin(ent.angle)*18,
+      angle: ent.angle + spread,
+      speed: 520 + Math.random()*40,
+      dmg: w.dmg,
+      life: w.range / 500,
+      owner: ent.id,
+      color: w.color
+    });
+  }
+}
+
+function tryPickup(p){
+  game.pickups.forEach(pk => {
+    if(pk.taken) return;
+    if(Math.hypot(pk.x-p.x, pk.y-p.y) < 32){
+      applyPickup(p, pk);
+    }
+  });
+}
+
+function applyPickup(ent, pk){
+  pk.taken = true;
+  if(pk.type === "weapon"){
+    ent.weapon = pk.weapon;
+    ent.ammo = WEAPONS[pk.weapon].ammo;
+    ent.reserve += WEAPONS[pk.weapon].ammo;
+    if(ent.isPlayer) showMsg(`Arme : ${WEAPONS[pk.weapon].name}`);
+  } else if(pk.type === "food"){
+    ent.hunger = Math.min(100, ent.hunger + pk.value);
+    if(ent.isPlayer) showMsg(`+${pk.value} faim`);
+  } else if(pk.type === "health"){
+    ent.hp = Math.min(ent.maxHp, ent.hp + pk.value);
+    if(ent.isPlayer) showMsg(`+${pk.value} PV`);
+  }
+}
+
+function collides(x, y, r){
+  for(const w of game.walls){
+    if(x+r > w.x && x-r < w.x+w.w && y+r > w.y && y-r < w.y+w.h) return true;
+  }
+  return false;
+}
+
+function spawnHit(x,y){
+  for(let i=0;i<6;i++){
+    game.particles.push({
+      x, y,
+      vx: (Math.random()-0.5)*120,
+      vy: (Math.random()-0.5)*120,
+      life: 0.25 + Math.random()*0.2,
+      color: "#fbbf24"
+    });
+  }
+}
+
+function getCam(){
+  const p = game.player;
+  return {
+    x: Math.max(0, Math.min(MAP_W - canvas.width, p.x - canvas.width/2)),
+    y: Math.max(0, Math.min(MAP_H - canvas.height, p.y - canvas.height/2))
+  };
+}
+
+/* ===================== DRAW ===================== */
+function draw(){
+  if(!game) return;
+  const cam = getCam();
+  ctx.fillStyle = "#0f172a";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // ground grid
+  ctx.strokeStyle = "#1e293b";
+  ctx.lineWidth = 1;
+  for(let x=0; x<MAP_W; x+=80){
+    ctx.beginPath();
+    ctx.moveTo(x-cam.x, 0);
+    ctx.lineTo(x-cam.x, canvas.height);
+    ctx.stroke();
+  }
+  for(let y=0; y<MAP_H; y+=80){
+    ctx.beginPath();
+    ctx.moveTo(0, y-cam.y);
+    ctx.lineTo(canvas.width, y-cam.y);
+    ctx.stroke();
+  }
+
+  // walls
+  ctx.fillStyle = "#334155";
+  game.walls.forEach(w => {
+    ctx.fillRect(w.x-cam.x, w.y-cam.y, w.w, w.h);
+  });
+
+  // pickups
+  game.pickups.forEach(pk => {
+    if(pk.taken) return;
+    const sx = pk.x - cam.x, sy = pk.y - cam.y;
+    if(pk.type === "weapon"){
+      ctx.fillStyle = WEAPONS[pk.weapon].color;
+      ctx.beginPath();
+      ctx.arc(sx, sy, 9, 0, Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.font = "9px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("W", sx, sy+3);
+    } else if(pk.type === "food"){
+      ctx.fillStyle = "#f97316";
+      ctx.beginPath();
+      ctx.arc(sx, sy, 8, 0, Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.font = "10px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("🍖", sx, sy+4);
+    } else {
+      ctx.fillStyle = "#22c55e";
+      ctx.beginPath();
+      ctx.arc(sx, sy, 8, 0, Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.font = "10px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("+", sx, sy+3);
+    }
+  });
+
+  // bullets
+  game.bullets.forEach(b => {
+    ctx.fillStyle = b.color;
+    ctx.beginPath();
+    ctx.arc(b.x-cam.x, b.y-cam.y, 3, 0, Math.PI*2);
+    ctx.fill();
+  });
+
+  // particles
+  game.particles.forEach(pt => {
+    ctx.globalAlpha = Math.max(0, pt.life*3);
+    ctx.fillStyle = pt.color;
+    ctx.fillRect(pt.x-cam.x-2, pt.y-cam.y-2, 4, 4);
+    ctx.globalAlpha = 1;
+  });
+
+  // entities
+  const entities = [game.player, ...game.bots];
+  entities.forEach(e => {
+    if(!e.alive) return;
+    const sx = e.x - cam.x, sy = e.y - cam.y;
+
+    // body
+    ctx.fillStyle = e.color;
+    ctx.beginPath();
+    ctx.arc(sx, sy, e.radius, 0, Math.PI*2);
+    ctx.fill();
+
+    // direction indicator
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(sx + Math.cos(e.angle)*20, sy + Math.sin(e.angle)*20);
+    ctx.stroke();
+
+    // hp bar
+    const bw = 28, bh = 4;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(sx-bw/2, sy-e.radius-10, bw, bh);
+    ctx.fillStyle = e.hp > e.maxHp*0.3 ? "#22c55e" : "#ef4444";
+    ctx.fillRect(sx-bw/2, sy-e.radius-10, bw * (e.hp/e.maxHp), bh);
+
+    // name
+    ctx.fillStyle = "#e2e8f0";
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(e.name, sx, sy - e.radius - 14);
+  });
+
+  // minimap
+  const mw = 140, mh = 100;
+  const mScale = mw / MAP_W;
+  ctx.fillStyle = "rgba(15,23,42,0.85)";
+  ctx.fillRect(canvas.width-mw-10, 10, mw, mh);
+  ctx.strokeStyle = "#334155";
+  ctx.strokeRect(canvas.width-mw-10, 10, mw, mh);
+  // walls on minimap
+  ctx.fillStyle = "#475569";
+  game.walls.forEach(w => {
+    ctx.fillRect(canvas.width-mw-10 + w.x*mScale, 10 + w.y*mScale, w.w*mScale, w.h*mScale);
+  });
+  entities.forEach(e => {
+    if(!e.alive) return;
+    ctx.fillStyle = e.isPlayer ? "#38bdf8" : e.color;
+    ctx.beginPath();
+    ctx.arc(canvas.width-mw-10 + e.x*mScale, 10 + e.y*mScale, 3, 0, Math.PI*2);
+    ctx.fill();
+  });
+}
+
+function updateHUD(){
+  const p = game.player;
+  document.getElementById("playerName").textContent = p.name;
+  document.getElementById("hpBar").style.width = Math.max(0, (p.hp/p.maxHp)*100) + "%";
+  document.getElementById("hungerBar").style.width = Math.max(0, p.hunger) + "%";
+  const w = WEAPONS[p.weapon];
+  document.getElementById("ammo").textContent = p.reloading ? "Rechargement…" : `${w.name} : ${p.ammo} / ${p.reserve}`;
+  document.getElementById("kills").textContent = "Kills : " + p.kills;
+  const alive = [p, ...game.bots].filter(e => e.alive).length;
+  document.getElementById("alive").textContent = "Vivants : " + alive;
+}
+
+function showMsg(t){
+  const m = document.getElementById("msg");
+  m.textContent = t;
+  m.classList.add("show");
+  clearTimeout(showMsg.t);
+  showMsg.t = setTimeout(() => m.classList.remove("show"), 2500);
+}
+
+/* ===================== LOOP ===================== */
+let last = performance.now();
+function loop(now){
+  const dt = Math.min(0.05, (now-last)/1000);
+  last = now;
+  update(dt);
+  draw();
+  requestAnimationFrame(loop);
+}
 </script>
 </body>
 </html>
