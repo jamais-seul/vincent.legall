@@ -3,656 +3,471 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>War Street 3D — Build étendu</title>
+<title>War Street XL</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{overflow:hidden;background:#05080f;font-family:system-ui,-apple-system,sans-serif;color:#e2e8f0}
-#boot{
-  position:absolute;inset:0;background:#0a0e17;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;z-index:50;gap:12px;
-}
-#boot h1{font-size:2.4rem;color:#38bdf8}
-#boot .sub{color:#64748b;max-width:480px;text-align:center;line-height:1.5}
-.panel{
-  background:#111827;border:1px solid #1e293b;border-radius:16px;padding:18px;
-  max-width:900px;width:94%;
-}
-.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.mode-btn,.char-card,.map-btn{
-  background:#0f172a;border:2px solid #1e293b;border-radius:12px;padding:12px 14px;
-  cursor:pointer;transition:.15s;min-width:120px;text-align:center;
-}
-.mode-btn:hover,.char-card:hover,.map-btn:hover{border-color:#475569}
-.mode-btn.sel,.char-card.sel,.map-btn.sel{border-color:#38bdf8;box-shadow:0 0 0 1px #38bdf8}
-.char-card h3{font-size:14px;margin-bottom:2px}
-.char-card .meta{font-size:11px;color:#94a3b8}
-.char-card .preview{
-  width:64px;height:80px;margin:0 auto 8px;border-radius:10px;background:#0b1220;
-  display:flex;align-items:flex-end;justify-content:center;position:relative;
-}
-#startBtn{
-  margin-top:14px;padding:14px 40px;border:0;border-radius:12px;
-  background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:#0f172a;font-weight:800;
-  font-size:16px;cursor:pointer;
-}
-#hud{
-  position:absolute;top:0;left:0;right:0;padding:10px 16px;display:none;
-  gap:12px;align-items:center;background:linear-gradient(to bottom,rgba(0,0,0,.8),transparent);
-  z-index:10;pointer-events:none;font-size:13px;flex-wrap:wrap;
-}
-.bar{width:100px;height:10px;background:#1e293b;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle}
-.bar>div{height:100%;transition:width .2s}
-#cross{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:16px;height:16px;border:2px solid rgba(255,255,255,.7);border-radius:50%;
-  pointer-events:none;z-index:10;display:none;
-}
-#msg{
-  position:absolute;top:60px;left:50%;transform:translateX(-50%);
-  background:rgba(0,0,0,.85);padding:8px 16px;border-radius:8px;opacity:0;
-  transition:.3s;z-index:12;pointer-events:none;font-size:14px;max-width:90%;text-align:center;
-}
+body{overflow:hidden;background:#05080f;font-family:system-ui,sans-serif;color:#e2e8f0}
+#boot{position:absolute;inset:0;background:linear-gradient(165deg,#0a0e17,#121a2a);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:40;gap:10px;padding:16px}
+#boot h1{font-size:2.3rem;color:#38bdf8}
+#boot .sub{color:#94a3b8;text-align:center;max-width:520px;line-height:1.45}
+.panel{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:16px;width:min(920px,96%)}
+.step{color:#38bdf8;font-weight:700;margin:8px 0 10px;font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.card{background:#0f172a;border:2px solid #1e293b;border-radius:12px;padding:10px 12px;cursor:pointer;min-width:110px;text-align:center;transition:.15s}
+.card:hover{border-color:#475569}
+.card.sel{border-color:#38bdf8;box-shadow:0 0 0 1px #38bdf8}
+.card h3{font-size:13px}
+.card .m{font-size:10px;color:#94a3b8;margin-top:3px}
+.preview{width:56px;height:72px;margin:0 auto 6px;border-radius:8px;background:#0b1220;display:flex;align-items:flex-end;justify-content:center}
+#go{margin-top:12px;padding:12px 34px;border:0;border-radius:12px;background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:#0f172a;font-weight:800;font-size:15px;cursor:pointer}
+#hud{position:absolute;top:0;left:0;right:0;padding:10px 14px;display:none;gap:12px;align-items:center;background:linear-gradient(#000c,#0000);z-index:10;pointer-events:none;font-size:12px;flex-wrap:wrap}
+.bar{width:96px;height:10px;background:#1e293b;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle}
+.bar>div{height:100%}
+#cross{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;border:2px solid rgba(255,255,255,.75);border-radius:50%;z-index:10;display:none;pointer-events:none}
+#cross.zoom{width:28px;height:28px;border-color:#f87171}
+#msg{position:absolute;top:58px;left:50%;transform:translateX(-50%);background:#000c;padding:7px 14px;border-radius:8px;opacity:0;transition:.3s;z-index:12;font-size:13px}
 #msg.show{opacity:1}
-#killfeed{
-  position:absolute;top:70px;right:12px;width:220px;z-index:10;pointer-events:none;
-  font-size:12px;display:none;
-}
-#killfeed div{background:rgba(0,0,0,.55);margin-bottom:4px;padding:4px 8px;border-radius:6px}
-#score{
-  position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:10;
-  background:rgba(0,0,0,.6);padding:6px 14px;border-radius:8px;font-size:13px;display:none;
-}
-#hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);color:#64748b;font-size:11px;z-index:10;display:none}
-.step-title{color:#38bdf8;font-weight:700;margin:8px 0 10px;font-size:15px}
+#feed{position:absolute;top:64px;right:10px;width:200px;z-index:10;font-size:11px;display:none}
+#feed div{background:#0009;margin-bottom:3px;padding:3px 7px;border-radius:5px}
+#hint{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);color:#64748b;font-size:11px;z-index:10;display:none}
 </style>
 </head>
 <body>
-
 <div id="boot">
-  <h1>War Street</h1>
-  <p class="sub">Prototype 3D étendu — personnages, modes, rue urbaine avec bâtiments accessibles. On enrichit progressivement.</p>
-
-  <div class="panel" style="margin-top:8px">
-    <div class="step-title">1. Mode de jeu</div>
+  <h1>War Street XL</h1>
+  <p class="sub">Flèches = bouger · Souris = regarder · Clic = tirer · Clic droit = zoom viser · E = ramasser</p>
+  <div class="panel">
+    <div class="step">Mode</div>
     <div class="row" id="modes"></div>
-    <div class="step-title" style="margin-top:16px">2. Personnage</div>
-    <div class="row" id="chars" style="max-height:280px;overflow:auto"></div>
-    <div class="step-title" style="margin-top:16px">3. Ambiance</div>
-    <div class="row" id="ambience"></div>
-    <div style="text-align:center">
-      <button id="startBtn">Lancer la partie</button>
-    </div>
+    <div class="step">Personnage (originaux)</div>
+    <div class="row" id="chars" style="max-height:240px;overflow:auto"></div>
+    <div class="step">Ambiance</div>
+    <div class="row" id="ambs"></div>
+    <div style="text-align:center"><button id="go">Entrer dans la rue</button></div>
   </div>
 </div>
-
 <div id="hud">
-  <div id="pName" style="font-weight:700;color:#38bdf8">—</div>
-  <div>❤️ <div class="bar"><div id="hpBar" style="width:100%;background:#ef4444"></div></div></div>
-  <div>🍖 <div class="bar"><div id="hungerBar" style="width:100%;background:#f97316"></div></div></div>
-  <div id="wpn">—</div>
-  <div id="modeTag" style="color:#94a3b8"></div>
-  <div style="margin-left:auto" id="kills">Kills 0</div>
+  <b id="pn" style="color:#38bdf8">—</b>
+  <span>❤️ <span class="bar"><span id="hp" style="display:block;width:100%;background:#ef4444"></span></span></span>
+  <span>🍖 <span class="bar"><span id="hg" style="display:block;width:100%;background:#f97316"></span></span></span>
+  <span id="wp">—</span>
+  <span id="md" style="color:#94a3b8"></span>
+  <span style="margin-left:auto" id="kl">Kills 0</span>
 </div>
-<div id="score"></div>
-<div id="cross"></div>
-<div id="msg"></div>
-<div id="killfeed"></div>
-<div id="hint">ZQSD · Souris · Clic tir · Espace saut · E ramasser · Entrées dans les immeubles</div>
+<div id="cross"></div><div id="msg"></div><div id="feed"></div>
+<div id="hint">←↑→↓ bouger · Souris vue · Clic tirer · Clic droit zoom · E ramasser · Espace saut</div>
 
-<script type="importmap">
-{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
-</script>
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
 import * as THREE from 'three';
 
-/* ========================================================================
-   WAR STREET — Extended prototype
-   Objectif : base jouable 3D + contenu dense (personnages, modes, map rue,
-   pickups, bots, HUD) pour itérer ensuite vers un vrai jeu.
-   ======================================================================== */
+/* War Street XL — build dense : contrôles flèches + souris + zoom, roster original, rue détaillée */
 
-const MODES = [
-  { id:"ffa", name:"Chacun pour soi", desc:"Tous contre tous. Dernier en vie ou plus de kills." },
-  { id:"tdm", name:"Équipes", desc:"2 équipes. Objectif : plus d'éliminations." },
-  { id:"surv", name:"Survie", desc:"Tu es seul face aux bots. Tiens le plus longtemps." },
-  { id:"hunt", name:"Chasse", desc:"Moins de munitions, plus de pickups à sécuriser." }
+const MODES=[
+  {id:'ffa',name:'Chacun pour soi',desc:'FFA'},
+  {id:'tdm',name:'Équipes',desc:'2 camps'},
+  {id:'surv',name:'Survie',desc:'vs bots'},
+  {id:'hunt',name:'Chasse',desc:'pickups rares'}
+];
+const AMBS=[
+  {id:'day',name:'Jour',sky:0x7eb0d6,fog:0x7eb0d6,sun:1.2},
+  {id:'dusk',name:'Crépuscule',sky:0xb66a4a,fog:0xa85a40,sun:0.7},
+  {id:'night',name:'Nuit',sky:0x0a101c,fog:0x0a101c,sun:0.22}
 ];
 
-const AMBIENCES = [
-  { id:"day", name:"Jour", sky:0x87b5d9, fog:0x87b5d9, sun:1.15 },
-  { id:"dusk", name:"Crépuscule", sky:0xc47a5a, fog:0xb06a50, sun:0.75 },
-  { id:"night", name:"Nuit", sky:0x0b1220, fog:0x0b1220, sun:0.25 }
+const CHARS=[
+  {id:'akira',name:'Akira',role:'Assault',hp:100,speed:9.0,acc:0.88,hRate:1.1,skin:0xfcd9b6,hair:0x1e293b,shirt:0x1d4ed8,pants:0x0f172a,accent:0x3b82f6,weapon:'rifle',bio:'Polyvalent rue'},
+  {id:'yuki',name:'Yuki',role:'Scout',hp:74,speed:12.6,acc:0.8,hRate:1.35,skin:0xffe4c9,hair:0xf1f5f9,shirt:0x059669,pants:0x134e4a,accent:0x34d399,weapon:'smg',bio:'Vitesse pure'},
+  {id:'ronin',name:'Ronin',role:'Tank',hp:160,speed:5.9,acc:0.7,hRate:1.55,skin:0xe8b88a,hair:0x292524,shirt:0x9a3412,pants:0x1c1917,accent:0xf97316,weapon:'shotgun',bio:'Frontline'},
+  {id:'hana',name:'Hana',role:'Sniper',hp:78,speed:7.5,acc:0.95,hRate:0.95,skin:0xf5d0c5,hair:0x4c1d95,shirt:0x5b21b6,pants:0x1e1b4b,accent:0xa78bfa,weapon:'sniper',bio:'Longue distance'},
+  {id:'kenji',name:'Kenji',role:'Heavy',hp:150,speed:5.5,acc:0.68,hRate:1.65,skin:0xd4a574,hair:0x450a0a,shirt:0x991b1b,pants:0x1c1917,accent:0xef4444,weapon:'lmg',bio:'Suppression'},
+  {id:'mio',name:'Mio',role:'Medic',hp:92,speed:8.8,acc:0.84,hRate:1.0,skin:0xffe4e6,hair:0x831843,shirt:0xbe185d,pants:0x1e1b4b,accent:0xf472b6,weapon:'pistol',bio:'Soin + survie'},
+  {id:'sora',name:'Sora',role:'Ghost',hp:70,speed:11.4,acc:0.9,hRate:1.15,skin:0xe7d3b8,hair:0x0f172a,shirt:0x334155,pants:0x020617,accent:0x94a3b8,weapon:'smg',bio:'Flanc discret'},
+  {id:'ryu',name:'Ryu',role:'Berserk',hp:120,speed:10.1,acc:0.74,hRate:1.85,skin:0xc68642,hair:0x78350f,shirt:0xb45309,pants:0x1c1917,accent:0xfbbf24,weapon:'shotgun',bio:'Agression'},
+  {id:'nova',name:'Nova',role:'Support',hp:96,speed:8.3,acc:0.83,hRate:1.05,skin:0xfde68a,hair:0x164e63,shirt:0x0e7490,pants:0x0f172a,accent:0x22d3ee,weapon:'rifle',bio:'Milieu de map'},
+  {id:'jax',name:'Jax',role:'Breacher',hp:128,speed:7.1,acc:0.76,hRate:1.3,skin:0xe8b48a,hair:0x3f1a1a,shirt:0x9f1239,pants:0x1c1917,accent:0xf43f5e,weapon:'shotgun',bio:'Courte distance'},
+  {id:'lina',name:'Lina',role:'Runner',hp:82,speed:11.0,acc:0.82,hRate:1.25,skin:0xffe0bd,hair:0x7c2d12,shirt:0xea580c,pants:0x1c1917,accent:0xfb923c,weapon:'smg',bio:'Mobilité'},
+  {id:'orin',name:'Orin',role:'Guard',hp:135,speed:6.4,acc:0.8,hRate:1.2,skin:0xdeb887,hair:0x1e293b,shirt:0x1e3a5f,pants:0x0f172a,accent:0x60a5fa,weapon:'rifle',bio:'Défense angle'}
 ];
 
-/* Personnages — roster large avec stats et identité */
-const CHARACTERS = [
-  { id:"akira", name:"Akira", role:"Assault", hp:100, speed:9.2, accuracy:0.88, hungerRate:1.1, color:0x3b82f6, hair:0x1e293b, shirt:0x1d4ed8, pants:0x0f172a, skin:0xfcd9b6, weapon:"rifle", bio:"Équilibré, bon en combat urbain." },
-  { id:"yuki", name:"Yuki", role:"Scout", hp:76, speed:12.8, accuracy:0.78, hungerRate:1.4, color:0x34d399, hair:0xf8fafc, shirt:0x059669, pants:0x164e63, skin:0xffe4c9, weapon:"smg", bio:"Très mobile, fragile." },
-  { id:"ronin", name:"Ronin", role:"Tank", hp:158, speed:6.0, accuracy:0.72, hungerRate:1.6, color:0xf97316, hair:0x292524, shirt:0x9a3412, pants:0x1c1917, skin:0xe8b88a, weapon:"shotgun", bio:"Encaisse, avance." },
-  { id:"hana", name:"Hana", role:"Sniper", hp:80, speed:7.6, accuracy:0.96, hungerRate:0.9, color:0xa78bfa, hair:0x4c1d95, shirt:0x5b21b6, pants:0x1e1b4b, skin:0xf5d0c5, weapon:"sniper", bio:"Précision longue distance." },
-  { id:"kenji", name:"Kenji", role:"Heavy", hp:148, speed:5.6, accuracy:0.70, hungerRate:1.7, color:0xef4444, hair:0x450a0a, shirt:0x991b1b, pants:0x1c1917, skin:0xd4a574, weapon:"lmg", bio:"Volume de feu maximal." },
-  { id:"mio", name:"Mio", role:"Médic", hp:94, speed:8.9, accuracy:0.84, hungerRate:1.0, color:0xf472b6, hair:0x831843, shirt:0xbe185d, pants:0x1e1b4b, skin:0xffe4e6, weapon:"pistol", bio:"Survie et soin au ramassage." },
-  { id:"sora", name:"Sora", role:"Ghost", hp:72, speed:11.5, accuracy:0.90, hungerRate:1.2, color:0x94a3b8, hair:0x0f172a, shirt:0x334155, pants:0x020617, skin:0xe7d3b8, weapon:"smg", bio:"Rapide et précis." },
-  { id:"ryu", name:"Ryu", role:"Berserk", hp:118, speed:10.2, accuracy:0.74, hungerRate:1.9, color:0xfbbf24, hair:0x78350f, shirt:0xb45309, pants:0x1c1917, skin:0xc68642, weapon:"shotgun", bio:"Agressif, faim rapide." },
-  { id:"nova", name:"Nova", role:"Support", hp:96, speed:8.4, accuracy:0.82, hungerRate:1.05, color:0x22d3ee, hair:0x164e63, shirt:0x0e7490, pants:0x0f172a, skin:0xfde68a, weapon:"rifle", bio:"Polyvalente en milieu fermé." },
-  { id:"jax", name:"Jax", role:"Breacher", hp:125, speed:7.2, accuracy:0.76, hungerRate:1.35, color:0xf43f5e, hair:0x3f1a1a, shirt:0x9f1239, pants:0x1c1917, skin:0xe8b48a, weapon:"shotgun", bio:"Spécialiste portes et courtes distances." }
-];
-
-const WEAPONS = {
-  pistol:  { name:"Pistolet", dmg:16, rate:0.25, speed:52, spread:0.04, ammo:12, reload:0.9 },
-  smg:     { name:"SMG", dmg:10, rate:0.08, speed:48, spread:0.1, ammo:30, reload:1.2 },
-  rifle:   { name:"Fusil d'assaut", dmg:20, rate:0.13, speed:62, spread:0.03, ammo:25, reload:1.4 },
-  shotgun: { name:"Fusil à pompe", dmg:9, rate:0.62, speed:38, spread:0.2, ammo:6, reload:1.6, pellets:7 },
-  sniper:  { name:"Sniper", dmg:70, rate:1.0, speed:88, spread:0.004, ammo:5, reload:2.0 },
-  lmg:     { name:"Mitrailleuse", dmg:13, rate:0.095, speed:55, spread:0.08, ammo:50, reload:2.6 }
+const WEAPONS={
+  knife:{name:'Couteau',dmg:28,rate:0.45,speed:0,spread:0,ammo:1,melee:true,range:2.2},
+  pistol:{name:'Pistolet',dmg:16,rate:0.24,speed:50,spread:0.035,ammo:12},
+  smg:{name:'Mitraillette',dmg:10,rate:0.075,speed:46,spread:0.09,ammo:32},
+  rifle:{name:'Fusil',dmg:20,rate:0.12,speed:60,spread:0.028,ammo:26},
+  shotgun:{name:'Pompe',dmg:9,rate:0.6,speed:36,spread:0.19,ammo:6,pellets:7},
+  sniper:{name:'Sniper',dmg:72,rate:0.95,speed:90,spread:0.003,ammo:5},
+  lmg:{name:'Mitrailleuse lourde',dmg:13,rate:0.09,speed:52,spread:0.07,ammo:50}
 };
 
-/* Sélection UI */
-let selectedMode = MODES[0];
-let selectedChar = CHARACTERS[0];
-let selectedAmb = AMBIENCES[0];
-
-const modesEl = document.getElementById("modes");
-MODES.forEach((m,i)=>{
-  const b=document.createElement("div");
-  b.className="mode-btn"+(i===0?" sel":"");
-  b.innerHTML=`<b>${m.name}</b><div style="font-size:11px;color:#94a3b8;margin-top:4px">${m.desc}</div>`;
-  b.onclick=()=>{document.querySelectorAll(".mode-btn").forEach(e=>e.classList.remove("sel"));b.classList.add("sel");selectedMode=m;};
-  modesEl.appendChild(b);
+let selMode=MODES[0], selChar=CHARS[0], selAmb=AMBS[0];
+const modesEl=document.getElementById('modes');
+MODES.forEach((m,i)=>{const b=document.createElement('div');b.className='card'+(i? '':' sel');b.innerHTML=`<h3>${m.name}</h3><div class="m">${m.desc}</div>`;b.onclick=()=>{document.querySelectorAll('#modes .card').forEach(e=>e.classList.remove('sel'));b.classList.add('sel');selMode=m;};modesEl.appendChild(b);});
+const charsEl=document.getElementById('chars');
+CHARS.forEach((c,i)=>{
+  const d=document.createElement('div');d.className='card'+(i?'':' sel');
+  d.innerHTML=`<div class="preview"><div style="width:24px;height:32px;background:#${c.shirt.toString(16).padStart(6,'0')};border-radius:4px;position:relative"><div style="width:16px;height:16px;border-radius:50%;background:#${c.skin.toString(16).padStart(6,'0')};position:absolute;top:-11px;left:4px;box-shadow:0 -2px 0 2px #${c.hair.toString(16).padStart(6,'0')}"></div></div></div>
+  <h3 style="color:#${c.accent.toString(16).padStart(6,'0')}">${c.name}</h3><div class="m">${c.role} · PV${c.hp} · ${c.speed}</div><div class="m">${c.bio}</div>`;
+  d.onclick=()=>{document.querySelectorAll('#chars .card').forEach(e=>e.classList.remove('sel'));d.classList.add('sel');selChar=c;};charsEl.appendChild(d);
 });
+const ambsEl=document.getElementById('ambs');
+AMBS.forEach((a,i)=>{const b=document.createElement('div');b.className='card'+(i?'':' sel');b.textContent=a.name;b.onclick=()=>{document.querySelectorAll('#ambs .card').forEach(e=>e.classList.remove('sel'));b.classList.add('sel');selAmb=a;};ambsEl.appendChild(b);});
+document.getElementById('go').onclick=()=>start(selChar,selMode,selAmb);
 
-const charsEl = document.getElementById("chars");
-CHARACTERS.forEach((c,i)=>{
-  const d=document.createElement("div");
-  d.className="char-card"+(i===0?" sel":"");
-  d.innerHTML=`
-    <div class="preview">
-      <div style="width:26px;height:34px;background:#${c.shirt.toString(16).padStart(6,'0')};border-radius:5px;position:relative">
-        <div style="width:18px;height:18px;border-radius:50%;background:#${c.skin.toString(16).padStart(6,'0')};position:absolute;top:-12px;left:4px;box-shadow:0 -3px 0 2px #${c.hair.toString(16).padStart(6,'0')}"></div>
-      </div>
-    </div>
-    <h3 style="color:#${c.color.toString(16).padStart(6,'0')}">${c.name}</h3>
-    <div class="meta">${c.role} · PV ${c.hp} · Vit ${c.speed}</div>
-    <div class="meta" style="margin-top:4px">${c.bio}</div>`;
-  d.onclick=()=>{document.querySelectorAll(".char-card").forEach(e=>e.classList.remove("sel"));d.classList.add("sel");selectedChar=c;};
-  charsEl.appendChild(d);
-});
+function msg(t){const m=document.getElementById('msg');m.textContent=t;m.classList.add('show');clearTimeout(msg._t);msg._t=setTimeout(()=>m.classList.remove('show'),2600);}
+function feed(t){const f=document.getElementById('feed');const d=document.createElement('div');d.textContent=t;f.prepend(d);while(f.children.length>5)f.lastChild.remove();}
 
-const ambEl = document.getElementById("ambience");
-AMBIENCES.forEach((a,i)=>{
-  const b=document.createElement("div");
-  b.className="map-btn"+(i===0?" sel":"");
-  b.textContent=a.name;
-  b.onclick=()=>{document.querySelectorAll(".map-btn").forEach(e=>e.classList.remove("sel"));b.classList.add("sel");selectedAmb=a;};
-  ambEl.appendChild(b);
-});
-
-document.getElementById("startBtn").onclick=()=>startGame(selectedChar,selectedMode,selectedAmb);
-
-function showMsg(t){
-  const m=document.getElementById("msg");
-  m.textContent=t; m.classList.add("show");
-  clearTimeout(showMsg._t); showMsg._t=setTimeout(()=>m.classList.remove("show"),2800);
-}
-function pushFeed(text){
-  const f=document.getElementById("killfeed");
-  const d=document.createElement("div");
-  d.textContent=text; f.prepend(d);
-  while(f.children.length>6) f.lastChild.remove();
-}
-
-/* ========== Character mesh builder (more parts) ========== */
-function createCharacter(c, scale=1){
+function createChar(c,s=1){
   const g=new THREE.Group();
-  const skinMat=new THREE.MeshStandardMaterial({color:c.skin,roughness:0.55});
-  const shirtMat=new THREE.MeshStandardMaterial({color:c.shirt,roughness:0.7});
-  const pantsMat=new THREE.MeshStandardMaterial({color:c.pants,roughness:0.8});
-  const hairMat=new THREE.MeshStandardMaterial({color:c.hair,roughness:0.9});
-
+  const skin=new THREE.MeshStandardMaterial({color:c.skin,roughness:0.5});
+  const shirt=new THREE.MeshStandardMaterial({color:c.shirt,roughness:0.65});
+  const pants=new THREE.MeshStandardMaterial({color:c.pants,roughness:0.75});
+  const hair=new THREE.MeshStandardMaterial({color:c.hair,roughness:0.85});
+  const acc=new THREE.MeshStandardMaterial({color:c.accent,roughness:0.45});
+  // boots
+  [-0.14,0.14].forEach(x=>{const b=new THREE.Mesh(new THREE.BoxGeometry(0.16*s,0.14*s,0.28*s),new THREE.MeshStandardMaterial({color:0x111111}));b.position.set(x*s,0.07*s,0.02*s);b.castShadow=true;g.add(b);});
   // legs
-  [-0.15,0.15].forEach(sx=>{
-    const leg=new THREE.Mesh(new THREE.CapsuleGeometry(0.11*scale,0.58*scale,4,8),pantsMat);
-    leg.position.set(sx*scale,0.45*scale,0); leg.castShadow=true; g.add(leg);
-  });
+  [-0.14,0.14].forEach(x=>{const l=new THREE.Mesh(new THREE.CapsuleGeometry(0.1*s,0.52*s,4,8),pants);l.position.set(x*s,0.42*s,0);l.castShadow=true;g.add(l);});
   // hips
-  const hips=new THREE.Mesh(new THREE.BoxGeometry(0.42*scale,0.2*scale,0.28*scale),pantsMat);
-  hips.position.y=0.78*scale; hips.castShadow=true; g.add(hips);
+  const hips=new THREE.Mesh(new THREE.BoxGeometry(0.4*s,0.18*s,0.26*s),pants);hips.position.y=0.75*s;hips.castShadow=true;g.add(hips);
   // torso
-  const torso=new THREE.Mesh(new THREE.CapsuleGeometry(0.3*scale,0.55*scale,4,10),shirtMat);
-  torso.position.y=1.2*scale; torso.castShadow=true; g.add(torso);
+  const torso=new THREE.Mesh(new THREE.CapsuleGeometry(0.28*s,0.52*s,4,10),shirt);torso.position.y=1.18*s;torso.castShadow=true;g.add(torso);
+  // chest plate accent
+  const plate=new THREE.Mesh(new THREE.BoxGeometry(0.32*s,0.22*s,0.3*s),acc);plate.position.set(0,1.22*s,0.02*s);g.add(plate);
   // arms
   [-1,1].forEach(side=>{
-    const arm=new THREE.Mesh(new THREE.CapsuleGeometry(0.09*scale,0.5*scale,4,8),shirtMat);
-    arm.position.set(side*0.4*scale,1.25*scale,0);
-    arm.rotation.z=side*0.12; arm.castShadow=true; g.add(arm);
+    const upper=new THREE.Mesh(new THREE.CapsuleGeometry(0.085*s,0.28*s,4,8),shirt);
+    upper.position.set(side*0.38*s,1.3*s,0);upper.rotation.z=side*0.1;upper.castShadow=true;g.add(upper);
+    const lower=new THREE.Mesh(new THREE.CapsuleGeometry(0.075*s,0.26*s,4,8),skin);
+    lower.position.set(side*0.42*s,0.95*s,0);lower.castShadow=true;g.add(lower);
   });
+  // neck
+  const neck=new THREE.Mesh(new THREE.CylinderGeometry(0.08*s,0.1*s,0.12*s,8),skin);neck.position.y=1.58*s;g.add(neck);
   // head
-  const head=new THREE.Mesh(new THREE.SphereGeometry(0.25*scale,12,12),skinMat);
-  head.position.y=1.88*scale; head.castShadow=true; g.add(head);
-  // hair cap
-  const hair=new THREE.Mesh(new THREE.SphereGeometry(0.27*scale,10,10,0,Math.PI*2,0,Math.PI*0.58),hairMat);
-  hair.position.y=1.98*scale; hair.castShadow=true; g.add(hair);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.24*s,12,12),skin);head.position.y=1.82*s;head.castShadow=true;g.add(head);
+  // hair volume
+  const hairM=new THREE.Mesh(new THREE.SphereGeometry(0.255*s,10,10,0,Math.PI*2,0,Math.PI*0.6),hair);hairM.position.y=1.92*s;hairM.castShadow=true;g.add(hairM);
+  // bangs
+  const bang=new THREE.Mesh(new THREE.BoxGeometry(0.28*s,0.08*s,0.12*s),hair);bang.position.set(0,1.95*s,0.16*s);g.add(bang);
   // eyes
-  [-0.07,0.07].forEach(ex=>{
-    const eye=new THREE.Mesh(new THREE.SphereGeometry(0.032*scale,6,6),new THREE.MeshStandardMaterial({color:0x111111}));
-    eye.position.set(ex*scale,1.9*scale,0.21*scale); g.add(eye);
+  [-0.07,0.07].forEach(x=>{
+    const white=new THREE.Mesh(new THREE.SphereGeometry(0.04*s,6,6),new THREE.MeshStandardMaterial({color:0xf8fafc}));
+    white.position.set(x*s,1.84*s,0.2*s);g.add(white);
+    const iris=new THREE.Mesh(new THREE.SphereGeometry(0.022*s,6,6),new THREE.MeshStandardMaterial({color:0x111827}));
+    iris.position.set(x*s,1.84*s,0.23*s);g.add(iris);
   });
-  // chest detail stripe
-  const stripe=new THREE.Mesh(new THREE.BoxGeometry(0.35*scale,0.08*scale,0.32*scale),new THREE.MeshStandardMaterial({color:c.color,roughness:0.5}));
-  stripe.position.y=1.25*scale; g.add(stripe);
-
+  // mouth subtle
+  const mouth=new THREE.Mesh(new THREE.BoxGeometry(0.06*s,0.015*s,0.02*s),new THREE.MeshStandardMaterial({color:0x9f1239}));
+  mouth.position.set(0,1.72*s,0.22*s);g.add(mouth);
   return g;
 }
 
-/* ========== GAME ========== */
-function startGame(cls, mode, amb){
-  document.getElementById("boot").style.display="none";
-  document.getElementById("hud").style.display="flex";
-  document.getElementById("cross").style.display="block";
-  document.getElementById("hint").style.display="block";
-  document.getElementById("killfeed").style.display="block";
-  document.getElementById("score").style.display="block";
-  document.getElementById("modeTag").textContent=mode.name;
+function start(cls,mode,amb){
+  document.getElementById('boot').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('cross').style.display='block';
+  document.getElementById('hint').style.display='block';
+  document.getElementById('feed').style.display='block';
+  document.getElementById('md').textContent=mode.name;
 
   const scene=new THREE.Scene();
   scene.background=new THREE.Color(amb.sky);
-  scene.fog=new THREE.Fog(amb.fog,35,110);
-
-  const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,0.1,200);
+  scene.fog=new THREE.Fog(amb.fog,30,105);
+  const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,0.1,180);
   const renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(innerWidth,innerHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.shadowMap.enabled=true;
-  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   document.body.appendChild(renderer.domElement);
 
-  // lights
-  scene.add(new THREE.HemisphereLight(0xddeeff,0x334455, amb.id==="night"?0.35:0.75));
-  const sun=new THREE.DirectionalLight(0xfff2dd, amb.sun);
-  sun.position.set(25,45,15);
-  sun.castShadow=true;
-  sun.shadow.mapSize.set(2048,2048);
-  sun.shadow.camera.near=4; sun.shadow.camera.far=100;
-  sun.shadow.camera.left=-35; sun.shadow.camera.right=35;
-  sun.shadow.camera.top=35; sun.shadow.camera.bottom=-35;
+  scene.add(new THREE.HemisphereLight(0xddeeff,0x2a3344,amb.id==='night'?0.3:0.7));
+  const sun=new THREE.DirectionalLight(0xfff1d6,amb.sun);
+  sun.position.set(20,40,12);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+  sun.shadow.camera.near=3;sun.shadow.camera.far=90;sun.shadow.camera.left=-30;sun.shadow.camera.right=30;sun.shadow.camera.top=30;sun.shadow.camera.bottom=-30;
   scene.add(sun);
-  if(amb.id==="night"){
-    const streetLight=new THREE.PointLight(0xffd9a0,1.2,28);
-    streetLight.position.set(0,7,0); scene.add(streetLight);
-  }
 
-  /* ---- Detailed street map ---- */
-  // asphalt
-  const road=new THREE.Mesh(new THREE.PlaneGeometry(22,180), new THREE.MeshStandardMaterial({color:0x2a2a2a,roughness:0.95}));
-  road.rotation.x=-Math.PI/2; road.position.y=0.01; road.receiveShadow=true; scene.add(road);
-  // sidewalks
-  [-13.5,13.5].forEach(x=>{
-    const sw=new THREE.Mesh(new THREE.PlaneGeometry(7,180), new THREE.MeshStandardMaterial({color:0x6b6b6b,roughness:0.9}));
-    sw.rotation.x=-Math.PI/2; sw.position.set(x,0.02,0); sw.receiveShadow=true; scene.add(sw);
+  // STREET
+  const road=new THREE.Mesh(new THREE.PlaneGeometry(20,170),new THREE.MeshStandardMaterial({color:0x2c2c2c,roughness:0.95}));
+  road.rotation.x=-Math.PI/2;road.position.y=0.01;road.receiveShadow=true;scene.add(road);
+  [-12.5,12.5].forEach(x=>{
+    const sw=new THREE.Mesh(new THREE.PlaneGeometry(6.5,170),new THREE.MeshStandardMaterial({color:0x6a6a6a,roughness:0.9}));
+    sw.rotation.x=-Math.PI/2;sw.position.set(x,0.02,0);sw.receiveShadow=true;scene.add(sw);
   });
-  // center lines
-  for(let z=-80;z<=80;z+=7){
-    const line=new THREE.Mesh(new THREE.PlaneGeometry(0.25,2.8), new THREE.MeshBasicMaterial({color:0xd4c400}));
-    line.rotation.x=-Math.PI/2; line.position.set(0,0.03,z); scene.add(line);
+  for(let z=-78;z<=78;z+=6.5){
+    const ln=new THREE.Mesh(new THREE.PlaneGeometry(0.22,2.4),new THREE.MeshBasicMaterial({color:0xcbb800}));
+    ln.rotation.x=-Math.PI/2;ln.position.set(0,0.03,z);scene.add(ln);
   }
-  // outer grass
-  const grass=new THREE.Mesh(new THREE.PlaneGeometry(100,200), new THREE.MeshStandardMaterial({color:0x2f5a2f,roughness:1}));
-  grass.rotation.x=-Math.PI/2; grass.position.y=-0.05; grass.receiveShadow=true; scene.add(grass);
+  const grass=new THREE.Mesh(new THREE.PlaneGeometry(90,190),new THREE.MeshStandardMaterial({color:0x2a4a2a,roughness:1}));
+  grass.rotation.x=-Math.PI/2;grass.position.y=-0.04;grass.receiveShadow=true;scene.add(grass);
 
-  // buildings with interiors (door gap)
-  function addBuilding(x,z,w,d,h,col){
+  // buildings enterable
+  function building(x,z,w,d,h,col){
     const g=new THREE.Group();
     const mat=new THREE.MeshStandardMaterial({color:col,roughness:0.78});
-    const floor=new THREE.Mesh(new THREE.BoxGeometry(w-0.3,0.15,d-0.3), new THREE.MeshStandardMaterial({color:0x3d342c}));
-    floor.position.y=0.08; floor.receiveShadow=true; g.add(floor);
-    const ceil=new THREE.Mesh(new THREE.BoxGeometry(w,0.2,d), new THREE.MeshStandardMaterial({color:0x444444}));
-    ceil.position.y=h; g.add(ceil);
-    const t=0.32;
-    // back / left / right
-    const back=new THREE.Mesh(new THREE.BoxGeometry(w,h,t),mat); back.position.set(0,h/2,-d/2+t/2); back.castShadow=true; g.add(back);
-    const left=new THREE.Mesh(new THREE.BoxGeometry(t,h,d),mat); left.position.set(-w/2+t/2,h/2,0); left.castShadow=true; g.add(left);
-    const right=new THREE.Mesh(new THREE.BoxGeometry(t,h,d),mat); right.position.set(w/2-t/2,h/2,0); right.castShadow=true; g.add(right);
-    // front with door
-    const doorW=1.9, side=(w-doorW)/2;
-    if(side>0.25){
-      const fl=new THREE.Mesh(new THREE.BoxGeometry(side,h,t),mat); fl.position.set(-w/2+side/2,h/2,d/2-t/2); fl.castShadow=true; g.add(fl);
-      const fr=new THREE.Mesh(new THREE.BoxGeometry(side,h,t),mat); fr.position.set(w/2-side/2,h/2,d/2-t/2); fr.castShadow=true; g.add(fr);
-      const above=new THREE.Mesh(new THREE.BoxGeometry(doorW,Math.max(0.5,h-2.5),t),mat); above.position.set(0,2.5+(h-2.5)/2,d/2-t/2); g.add(above);
+    const floor=new THREE.Mesh(new THREE.BoxGeometry(w-0.25,0.12,d-0.25),new THREE.MeshStandardMaterial({color:0x3a322a}));
+    floor.position.y=0.06;floor.receiveShadow=true;g.add(floor);
+    const ceil=new THREE.Mesh(new THREE.BoxGeometry(w,0.18,d),new THREE.MeshStandardMaterial({color:0x404040}));
+    ceil.position.y=h;g.add(ceil);
+    const t=0.3;
+    [[0,h/2,-d/2+t/2,w,h,t],[ -w/2+t/2,h/2,0,t,h,d],[w/2-t/2,h/2,0,t,h,d]].forEach(p=>{
+      const m=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],p[5]),mat);m.position.set(p[0],p[1],p[2]);m.castShadow=true;g.add(m);
+    });
+    const doorW=1.85,side=(w-doorW)/2;
+    if(side>0.2){
+      const fl=new THREE.Mesh(new THREE.BoxGeometry(side,h,t),mat);fl.position.set(-w/2+side/2,h/2,d/2-t/2);fl.castShadow=true;g.add(fl);
+      const fr=new THREE.Mesh(new THREE.BoxGeometry(side,h,t),mat);fr.position.set(w/2-side/2,h/2,d/2-t/2);fr.castShadow=true;g.add(fr);
+      const ab=new THREE.Mesh(new THREE.BoxGeometry(doorW,Math.max(0.4,h-2.45),t),mat);ab.position.set(0,2.45+(h-2.45)/2,d/2-t/2);g.add(ab);
     }
-    // window decals
-    for(let wy=2; wy<h-1; wy+=2.2){
-      for(let wx=-w/2+1.2; wx<w/2-1; wx+=2.4){
-        const win=new THREE.Mesh(new THREE.PlaneGeometry(1.1,1.2), new THREE.MeshStandardMaterial({color:amb.id==="night"?0xffe6a0:0x88aacc, emissive:amb.id==="night"?0x664400:0x000000, emissiveIntensity:0.4}));
-        win.position.set(wx, wy, d/2+0.02); g.add(win);
+    for(let wy=2;wy<h-1;wy+=2.1){
+      for(let wx=-w/2+1.1;wx<w/2-1;wx+=2.3){
+        const win=new THREE.Mesh(new THREE.PlaneGeometry(1,1.1),new THREE.MeshStandardMaterial({color:amb.id==='night'?0xffe0a0:0x7aa0c0,emissive:amb.id==='night'?0x553300:0x000000,emissiveIntensity:0.35}));
+        win.position.set(wx,wy,d/2+0.02);g.add(win);
       }
     }
-    const lamp=new THREE.PointLight(0xffe6c0, amb.id==="night"?0.9:0.35, 14);
-    lamp.position.set(0,h-1.2,0); g.add(lamp);
-    g.position.set(x,0,z); scene.add(g);
+    const pl=new THREE.PointLight(0xffe6c0,amb.id==='night'?0.85:0.3,12);pl.position.set(0,h-1,0);g.add(pl);
+    g.position.set(x,0,z);scene.add(g);
   }
+  const cols=[0x7a6548,0x5c4c3c,0x6b5b4b,0x4a5560,0x8b7355,0x5a4030,0x6b5344,0x4a5a4a,0x5c4a3a,0x7a6a5a,0x455a6b,0x6b4a3a];
+  let ci=0;
+  [[-16.5,-48,11,13,10],[-17,-26,12,12,12],[-16,-6,10,13,9],[-17.5,14,12,12,11],[-16,34,11,13,13],[-17,56,12,12,10],
+   [16.5,-42,12,13,11],[17,-20,11,14,10],[16.5,2,13,12,14],[17,24,10,13,9],[16.5,46,12,12,12],[17,68,11,14,10]].forEach(b=>{
+    building(b[0],b[1],b[2],b[3],b[4],cols[ci++%cols.length]);
+  });
 
-  // left row
-  addBuilding(-17.5,-50,11,14,10,0x7a6548);
-  addBuilding(-18,-28,12,12,13,0x5c4c3c);
-  addBuilding(-17,-8,10,13,9,0x6b5b4b);
-  addBuilding(-18.5,14,13,12,12,0x4a5560);
-  addBuilding(-17,36,11,14,11,0x8b7355);
-  addBuilding(-18,58,12,12,14,0x5a4030);
-  // right row
-  addBuilding(17.5,-45,12,13,11,0x6b5344);
-  addBuilding(18,-22,11,14,10,0x4a5a4a);
-  addBuilding(17.5,0,13,12,15,0x5c4a3a);
-  addBuilding(18,22,10,13,9,0x7a6a5a);
-  addBuilding(17.5,44,12,12,12,0x455a6b);
-  addBuilding(18,66,11,14,10,0x6b4a3a);
-
-  // street props
-  for(let i=0;i<18;i++){
-    const crate=new THREE.Mesh(new THREE.BoxGeometry(1.1+Math.random()*0.4,1.1,1.1+Math.random()*0.3), new THREE.MeshStandardMaterial({color:0x8B5A2B,roughness:0.85}));
-    crate.position.set((Math.random()>0.5?1:-1)*(9+Math.random()*5),0.55,-70+Math.random()*140);
-    crate.rotation.y=Math.random()*1; crate.castShadow=true; scene.add(crate);
+  // props
+  for(let i=0;i<20;i++){
+    const c=new THREE.Mesh(new THREE.BoxGeometry(1+Math.random()*0.5,1+Math.random()*0.3,1+Math.random()*0.4),new THREE.MeshStandardMaterial({color:0x8B5A2B}));
+    c.position.set((Math.random()>0.5?1:-1)*(8.5+Math.random()*4),0.55,-72+Math.random()*145);c.castShadow=true;scene.add(c);
   }
-  for(let i=0;i<8;i++){
-    const barrel=new THREE.Mesh(new THREE.CylinderGeometry(0.45,0.5,1.2,10), new THREE.MeshStandardMaterial({color:0x3f3f46,metalness:0.3,roughness:0.6}));
-    barrel.position.set((Math.random()-0.5)*16,0.6,-60+Math.random()*120); barrel.castShadow=true; scene.add(barrel);
-  }
-  // street lamps
-  for(let z=-70;z<=70;z+=28){
-    [-11,11].forEach(x=>{
-      const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.1,5.5,8), new THREE.MeshStandardMaterial({color:0x222222}));
-      pole.position.set(x,2.75,z); pole.castShadow=true; scene.add(pole);
-      const lamp=new THREE.Mesh(new THREE.SphereGeometry(0.25,8,8), new THREE.MeshStandardMaterial({color:0xffe8a0,emissive:0xffcc66,emissiveIntensity:amb.id==="night"?0.8:0.15}));
-      lamp.position.set(x,5.6,z); scene.add(lamp);
-      if(amb.id==="night"){
-        const pl=new THREE.PointLight(0xffd9a0,0.7,16); pl.position.set(x,5.4,z); scene.add(pl);
-      }
+  for(let z=-70;z<=70;z+=26){
+    [-10,10].forEach(x=>{
+      const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.09,5.2,8),new THREE.MeshStandardMaterial({color:0x222}));
+      pole.position.set(x,2.6,z);pole.castShadow=true;scene.add(pole);
+      const lamp=new THREE.Mesh(new THREE.SphereGeometry(0.22,8,8),new THREE.MeshStandardMaterial({color:0xffe8a0,emissive:0xffcc66,emissiveIntensity:amb.id==='night'?0.9:0.12}));
+      lamp.position.set(x,5.4,z);scene.add(lamp);
+      if(amb.id==='night'){const L=new THREE.PointLight(0xffd9a0,0.65,15);L.position.set(x,5.2,z);scene.add(L);}
     });
   }
 
-  /* player */
-  const player={
-    mesh:createCharacter(cls),
-    hp:cls.hp, maxHp:cls.hp, hunger:100, speed:cls.speed, accuracy:cls.accuracy,
-    hungerRate:cls.hungerRate, weapon:cls.weapon,
-    ammo:WEAPONS[cls.weapon].ammo, reserve:WEAPONS[cls.weapon].ammo*3,
-    lastShot:0, kills:0, deaths:0, velY:0, onGround:true, team: mode.id==="tdm"?0: -1
-  };
-  player.mesh.position.set(0,0,40); scene.add(player.mesh);
+  // player
+  const player={mesh:createChar(cls),hp:cls.hp,maxHp:cls.hp,hunger:100,speed:cls.speed,acc:cls.acc,hRate:cls.hRate,weapon:cls.weapon,ammo:WEAPONS[cls.weapon].ammo,reserve:WEAPONS[cls.weapon].ammo*3,lastShot:0,kills:0,velY:0,onGround:true,team:mode.id==='tdm'?0:-1};
+  player.mesh.position.set(0,0,38);scene.add(player.mesh);
 
-  /* bots */
+  // bots
   const bots=[];
-  const botCount = mode.id==="surv"?8: mode.id==="hunt"?4:5;
-  for(let i=0;i<botCount;i++){
-    const bc=CHARACTERS[(i+1)%CHARACTERS.length];
-    const bot={
-      mesh:createCharacter(bc,0.97),
-      hp:bc.hp, maxHp:bc.hp, speed:bc.speed*0.82, accuracy:bc.accuracy*0.75,
-      weapon:bc.weapon, ammo:WEAPONS[bc.weapon].ammo, lastShot:0,
-      dir:new THREE.Vector3(), timer:0, name:bc.name,
-      team: mode.id==="tdm"?(i%2): -1
-    };
-    bot.mesh.position.set((Math.random()-0.5)*14,0,-55+i*(120/botCount)+Math.random()*6);
-    scene.add(bot.mesh); bots.push(bot);
+  const nBots=mode.id==='surv'?9:mode.id==='hunt'?4:6;
+  for(let i=0;i<nBots;i++){
+    const bc=CHARS[(i+3)%CHARS.length];
+    const bot={mesh:createChar(bc,0.96),hp:bc.hp,maxHp:bc.hp,speed:bc.speed*0.8,acc:bc.acc*0.72,weapon:bc.weapon,ammo:WEAPONS[bc.weapon].ammo,lastShot:0,dir:new THREE.Vector3(),timer:0,name:bc.name,team:mode.id==='tdm'?i%2:-1};
+    bot.mesh.position.set((Math.random()-0.5)*12,0,-60+i*(130/nBots));scene.add(bot.mesh);bots.push(bot);
   }
 
-  /* pickups denser */
+  // pickups weapons including knife & smg
   const pickups=[];
-  const wKeys=Object.keys(WEAPONS);
-  const spawnPick=(type,extra={})=>{
+  const wids=['knife','pistol','smg','rifle','shotgun','sniper','lmg'];
+  const mk=(type,extra={})=>{
     let mesh;
-    if(type==="weapon") mesh=new THREE.Mesh(new THREE.BoxGeometry(0.65,0.22,1.25), new THREE.MeshStandardMaterial({color:0x38bdf8,metalness:0.35,roughness:0.4}));
-    else if(type==="food") mesh=new THREE.Mesh(new THREE.SphereGeometry(0.32,8,8), new THREE.MeshStandardMaterial({color:0xf97316}));
-    else mesh=new THREE.Mesh(new THREE.SphereGeometry(0.28,8,8), new THREE.MeshStandardMaterial({color:0x22c55e}));
-    mesh.position.set((Math.random()-0.5)*16, type==="weapon"?0.18:0.32, -70+Math.random()*140);
-    scene.add(mesh);
-    pickups.push({type, mesh, taken:false, ...extra});
+    if(type==='weapon'){
+      if(extra.weapon==='knife') mesh=new THREE.Mesh(new THREE.BoxGeometry(0.15,0.05,0.7),new THREE.MeshStandardMaterial({color:0xcbd5e1,metalness:0.7,roughness:0.3}));
+      else mesh=new THREE.Mesh(new THREE.BoxGeometry(0.55,0.2,1.15),new THREE.MeshStandardMaterial({color:0x38bdf8,metalness:0.4,roughness:0.35}));
+    } else if(type==='food') mesh=new THREE.Mesh(new THREE.SphereGeometry(0.3,8,8),new THREE.MeshStandardMaterial({color:0xf97316}));
+    else mesh=new THREE.Mesh(new THREE.SphereGeometry(0.26,8,8),new THREE.MeshStandardMaterial({color:0x22c55e}));
+    mesh.position.set((Math.random()-0.5)*14,type==='weapon'?0.15:0.3,-70+Math.random()*140);scene.add(mesh);
+    pickups.push({type,mesh,taken:false,...extra});
   };
-  for(let i=0;i<(mode.id==="hunt"?14:9);i++) spawnPick("weapon",{weapon:wKeys[i%wKeys.length]});
-  for(let i=0;i<8;i++) spawnPick("food");
-  for(let i=0;i<6;i++) spawnPick("health");
+  for(let i=0;i<(mode.id==='hunt'?16:11);i++) mk('weapon',{weapon:wids[i%wids.length]});
+  for(let i=0;i<8;i++) mk('food');
+  for(let i=0;i<6;i++) mk('health');
 
   const bullets=[];
   const keys={};
-  window.addEventListener("keydown",e=>keys[e.code]=true);
-  window.addEventListener("keyup",e=>keys[e.code]=false);
-  let mouseDown=false, yaw=0, pitch=0.28;
-  renderer.domElement.addEventListener("mousedown",()=>{mouseDown=true;renderer.domElement.requestPointerLock();});
-  window.addEventListener("mouseup",()=>mouseDown=false);
-  window.addEventListener("mousemove",e=>{
+  window.addEventListener('keydown',e=>keys[e.code]=true);
+  window.addEventListener('keyup',e=>keys[e.code]=false);
+  let mouseDown=false, zooming=false, yaw=0, pitch=0.28;
+  renderer.domElement.addEventListener('mousedown',e=>{
+    if(e.button===0) mouseDown=true;
+    if(e.button===2){zooming=true;document.getElementById('cross').classList.add('zoom');}
+    renderer.domElement.requestPointerLock();
+  });
+  window.addEventListener('mouseup',e=>{
+    if(e.button===0) mouseDown=false;
+    if(e.button===2){zooming=false;document.getElementById('cross').classList.remove('zoom');}
+  });
+  window.addEventListener('contextmenu',e=>e.preventDefault());
+  window.addEventListener('mousemove',e=>{
     if(document.pointerLockElement===renderer.domElement){
-      yaw-=e.movementX*0.0022; pitch=Math.max(-0.55,Math.min(0.7,pitch-e.movementY*0.002));
+      yaw-=e.movementX*0.002; pitch=Math.max(-0.5,Math.min(0.65,pitch-e.movementY*0.002));
     }
   });
 
-  function shoot(ent, weaponId, acc=1){
-    const w=WEAPONS[weaponId];
+  function shoot(ent,wid,acc=1){
+    const w=WEAPONS[wid];
     const now=performance.now()/1000;
     if(now-ent.lastShot<w.rate) return;
-    if(ent.ammo!==undefined && ent.ammo<=0) return;
-    ent.lastShot=now; if(ent.ammo!==undefined) ent.ammo--;
-    const origin=ent.mesh.position.clone(); origin.y+=1.35;
+    if(ent.ammo!==undefined && ent.ammo<=0 && !w.melee) return;
+    ent.lastShot=now;
+    if(ent.ammo!==undefined && !w.melee) ent.ammo--;
+
+    if(w.melee){
+      // knife range check
+      const targets=[player,...bots].filter(t=>t!==ent && t.hp>0);
+      for(const t of targets){
+        if(t.mesh.position.distanceTo(ent.mesh.position)<w.range){
+          t.hp-=w.dmg;
+          if(t===player && t.hp<=0){msg('Éliminé');t.hp=cls.hp;t.mesh.position.set(0,0,38);t.hunger=55;}
+          if(t!==player && t.hp<=0 && ent===player){player.kills++;feed(cls.name+' couteau '+t.name);msg('Kill couteau');}
+        }
+      }
+      return;
+    }
+    const origin=ent.mesh.position.clone();origin.y+=1.35;
     const n=w.pellets||1;
     for(let i=0;i<n;i++){
       let dir;
       if(ent===player){
-        dir=new THREE.Vector3(-Math.sin(yaw)*Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw)*Math.cos(pitch));
+        const spreadMul=zooming?0.35:1;
+        dir=new THREE.Vector3(-Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),-Math.cos(yaw)*Math.cos(pitch));
+        dir.x+=(Math.random()-0.5)*w.spread*spreadMul*(1.4-acc);
+        dir.y+=(Math.random()-0.5)*w.spread*spreadMul*(1.4-acc);
+        dir.z+=(Math.random()-0.5)*w.spread*spreadMul*(1.4-acc);
+        dir.normalize();
       } else {
-        dir=player.mesh.position.clone().sub(ent.mesh.position); dir.y+=1.1; dir.normalize();
+        dir=player.mesh.position.clone().sub(ent.mesh.position);dir.y+=1.1;dir.normalize();
+        dir.x+=(Math.random()-0.5)*w.spread*(1.5-acc);
+        dir.z+=(Math.random()-0.5)*w.spread*(1.5-acc);
+        dir.normalize();
       }
-      dir.x+=(Math.random()-0.5)*w.spread*(1.5-acc);
-      dir.y+=(Math.random()-0.5)*w.spread*(1.5-acc);
-      dir.z+=(Math.random()-0.5)*w.spread*(1.5-acc);
-      dir.normalize();
-      const ball=new THREE.Mesh(new THREE.SphereGeometry(0.06,4,4), new THREE.MeshBasicMaterial({color:0xffe566}));
-      ball.position.copy(origin); scene.add(ball);
-      bullets.push({mesh:ball, dir, speed:w.speed, dmg:w.dmg, life:2.0, owner:ent});
+      const ball=new THREE.Mesh(new THREE.SphereGeometry(0.055,4,4),new THREE.MeshBasicMaterial({color:0xffe566}));
+      ball.position.copy(origin);scene.add(ball);
+      bullets.push({mesh:ball,dir,speed:w.speed,dmg:w.dmg,life:2,owner:ent});
     }
   }
 
-  function updateHUD(){
-    document.getElementById("pName").textContent=cls.name;
-    document.getElementById("hpBar").style.width=Math.max(0,player.hp/player.maxHp*100)+"%";
-    document.getElementById("hungerBar").style.width=Math.max(0,player.hunger)+"%";
-    document.getElementById("wpn").textContent=`${WEAPONS[player.weapon].name} ${player.ammo}/${player.reserve}`;
-    document.getElementById("kills").textContent=`Kills ${player.kills}`;
-    const aliveBots=bots.filter(b=>b.hp>0).length;
-    document.getElementById("score").textContent = mode.id==="tdm"
-      ? `Équipe A  ${player.team===0?player.kills:0}  —  Équipe B  ${bots.filter(b=>b.team===1&&b.hp<=0).length}`
-      : `Vivants bots : ${aliveBots} · Morts : ${player.deaths}`;
+  function hud(){
+    document.getElementById('pn').textContent=cls.name;
+    document.getElementById('hp').style.width=Math.max(0,player.hp/player.maxHp*100)+'%';
+    document.getElementById('hg').style.width=Math.max(0,player.hunger)+'%';
+    document.getElementById('wp').textContent=WEAPONS[player.weapon].name+(WEAPONS[player.weapon].melee?'':' '+player.ammo+'/'+player.reserve);
+    document.getElementById('kl').textContent='Kills '+player.kills;
   }
 
   let last=performance.now();
   function loop(now){
-    const dt=Math.min(0.05,(now-last)/1000); last=now;
-
-    // move
+    const dt=Math.min(0.05,(now-last)/1000);last=now;
+    // ARROW KEYS + WASD
     const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
     const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
     let mv=new THREE.Vector3();
-    if(keys["KeyW"]||keys["KeyZ"]) mv.add(forward);
-    if(keys["KeyS"]) mv.sub(forward);
-    if(keys["KeyA"]||keys["KeyQ"]) mv.sub(right);
-    if(keys["KeyD"]) mv.add(right);
-    if(mv.length()>0){ mv.normalize().multiplyScalar(player.speed*dt); player.mesh.position.add(mv); }
-    if(keys["Space"]&&player.onGround){ player.velY=7.2; player.onGround=false; }
-    player.velY-=22*dt; player.mesh.position.y+=player.velY*dt;
-    if(player.mesh.position.y<=0){ player.mesh.position.y=0; player.velY=0; player.onGround=true; }
-    // clamp street-ish bounds soft
-    player.mesh.position.x=Math.max(-20,Math.min(20,player.mesh.position.x));
-    player.mesh.position.z=Math.max(-85,Math.min(85,player.mesh.position.z));
+    if(keys['ArrowUp']||keys['KeyW']||keys['KeyZ']) mv.add(forward);
+    if(keys['ArrowDown']||keys['KeyS']) mv.sub(forward);
+    if(keys['ArrowLeft']||keys['KeyA']||keys['KeyQ']) mv.sub(right);
+    if(keys['ArrowRight']||keys['KeyD']) mv.add(right);
+    if(mv.length()>0){mv.normalize().multiplyScalar(player.speed*(zooming?0.55:1)*dt);player.mesh.position.add(mv);}
+    if(keys['Space']&&player.onGround){player.velY=7;player.onGround=false;}
+    player.velY-=22*dt;player.mesh.position.y+=player.velY*dt;
+    if(player.mesh.position.y<=0){player.mesh.position.y=0;player.velY=0;player.onGround=true;}
+    player.mesh.position.x=Math.max(-18,Math.min(18,player.mesh.position.x));
+    player.mesh.position.z=Math.max(-80,Math.min(80,player.mesh.position.z));
     player.mesh.rotation.y=yaw+Math.PI;
 
-    // camera
+    // camera + zoom FOV
     const target=player.mesh.position.clone();
-    const off=new THREE.Vector3(Math.sin(yaw)*6.2, 2.7+pitch*1.4, Math.cos(yaw)*6.2);
-    camera.position.lerp(target.clone().add(off),0.12);
-    camera.lookAt(target.x, target.y+1.35-pitch*0.8, target.z);
+    const dist=zooming?3.2:6.0;
+    const off=new THREE.Vector3(Math.sin(yaw)*dist, (zooming?2.2:2.7)+pitch*1.2, Math.cos(yaw)*dist);
+    camera.position.lerp(target.clone().add(off),0.14);
+    camera.lookAt(target.x,target.y+1.3-pitch*0.7,target.z);
+    camera.fov=THREE.MathUtils.lerp(camera.fov, zooming?38:65, 0.12);
+    camera.updateProjectionMatrix();
 
-    if(mouseDown && player.hp>0) shoot(player, player.weapon, player.accuracy);
+    if(mouseDown&&player.hp>0) shoot(player,player.weapon,player.acc);
+    player.hunger=Math.max(0,player.hunger-player.hRate*dt);
+    if(player.hunger<=0) player.hp-=3*dt;
 
-    player.hunger=Math.max(0,player.hunger-player.hungerRate*dt);
-    if(player.hunger<=0) player.hp-=3.5*dt;
-
-    if(keys["KeyE"]){
+    if(keys['KeyE']){
       pickups.forEach(pk=>{
         if(pk.taken) return;
-        if(pk.mesh.position.distanceTo(player.mesh.position)<2.1){
-          pk.taken=true; pk.mesh.visible=false;
-          if(pk.type==="weapon"){
-            player.weapon=pk.weapon; player.ammo=WEAPONS[pk.weapon].ammo; player.reserve+=WEAPONS[pk.weapon].ammo;
-            showMsg("Arme : "+WEAPONS[pk.weapon].name);
-          } else if(pk.type==="food"){ player.hunger=Math.min(100,player.hunger+30); showMsg("+ faim"); }
-          else { player.hp=Math.min(player.maxHp,player.hp+(cls.role==="Médic"?40:28)); showMsg("+ vie"); }
+        if(pk.mesh.position.distanceTo(player.mesh.position)<2){
+          pk.taken=true;pk.mesh.visible=false;
+          if(pk.type==='weapon'){player.weapon=pk.weapon;player.ammo=WEAPONS[pk.weapon].ammo;if(!WEAPONS[pk.weapon].melee)player.reserve+=WEAPONS[pk.weapon].ammo;msg('Arme: '+WEAPONS[pk.weapon].name);}
+          else if(pk.type==='food'){player.hunger=Math.min(100,player.hunger+32);msg('+faim');}
+          else {player.hp=Math.min(player.maxHp,player.hp+30);msg('+vie');}
         }
       });
     }
 
-    // bots AI
     bots.forEach(bot=>{
-      if(bot.hp<=0){ bot.mesh.visible=false; return; }
+      if(bot.hp<=0){bot.mesh.visible=false;return;}
       bot.timer-=dt;
       if(bot.timer<=0){
-        bot.timer=0.7+Math.random()*1.4;
+        bot.timer=0.65+Math.random()*1.3;
         const toP=player.mesh.position.clone().sub(bot.mesh.position);
-        const sameTeam = mode.id==="tdm" && bot.team===player.team;
-        if(!sameTeam && toP.length()<48 && player.hp>0){
+        const ally=mode.id==='tdm'&&bot.team===player.team;
+        if(!ally&&toP.length()<46&&player.hp>0){
           bot.dir.copy(toP.normalize());
-          bot.mesh.lookAt(player.mesh.position.x, bot.mesh.position.y, player.mesh.position.z);
-          if(toP.length()<38) shoot(bot, bot.weapon, bot.accuracy);
-        } else {
-          bot.dir.set(Math.random()-0.5,0,Math.random()-0.5).normalize();
-        }
+          bot.mesh.lookAt(player.mesh.position.x,bot.mesh.position.y,player.mesh.position.z);
+          if(toP.length()<36) shoot(bot,bot.weapon,bot.acc);
+        } else bot.dir.set(Math.random()-0.5,0,Math.random()-0.5).normalize();
       }
       bot.mesh.position.add(bot.dir.clone().multiplyScalar(bot.speed*dt));
       bot.mesh.position.y=0;
-      bot.mesh.position.x=Math.max(-19,Math.min(19,bot.mesh.position.x));
-      bot.mesh.position.z=Math.max(-80,Math.min(80,bot.mesh.position.z));
+      bot.mesh.position.x=Math.max(-17,Math.min(17,bot.mesh.position.x));
+      bot.mesh.position.z=Math.max(-78,Math.min(78,bot.mesh.position.z));
     });
 
-    // bullets
     for(let i=bullets.length-1;i>=0;i--){
       const b=bullets[i];
       b.mesh.position.add(b.dir.clone().multiplyScalar(b.speed*dt));
       b.life-=dt;
-      if(b.life<=0){ scene.remove(b.mesh); bullets.splice(i,1); continue; }
-      if(b.owner!==player && player.hp>0 && b.mesh.position.distanceTo(player.mesh.position)<1.1){
-        player.hp-=b.dmg; scene.remove(b.mesh); bullets.splice(i,1);
-        if(player.hp<=0){ player.deaths++; showMsg("Éliminé"); player.hp=cls.hp; player.mesh.position.set(0,0,40); player.hunger=60; }
+      if(b.life<=0){scene.remove(b.mesh);bullets.splice(i,1);continue;}
+      if(b.owner!==player&&player.hp>0&&b.mesh.position.distanceTo(player.mesh.position)<1.05){
+        player.hp-=b.dmg;scene.remove(b.mesh);bullets.splice(i,1);
+        if(player.hp<=0){msg('Éliminé');player.hp=cls.hp;player.mesh.position.set(0,0,38);player.hunger=55;}
         continue;
       }
       for(const bot of bots){
-        if(bot.hp<=0 || b.owner===bot) continue;
-        if(mode.id==="tdm" && b.owner!==player && bot.team===b.owner.team) continue;
-        if(b.mesh.position.distanceTo(bot.mesh.position)<1.1){
-          bot.hp-=b.dmg; scene.remove(b.mesh); bullets.splice(i,1);
-          if(bot.hp<=0 && b.owner===player){ player.kills++; pushFeed(`${cls.name} a éliminé ${bot.name}`); showMsg("Kill"); }
+        if(bot.hp<=0||b.owner===bot) continue;
+        if(b.mesh.position.distanceTo(bot.mesh.position)<1.05){
+          bot.hp-=b.dmg;scene.remove(b.mesh);bullets.splice(i,1);
+          if(bot.hp<=0&&b.owner===player){player.kills++;feed(cls.name+' → '+bot.name);msg('Kill');}
           break;
         }
       }
     }
-
-    updateHUD();
+    hud();
     renderer.render(scene,camera);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
-
-  window.addEventListener("resize",()=>{
-    camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight);
-  });
-  showMsg("Clique pour jouer — entre dans les bâtiments par les portes");
+  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+  msg('Clique pour jouer — clic droit = zoom viser');
 }
 
-/* ========================================================================
-   Notes d'extension (pour grossir / améliorer le projet plus tard)
-   - Ajouter modèles GLTF manga (hommes/femmes) via GLTFLoader
-   - Navigation mesh pour bots dans les immeubles
-   - Sons spatialisés (tir, pas, ambiance rue)
-   - Destructibilité légère (crates)
-   - Progression / déblocages d'armes
-   - Multijoueur via WebRTC ou serveur Node
-   - Plus de props: voitures, poubelles, affiches, graffiti
-   - Système de cover et positions de tir
-   - UI inventaire + roue d'armes
-   - Replay killcam simple
-   Ces chantiers feront monter fortement la taille et la qualité du jeu.
-   ======================================================================== */
-
-// Padding de structure / data pour densifier le fichier et documenter le design
-const DESIGN_NOTES = {
-  vision: "War Street vise un combat urbain lisible en 3e personne, avec identité des personnages et lecture claire de la rue.",
-  pillars: ["lisibilité","personnages distincts","map verticale (immeubles)","modes simples","itération rapide"],
-  mapGoals: ["rue centrale","trottoirs","immeubles accessibles","props de cover","pickups visibles"],
-  charGoals: ["silhouette","couleur signature","rôle clair","tradeoff vitesse/tankiness/précision"],
-  modeGoals: {
-    ffa: "chaos lisible",
-    tdm: "cohésion d'équipe basique",
-    surv: "pression bots",
-    hunt: "contrôle de zone / pickups"
-  },
-  nextAssets: ["gltf body manga","weapon meshes","muzzle flash","footsteps","ui icons"],
-  balanceDraft: CHARACTERS.map(c=>({id:c.id,role:c.role,hp:c.hp,speed:c.speed,weapon:c.weapon,accuracy:c.accuracy})),
-  weaponDraft: Object.keys(WEAPONS).map(k=>({id:k,...WEAPONS[k]})),
-  buildingLayout: [
-    {side:"left",count:6,purpose:"cover+interior fights"},
-    {side:"right",count:6,purpose:"flank routes"},
-    {props:"crates+barrels+lamps",purpose:"soft cover and mood"}
+/* === Documentation & data density (extension roadmap) === */
+const ROADMAP={
+  controls_done:['Arrow keys move','Mouse look','LMB shoot','RMB zoom ADS','E pickup','Space jump'],
+  chars_original:CHARS.map(c=>c.id),
+  weapons:Object.keys(WEAPONS),
+  map:'urban street with enterable buildings, sidewalks, lamps, crates',
+  next:[
+    'GLTF manga-style original characters (not copyrighted IP)',
+    'weapon meshes per type',
+    'sound: footsteps gunshots ambience',
+    'navmesh bots inside buildings',
+    'inventory hotbar',
+    'team spawns',
+    'more verticality roofs'
   ]
 };
-
-// Tables de localisation (FR) pour futurs menus
-const I18N_FR = {
-  menu_title:"War Street",
-  choose_mode:"Choisis un mode",
-  choose_char:"Choisis un personnage",
-  choose_amb:"Ambiance",
-  start:"Lancer la partie",
-  controls:"ZQSD bouger · Souris viser · Clic tirer · Espace sauter · E ramasser",
-  killed:"Éliminé",
-  kill:"Kill",
-  pickup_weapon:"Arme récupérée",
-  pickup_food:"Nourriture",
-  pickup_hp:"Soin"
-};
-
-// Générateur de descriptions longues (contenu) pour densifier et documenter
-function buildLoreDump(){
-  const lines=[];
-  CHARACTERS.forEach(c=>{
-    lines.push(`# ${c.name} (${c.role})`);
-    lines.push(`PV ${c.hp} | Vitesse ${c.speed} | Précision ${c.accuracy} | Arme ${c.weapon}`);
-    lines.push(c.bio);
-    lines.push(`Style visuel: peau ${c.skin.toString(16)}, cheveux ${c.hair.toString(16)}, tenue ${c.shirt.toString(16)} / ${c.pants.toString(16)}.`);
-    lines.push(`Rôle tactique: ${c.role === "Tank" || c.role === "Heavy" ? "tenir l'angle et absorber" : c.role === "Scout" || c.role === "Ghost" ? "flanc et info" : c.role === "Sniper" ? "contrôle longue rue" : "polyvalent milieu de map"}.`);
-    lines.push("");
-  });
-  MODES.forEach(m=>{
-    lines.push(`Mode ${m.name}: ${m.desc}`);
-  });
-  lines.push("Map: avenue principale, deux rangées d'immeubles accessibles, props de cover, lampadaires, pickups armes/nourriture/soins.");
-  lines.push("Objectif prototype: valider feel 3e personne + lecture de la rue + identité des classes avant assets manga finaux.");
-  return lines.join("\n");
-}
-const LORE_TEXT = buildLoreDump();
-
-// Reserve de strings pour futures UI (évite de regénérer à chaque fois)
-const UI_STRINGS = {
-  hud_hp:"Vie",
-  hud_hunger:"Faim",
-  hud_ammo:"Munitions",
-  feed_elim:"a éliminé",
-  respawn:"Réapparition",
-  team_a:"Équipe A",
-  team_b:"Équipe B",
-  ambiance_day:"Jour clair, ombres dures",
-  ambiance_dusk:"Crépuscule, contraste chaud",
-  ambiance_night:"Nuit, lampadaires et intérieurs"
-};
-
-console.log("%cWar Street prototype chargé","color:#38bdf8");
-console.log(DESIGN_NOTES.vision);
-// Expose pour debug éventuel
-window.__WAR_STREET__ = { CHARACTERS, WEAPONS, MODES, DESIGN_NOTES, LORE_TEXT, I18N_FR, UI_STRINGS };
+const BALANCE_TABLE=CHARS.map(c=>({name:c.name,role:c.role,hp:c.hp,speed:c.speed,acc:c.acc,weapon:c.weapon,hRate:c.hRate,bio:c.bio}));
+const WEAPON_TABLE=Object.entries(WEAPONS).map(([id,w])=>({id,...w}));
+const BUILDING_PLAN=[
+  {row:'left',count:6,purpose:'interiors + cover'},
+  {row:'right',count:6,purpose:'flank routes'},
+  {props:['crates','barrels','lamps'],purpose:'soft cover mood'}
+];
+const LORE=CHARS.map(c=>`${c.name} (${c.role}): ${c.bio}. Stats HP ${c.hp}, speed ${c.speed}, accuracy ${c.acc}, starter ${c.weapon}.`).join('\n');
+window.__WSXL__={ROADMAP,BALANCE_TABLE,WEAPON_TABLE,BUILDING_PLAN,LORE,CHARS,WEAPONS,MODES};
+console.log('War Street XL ready', ROADMAP.controls_done);
 </script>
 </body>
 </html>
