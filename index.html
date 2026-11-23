@@ -3,47 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Last District — Apocalypse Zombie</title>
+<title>Ma Vie — Simulation</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{overflow:hidden;background:#0a0a0a;font-family:system-ui,sans-serif;color:#e7e5e4}
-#menu{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,#1c1917,#0c0a09 60%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;gap:14px;padding:20px}
-#menu h1{font-size:2.4rem;color:#f97316;letter-spacing:-1px;text-shadow:0 0 40px #f9731644}
-#menu .tag{color:#a8a29e;max-width:420px;text-align:center;line-height:1.5;font-size:14px}
-.btn{padding:12px 28px;border:0;border-radius:10px;background:#f97316;color:#1c1917;font-weight:800;font-size:15px;cursor:pointer}
-.btn:disabled{opacity:0.5;cursor:not-allowed}
-#hud{position:absolute;top:0;left:0;right:0;padding:10px 14px;display:none;gap:12px;align-items:center;background:linear-gradient(#000c,#0000);z-index:10;pointer-events:none;font-size:12px;flex-wrap:wrap}
-.bar{width:100px;height:11px;background:#292524;border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle}
-.bar i{display:block;height:100%}
-#cross{position:absolute;top:50%;left:50%;width:14px;height:14px;border:2px solid #fafaf9cc;border-radius:50%;transform:translate(-50%,-50%);z-index:10;display:none;pointer-events:none}
-#cross.ads{width:26px;height:26px;border-color:#f97316}
-#msg{position:absolute;top:58px;left:50%;transform:translateX(-50%);background:#000d;padding:8px 14px;border-radius:8px;opacity:0;transition:.3s;z-index:12;font-size:13px;text-align:center;max-width:90%}
+body{overflow:hidden;background:#0f0f0f;font-family:system-ui,sans-serif;color:#f5f5f4}
+#menu{position:absolute;inset:0;background:linear-gradient(135deg,#1c1917,#292524);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:30;gap:16px;padding:20px}
+#menu h1{font-size:2.6rem;color:#f97316;letter-spacing:-1px}
+#menu p{color:#a8a29e;max-width:420px;text-align:center;line-height:1.5}
+.btn{padding:13px 32px;border:0;border-radius:12px;background:#f97316;color:#1c1917;font-weight:800;font-size:16px;cursor:pointer}
+#hud{position:absolute;top:0;left:0;right:0;padding:12px 16px;display:none;gap:14px;align-items:center;background:linear-gradient(#000a,#0000);z-index:10;pointer-events:none;font-size:13px;flex-wrap:wrap}
+.bar{width:90px;height:10px;background:#292524;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle}
+.bar i{display:block;height:100%;transition:width .3s}
+#panel{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:#1c1917ee;border:1px solid #44403c;border-radius:14px;padding:14px 18px;display:none;z-index:15;min-width:280px;max-width:90vw}
+#panel h3{color:#f97316;margin-bottom:8px;font-size:15px}
+#panel .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+#panel button{padding:8px 14px;border:0;border-radius:8px;background:#44403c;color:#e7e5e4;font-size:13px;cursor:pointer}
+#panel button:hover{background:#f97316;color:#1c1917}
+#panel button:disabled{opacity:.4;cursor:not-allowed}
+#msg{position:absolute;top:70px;left:50%;transform:translateX(-50%);background:#000c;padding:9px 16px;border-radius:10px;opacity:0;transition:.3s;z-index:20;font-size:14px;text-align:center;max-width:90%}
 #msg.show{opacity:1}
-#log{position:absolute;bottom:36px;left:10px;width:280px;font-size:11px;color:#a8a29e;z-index:10;display:none;pointer-events:none}
-#log div{margin-bottom:3px}
-#hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);color:#57534e;font-size:11px;z-index:10;display:none}
+#hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);color:#57534e;font-size:12px;z-index:10;display:none}
+#dayinfo{position:absolute;top:12px;right:16px;font-size:13px;color:#a8a29e;z-index:10;display:none}
 </style>
 </head>
 <body>
 <div id="menu">
-  <h1>LAST DISTRICT</h1>
-  <p class="tag">La ville est morte. Les rues appartiennent aux infectés. Fouille, gère ta faim, ne te fais pas encercler.</p>
-  <button class="btn" id="solo">Mode solo — Survivre</button>
-  <p id="status" style="font-size:12px;color:#a8a29e;min-height:18px"></p>
+  <h1>MA VIE</h1>
+  <p>Construis ta vie. Trouve un travail, achète une maison, fais-toi des amis, prends soin de toi et avance vers le bonheur.</p>
+  <button class="btn" id="start">Commencer ma vie</button>
+  <p id="status" style="font-size:13px;color:#78716c"></p>
 </div>
 
 <div id="hud">
-  <b style="color:#f97316">Survivant</b>
-  <span>❤️ <span class="bar"><i id="hp" style="width:100%;background:#dc2626"></i></span></span>
-  <span>🍖 <span class="bar"><i id="hg" style="width:100%;background:#ea580c"></i></span></span>
-  <span id="wpn">Pistolet 12</span>
-  <span id="zcount" style="color:#a8a29e">Zombies —</span>
-  <span style="margin-left:auto" id="day">Jour 1</span>
+  <span>💰 <b id="money">350</b>€</span>
+  <span>🍖 <span class="bar"><i id="hunger" style="width:80%;background:#ea580c"></i></span></span>
+  <span>⚡ <span class="bar"><i id="energy" style="width:90%;background:#3b82f6"></i></span></span>
+  <span>😊 <span class="bar"><i id="happy" style="width:70%;background:#22c55e"></i></span></span>
+  <span>👥 <span class="bar"><i id="social" style="width:40%;background:#a855f7"></i></span></span>
 </div>
-<div id="cross"></div>
+
+<div id="dayinfo">Jour 1 — 08:00</div>
 <div id="msg"></div>
-<div id="log"></div>
-<div id="hint">ZQSD / Flèches · Souris · Clic gauche = Tirer · Clic droit = Viser · E = Fouiller · Espace = Sauter</div>
+<div id="panel"></div>
+<div id="hint">ZQSD / Flèches pour bouger · Souris pour regarder · E pour interagir</div>
 
 <script type="importmap">
 {
@@ -58,321 +60,228 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 
-const WEAPONS = {
-  pistol:  { name:'Pistolet', dmg:24, rate:0.26, speed:58, spread:0.035, ammo:12, rare:false, model:'pistol' },
-  smg:     { name:'Mitraillette', dmg:13, rate:0.08, speed:52, spread:0.09, ammo:28, rare:true, model:'pistol' },
-  shotgun: { name:'Pompe', dmg:15, rate:0.65, speed:42, spread:0.20, ammo:6, pellets:6, rare:true, model:'shotgun' },
-  rifle:   { name:'Fusil', dmg:42, rate:0.50, speed:72, spread:0.018, ammo:8, rare:true, model:'rifle' },
-  melee:   { name:'Hache', dmg:38, rate:0.55, melee:true, range:2.5, rare:false, model:'axe' }
-};
-
-function toast(t) {
+function toast(t, time=2800){
   const m = document.getElementById('msg');
   m.textContent = t;
   m.classList.add('show');
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => m.classList.remove('show'), 2800);
+  toast._t = setTimeout(()=>m.classList.remove('show'), time);
 }
-function log(t) {
-  const el = document.getElementById('log');
-  const d = document.createElement('div');
-  d.textContent = t;
-  el.prepend(d);
-  while (el.children.length > 7) el.lastChild.remove();
-}
-function setStatus(t) { document.getElementById('status').textContent = t; }
+function setStatus(t){ document.getElementById('status').textContent = t; }
 
-// ===== Fonction importante : force les pieds au sol =====
-function groundModel(model) {
+function groundModel(model){
   model.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(model);
-  model.position.y -= box.min.y;   // baisse le modèle jusqu'à ce que le point le plus bas soit à y=0
+  model.position.y -= box.min.y;
 }
 
-function human(color, scale = 1) {
+function simpleHuman(color=0x3b82f6, scale=1){
   const g = new THREE.Group();
-  const skin = new THREE.MeshStandardMaterial({ color: 0xc4a574, roughness: 0.7 });
-  const cloth = new THREE.MeshStandardMaterial({ color, roughness: 0.85 });
-  const pants = new THREE.MeshStandardMaterial({ color: 0x292524, roughness: 0.9 });
-  [-0.13, 0.13].forEach(x => {
-    const l = new THREE.Mesh(new THREE.CapsuleGeometry(0.1*scale, 0.5*scale, 4, 6), pants);
-    l.position.set(x*scale, 0.4*scale, 0); l.castShadow = true; g.add(l);
+  const skin = new THREE.MeshStandardMaterial({color:0xc4a574, roughness:0.7});
+  const cloth = new THREE.MeshStandardMaterial({color, roughness:0.85});
+  const pants = new THREE.MeshStandardMaterial({color:0x1e293b, roughness:0.9});
+  [-0.12,0.12].forEach(x=>{
+    const l = new THREE.Mesh(new THREE.CapsuleGeometry(0.09*scale,0.45*scale,4,6), pants);
+    l.position.set(x*scale,0.38*scale,0); l.castShadow=true; g.add(l);
   });
-  const t = new THREE.Mesh(new THREE.CapsuleGeometry(0.26*scale, 0.5*scale, 4, 8), cloth);
-  t.position.y = 1.1*scale; t.castShadow = true; g.add(t);
-  const h = new THREE.Mesh(new THREE.SphereGeometry(0.22*scale, 8, 8), skin);
-  h.position.y = 1.72*scale; h.castShadow = true; g.add(h);
-  [-1, 1].forEach(s => {
-    const a = new THREE.Mesh(new THREE.CapsuleGeometry(0.08*scale, 0.4*scale, 4, 6), cloth);
-    a.position.set(s*0.36*scale, 1.15*scale, 0); a.castShadow = true; g.add(a);
-  });
+  const t = new THREE.Mesh(new THREE.CapsuleGeometry(0.24*scale,0.48*scale,4,8), cloth);
+  t.position.y = 1.05*scale; t.castShadow=true; g.add(t);
+  const h = new THREE.Mesh(new THREE.SphereGeometry(0.2*scale,8,8), skin);
+  h.position.y = 1.65*scale; h.castShadow=true; g.add(h);
   return g;
 }
 
 const loader = new GLTFLoader();
 const models = {};
 
-async function loadModel(path, key) {
-  try {
+async function loadModel(path, key){
+  try{
     models[key] = await loader.loadAsync(path);
     return true;
-  } catch (e) {
-    console.warn('Échec', key, e.message);
+  }catch(e){
+    console.warn(key, e.message);
     models[key] = null;
     return false;
   }
 }
 
-async function loadAllModels() {
-  setStatus('Chargement des modèles…');
+async function loadAll(){
+  setStatus('Chargement des personnages…');
   await Promise.all([
     loadModel('./Characters_Matt.gltf', 'player'),
-    loadModel('./Zombie_Chubby%20(1).gltf', 'chubby'),
-    loadModel('./Zombie_Ribcage%20(1).gltf', 'ribcage'),
-    loadModel('./Pistol.gltf', 'pistol'),
-    loadModel('./Rifle.gltf', 'rifle'),
-    loadModel('./Shotgun.gltf', 'shotgun'),
-    loadModel('./Axe.gltf', 'axe'),
-    loadModel('./Street_Straight.gltf', 'streetStraight'),
-    loadModel('./Street_4Way.gltf', 'street4Way'),
-    loadModel('./Street_Straight_Crack1.gltf', 'streetCrack'),
-    loadModel('./StreetLights.gltf', 'streetLight'),
-    loadModel('./TrafficBarrier_1.gltf', 'barrier'),
-    loadModel('./Container_Red.gltf', 'container')
+    loadModel('./Street_Straight.gltf', 'street'),
+    loadModel('./Street_4Way.gltf', 'cross'),
+    loadModel('./StreetLights.gltf', 'lamp')
   ]);
 }
 
-function createPlayer() {
-  if (models.player) {
+function createPlayer(){
+  if(models.player){
     const clone = SkeletonUtils.clone(models.player.scene);
-    clone.scale.setScalar(1.0);
-    clone.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; }});
-    groundModel(clone); // ← pieds au sol
-
+    clone.scale.setScalar(1);
+    clone.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; }});
+    groundModel(clone);
     const mixer = new THREE.AnimationMixer(clone);
     const actions = {};
-    if (models.player.animations?.length) {
-      models.player.animations.forEach(clip => {
+    if(models.player.animations?.length){
+      models.player.animations.forEach(clip=>{
         const n = clip.name.toLowerCase();
         const a = mixer.clipAction(clip);
-        if (/walk|run|course|marche/.test(n)) actions.walk = a;
-        else if (/idle|stand|wait/.test(n)) actions.idle = a;
-        else if (/aim|shoot|gun|punch|fire|tir/.test(n)) actions.aim = a;
+        if(/walk|run|course|marche/.test(n)) actions.walk = a;
+        else if(/idle|stand|wait/.test(n)) actions.idle = a;
       });
-      if (actions.idle) { actions.idle.setLoop(THREE.LoopRepeat); actions.idle.play(); }
-      if (actions.walk) actions.walk.setLoop(THREE.LoopRepeat);
-      if (actions.aim) actions.aim.setLoop(THREE.LoopRepeat);
+      if(actions.idle){ actions.idle.setLoop(THREE.LoopRepeat); actions.idle.play(); }
+      if(actions.walk) actions.walk.setLoop(THREE.LoopRepeat);
     }
-    return { mesh: clone, mixer, actions, weaponMesh: null, handBone: null };
+    return { mesh: clone, mixer, actions };
   }
-  return { mesh: human(0x44403c), mixer: null, actions: {}, weaponMesh: null, handBone: null };
+  return { mesh: simpleHuman(0xf97316), mixer:null, actions:{} };
 }
 
-function findHandBone(root) {
-  let found = null;
-  root.traverse(o => {
-    if (found) return;
-    const n = (o.name || '').toLowerCase();
-    if (n.includes('righthand') || n.includes('hand_r') || n.includes('right_hand') || n.includes('mixamorig:righthand')) found = o;
-  });
-  return found;
-}
-
-function attachWeaponToHand(p, weaponKey) {
-  if (p.weaponMesh) {
-    p.weaponMesh.parent?.remove(p.weaponMesh);
-    p.weaponMesh = null;
-  }
-  const key = WEAPONS[weaponKey]?.model;
-  if (!key || !models[key]) return;
-  const wpn = SkeletonUtils.clone(models[key].scene);
-  wpn.scale.setScalar(0.85);
-  wpn.traverse(o => { if (o.isMesh) o.castShadow = true; });
-  wpn.rotation.set(Math.PI/2, 0, -Math.PI/2);
-  if (!p.handBone) p.handBone = findHandBone(p.mesh);
-  if (p.handBone) p.handBone.add(wpn);
-  else {
-    wpn.position.set(0.32, 1.15, 0.22);
-    p.mesh.add(wpn);
-  }
-  p.weaponMesh = wpn;
-}
-
-function createZombie() {
-  if (models.chubby || models.ribcage) {
-    const src = (Math.random() < 0.5 && models.chubby) ? models.chubby : (models.ribcage || models.chubby);
-    const clone = SkeletonUtils.clone(src.scene);
-    clone.scale.setScalar(1.0);
-    clone.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; }});
-    groundModel(clone); // ← pieds au sol
-
-    const mixer = new THREE.AnimationMixer(clone);
-    if (src.animations?.length) {
-      const a = mixer.clipAction(src.animations[0]);
-      a.setLoop(THREE.LoopRepeat);
-      a.play();
-    }
-    return { mesh: clone, mixer };
-  }
-  return { mesh: human(0x3f5a3a, 1.02), mixer: null };
-}
-
-document.getElementById('solo').onclick = async () => {
-  document.getElementById('solo').disabled = true;
-  setStatus('Chargement…');
-  await loadAllModels();
-  setStatus('OK');
-  await new Promise(r => setTimeout(r, 250));
+// ========== JEU ==========
+document.getElementById('start').onclick = async ()=>{
+  document.getElementById('start').disabled = true;
+  await loadAll();
   startGame();
 };
 
-function startGame() {
+function startGame(){
   document.getElementById('menu').style.display = 'none';
   document.getElementById('hud').style.display = 'flex';
-  document.getElementById('cross').style.display = 'block';
   document.getElementById('hint').style.display = 'block';
-  document.getElementById('log').style.display = 'block';
+  document.getElementById('dayinfo').style.display = 'block';
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x3d3834);
-  scene.fog = new THREE.FogExp2(0x3d3834, 0.011);
+  scene.background = new THREE.Color(0x87a0b8);
+  scene.fog = new THREE.FogExp2(0x87a0b8, 0.012);
 
-  const camera = new THREE.PerspectiveCamera(65, innerWidth/innerHeight, 0.1, 220);
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 200);
+  const renderer = new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
 
   // Lumières
-  scene.add(new THREE.AmbientLight(0xffffff, 1.25));
-  scene.add(new THREE.HemisphereLight(0xddeeff, 0x444444, 0.95));
-  const sun = new THREE.DirectionalLight(0xfff0d8, 1.05);
-  sun.position.set(35, 55, 20);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+  scene.add(new THREE.HemisphereLight(0xddeeff, 0x445566, 0.7));
+  const sun = new THREE.DirectionalLight(0xfff5e0, 1.0);
+  sun.position.set(30,50,20);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024);
   scene.add(sun);
 
   // Sol
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(220, 220),
-    new THREE.MeshStandardMaterial({ color: 0x2e2a26, roughness: 0.95 })
+    new THREE.PlaneGeometry(180,180),
+    new THREE.MeshStandardMaterial({color:0x4a7c3f, roughness:0.9})
   );
   ground.rotation.x = -Math.PI/2;
   ground.receiveShadow = true;
   scene.add(ground);
 
-  // ===== ROUTES =====
-  const TILE = 11;
-  function placeStreet(key, x, z, rot = 0) {
-    if (!models[key]) return;
+  // Routes
+  const TILE = 12;
+  function placeStreet(key, x, z, rot=0){
+    if(!models[key]) return;
     const c = SkeletonUtils.clone(models[key].scene);
     c.scale.setScalar(1.1);
     c.position.set(x, 0.02, z);
     c.rotation.y = rot;
-    c.traverse(o => { if (o.isMesh) o.receiveShadow = true; });
+    c.traverse(o=>{ if(o.isMesh) o.receiveShadow=true; });
     scene.add(c);
   }
-
-  placeStreet('street4Way', 0, 0);
-  for (let i = 1; i <= 5; i++) {
-    placeStreet('streetStraight', 0, i * TILE);
-    placeStreet('streetStraight', 0, -i * TILE);
-    placeStreet('streetStraight', i * TILE, 0, Math.PI/2);
-    placeStreet('streetStraight', -i * TILE, 0, Math.PI/2);
+  placeStreet('cross', 0, 0);
+  for(let i=1;i<=4;i++){
+    placeStreet('street', 0, i*TILE);
+    placeStreet('street', 0, -i*TILE);
+    placeStreet('street', i*TILE, 0, Math.PI/2);
+    placeStreet('street', -i*TILE, 0, Math.PI/2);
   }
-  // routes secondaires
-  [[2,2],[2,-2],[-2,2],[-2,-2],[3,1],[-3,1],[3,-1],[-3,-1],[1,3],[1,-3],[-1,3],[-1,-3]].forEach(([ix,iz]) => {
-    placeStreet(Math.random() < 0.35 ? 'streetCrack' : 'streetStraight', ix*TILE, iz*TILE, Math.random()<0.5 ? 0 : Math.PI/2);
-  });
 
-  // Réverbères
-  for (let i = 0; i < 14; i++) {
-    if (!models.streetLight) break;
-    const c = SkeletonUtils.clone(models.streetLight.scene);
-    const x = (Math.random()-0.5)*100;
-    const z = (Math.random()-0.5)*100;
-    c.position.set(x, 0, z);
+  // Lampadaires
+  for(let i=0;i<10;i++){
+    if(!models.lamp) break;
+    const c = SkeletonUtils.clone(models.lamp.scene);
+    const x = (Math.random()-0.5)*80;
+    const z = (Math.random()-0.5)*80;
+    c.position.set(x,0,z);
     scene.add(c);
-    const light = new THREE.PointLight(0xffcc66, 1.9, 12);
-    light.position.set(x, 5.1, z);
-    scene.add(light);
-  }
-
-  // ===== COLLISIONS + PROPS =====
-  const collisionBoxes = [];
-
-  function addProp(key, x, z, rot = 0, sc = 1) {
-    if (!models[key]) return;
-    const c = SkeletonUtils.clone(models[key].scene);
-    c.scale.setScalar(sc);
-    c.position.set(x, 0, z);
-    c.rotation.y = rot;
-    c.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; }});
-    scene.add(c);
-    const box = new THREE.Box3().setFromObject(c);
-    box.expandByScalar(0.12);
-    collisionBoxes.push(box);
-  }
-
-  for (let i = 0; i < 11; i++) {
-    const a = Math.random() * Math.PI * 2;
-    const d = 32 + Math.random() * 55;
-    addProp('barrier', Math.cos(a)*d, Math.sin(a)*d, Math.random()*Math.PI);
-  }
-  for (let i = 0; i < 7; i++) {
-    const a = Math.random() * Math.PI * 2;
-    const d = 38 + Math.random() * 50;
-    addProp('container', Math.cos(a)*d, Math.sin(a)*d, Math.random()*Math.PI, 1.05);
   }
 
   // ===== BÂTIMENTS =====
-  function createBuilding(x, z, w, d, h) {
+  const interactables = []; // {mesh, type, data, label}
+
+  function makeBuilding(x, z, w, d, h, color, label, type, data={}){
     const g = new THREE.Group();
-    const mat = new THREE.MeshStandardMaterial({ color: 0x5a534c, roughness: 0.88 });
-    const body = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+    const mat = new THREE.MeshStandardMaterial({color, roughness:0.85});
+    const body = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat);
     body.position.y = h/2;
     body.castShadow = true; body.receiveShadow = true;
     g.add(body);
 
     // porte
-    const door = new THREE.Mesh(new THREE.PlaneGeometry(1.55, 2.15), new THREE.MeshStandardMaterial({ color: 0x1c1714 }));
-    door.position.set(0, 1.08, d/2 + 0.02);
+    const door = new THREE.Mesh(new THREE.PlaneGeometry(1.4,2.1), new THREE.MeshStandardMaterial({color:0x1e1b18}));
+    door.position.set(0,1.05,d/2+0.01);
     g.add(door);
 
-    // fenêtres simples
-    const winMat = new THREE.MeshStandardMaterial({ color: 0x1a2530, roughness: 0.3 });
-    for (let side of [-1, 1]) {
-      for (let wy = 2.6; wy < h-1.2; wy += 2.4) {
-        const win = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.15), winMat);
-        win.position.set(side * (w/2 + 0.02), wy, 0);
-        win.rotation.y = side > 0 ? -Math.PI/2 : Math.PI/2;
-        g.add(win);
-      }
-    }
+    // toit
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(w+0.3,0.3,d+0.3), new THREE.MeshStandardMaterial({color:0x3f2e28}));
+    roof.position.y = h+0.15;
+    g.add(roof);
 
-    g.position.set(x, 0, z);
+    g.position.set(x,0,z);
     scene.add(g);
 
-    const box = new THREE.Box3().setFromCenterAndSize(
-      new THREE.Vector3(x, h/2, z),
-      new THREE.Vector3(w * 0.9, h, d * 0.9)
-    );
-    collisionBoxes.push(box);
-    return { x, z, w, d, looted: false };
+    interactables.push({
+      pos: new THREE.Vector3(x,0,z),
+      radius: Math.max(w,d)*0.6,
+      type, data, label, mesh: g
+    });
+    return g;
   }
 
-  const buildings = [];
-  const spots = [
-    [20, 20], [20, -20], [-20, 20], [-20, -20],
-    [30, 10], [30, -10], [-30, 10], [-30, -10],
-    [10, 30], [-10, 30], [10, -30], [-10, -30],
-    [40, 0], [-40, 0], [0, 40], [0, -40],
-    [25, 35], [-25, 35], [25, -35], [-25, -35]
-  ];
-  spots.forEach(([x, z]) => {
-    buildings.push(createBuilding(x, z, 7.5 + Math.random()*3.5, 7 + Math.random()*3, 6 + Math.random()*7));
-  });
+  // Maison à vendre
+  makeBuilding(18, 14, 9, 8, 6, 0xc4a574, 'Maison à vendre — 1200€', 'house', {price:1200, owned:false});
+  makeBuilding(-20, 16, 8, 7, 5.5, 0xa8a29e, 'Petit appartement — 800€', 'house', {price:800, owned:false});
+  makeBuilding(22, -18, 10, 9, 7, 0xd6d3d1, 'Belle maison — 2000€', 'house', {price:2000, owned:false});
+
+  // Travail
+  makeBuilding(-16, -18, 11, 9, 8, 0x3b82f6, 'Bureau — Travailler ici', 'job', {pay:85, energyCost:25, name:'Employé de bureau'});
+  makeBuilding(0, 28, 10, 8, 6, 0x16a34a, 'Café — Serveur', 'job', {pay:55, energyCost:20, name:'Serveur'});
+
+  // Loisirs / lieux
+  makeBuilding(28, 5, 7, 6, 4, 0x7c3aed, 'Parc & Bancs — Se détendre', 'leisure', {happy:18, energy:8});
+  makeBuilding(-28, 5, 8, 7, 5, 0xdc2626, 'Salle de sport', 'leisure', {happy:12, energy:-15, strength:true});
+
+  // Magasin nourriture
+  makeBuilding(8, -26, 7, 6, 4.5, 0xea580c, 'Épicerie — Acheter à manger', 'shop', {});
+
+  // ===== PNJ (amis potentiels) =====
+  const npcs = [];
+  const npcNames = ['Léa', 'Thomas', 'Sarah', 'Karim', 'Emma', 'Noah'];
+  const npcColors = [0xec4899, 0x3b82f6, 0x14b8a6, 0xf59e0b, 0x8b5cf6, 0xef4444];
+
+  for(let i=0;i<6;i++){
+    const mesh = simpleHuman(npcColors[i], 0.95);
+    const a = Math.random()*Math.PI*2;
+    const d = 15 + Math.random()*25;
+    mesh.position.set(Math.cos(a)*d, 0, Math.sin(a)*d);
+    scene.add(mesh);
+    npcs.push({
+      mesh,
+      name: npcNames[i],
+      friendship: 0,
+      dir: new THREE.Vector3(Math.random()-0.5,0,Math.random()-0.5).normalize(),
+      timer: 2+Math.random()*4
+    });
+    interactables.push({
+      pos: mesh.position,
+      radius: 2.2,
+      type: 'npc',
+      data: npcs[i],
+      label: npcNames[i]
+    });
+  }
 
   // ===== JOUEUR =====
   const pd = createPlayer();
@@ -380,399 +289,299 @@ function startGame() {
     mesh: pd.mesh,
     mixer: pd.mixer,
     actions: pd.actions,
-    weaponMesh: null,
-    handBone: pd.handBone,
-    hp: 100, maxHp: 100, hunger: 100,
-    weapon: 'pistol', ammo: 12, reserve: 24,
-    lastShot: 0, kills: 0, velY: 0, onGround: true,
-    speed: 7.2,          // ← un peu plus lent
-    isMoving: false
+    money: 350,
+    hunger: 80,
+    energy: 90,
+    happy: 70,
+    social: 30,
+    hasHouse: false,
+    housePos: null,
+    job: null,
+    day: 1,
+    hour: 8,
+    friends: 0,
+    partner: null
   };
-  player.mesh.position.set(0, 0, 3);
+  player.mesh.position.set(0,0,6);
   scene.add(player.mesh);
-  attachWeaponToHand(player, 'pistol');
 
-  // ===== ZOMBIES =====
-  const zombies = [];
-  function spawnZ(n = 1) {
-    for (let i = 0; i < n; i++) {
-      const { mesh, mixer } = createZombie();
-      const z = {
-        mesh, mixer,
-        hp: 48 + Math.random()*32,
-        speed: 1.55 + Math.random()*1.1,
-        dir: new THREE.Vector3(),
-        timer: 0,
-        aggro: false
-      };
-      const a = Math.random() * Math.PI * 2;
-      const d = 26 + Math.random() * 38;
-      z.mesh.position.set(Math.cos(a)*d, 0, Math.sin(a)*d);
-      scene.add(z.mesh);
-      zombies.push(z);
-    }
-  }
-  spawnZ(16);
+  // ===== ÉTAT UI =====
+  let currentInteract = null;
+  const panel = document.getElementById('panel');
 
-  // ===== LOOT =====
-  const loot = [];
-  function addLoot(type, extra = {}, pos = null) {
-    let mesh;
-    if (type === 'weapon') {
-      const group = new THREE.Group();
-      const key = WEAPONS[extra.weapon]?.model;
-      if (key && models[key]) {
-        const m = SkeletonUtils.clone(models[key].scene);
-        m.scale.setScalar(0.9);
-        m.rotation.x = -Math.PI/2;
-        group.add(m);
-      } else {
-        group.add(new THREE.Mesh(new THREE.BoxGeometry(0.5,0.12,0.9), new THREE.MeshStandardMaterial({color:0xf97316})));
-      }
-      const light = new THREE.PointLight(0xf97316, 1.4, 4.5);
-      light.position.y = 0.35;
-      group.add(light);
-      mesh = group;
-      mesh.userData.rotate = true;
-    } else if (type === 'ammo') {
-      mesh = new THREE.Mesh(new THREE.BoxGeometry(0.3,0.2,0.4), new THREE.MeshStandardMaterial({color:0xeab308}));
-      mesh.position.y = 0.12;
-    } else if (type === 'food') {
-      mesh = new THREE.Mesh(new THREE.SphereGeometry(0.25,8,8), new THREE.MeshStandardMaterial({color:0x65a30d}));
-      mesh.position.y = 0.25;
-    } else {
-      mesh = new THREE.Mesh(new THREE.SphereGeometry(0.22,8,8), new THREE.MeshStandardMaterial({color:0x22c55e}));
-      mesh.position.y = 0.22;
-    }
-    if (pos) { mesh.position.x = pos.x; mesh.position.z = pos.z; }
-    else { mesh.position.x = (Math.random()-0.5)*95; mesh.position.z = (Math.random()-0.5)*95; }
-    scene.add(mesh);
-    loot.push({ type, mesh, taken: false, ...extra });
+  function updateHUD(){
+    document.getElementById('money').textContent = Math.floor(player.money);
+    document.getElementById('hunger').style.width = Math.max(0,player.hunger)+'%';
+    document.getElementById('energy').style.width = Math.max(0,player.energy)+'%';
+    document.getElementById('happy').style.width = Math.max(0,player.happy)+'%';
+    document.getElementById('social').style.width = Math.max(0,player.social)+'%';
+    document.getElementById('dayinfo').textContent = `Jour ${player.day} — ${String(Math.floor(player.hour)).padStart(2,'0')}:00`;
   }
 
-  addLoot('weapon', {weapon:'smg'});
-  addLoot('weapon', {weapon:'shotgun'});
-  addLoot('weapon', {weapon:'rifle'});
-  addLoot('weapon', {weapon:'melee'});
-  for (let i=0;i<9;i++) addLoot('ammo');
-  for (let i=0;i<7;i++) addLoot('food');
-  for (let i=0;i<5;i++) addLoot('med');
-
-  // ===== CONTRÔLES =====
-  const keys = {};
-  let mouseDown = false;
-  let ads = false;
-  let yaw = 0;
-  let pitch = 0.12;
-
-  window.addEventListener('keydown', e => keys[e.code] = true);
-  window.addEventListener('keyup', e => keys[e.code] = false);
-
-  renderer.domElement.addEventListener('mousedown', e => {
-    if (e.button === 0) mouseDown = true;
-    if (e.button === 2) {
-      ads = true;
-      document.getElementById('cross').classList.add('ads');
-    }
-    renderer.domElement.requestPointerLock();
-  });
-
-  window.addEventListener('mouseup', e => {
-    if (e.button === 0) mouseDown = false;
-    if (e.button === 2) {
-      ads = false;
-      document.getElementById('cross').classList.remove('ads');
-    }
-  });
-
-  window.addEventListener('contextmenu', e => e.preventDefault());
-  window.addEventListener('mousemove', e => {
-    if (document.pointerLockElement === renderer.domElement) {
-      yaw -= e.movementX * 0.0023;
-      pitch = Math.max(-0.55, Math.min(0.6, pitch - e.movementY * 0.002));
-    }
-  });
-
-  function collides(pos, r = 0.42) {
-    const test = new THREE.Box3(
-      new THREE.Vector3(pos.x - r, 0.15, pos.z - r),
-      new THREE.Vector3(pos.x + r, 1.6, pos.z + r)
-    );
-    for (const b of collisionBoxes) {
-      if (test.intersectsBox(b)) return true;
-    }
-    return false;
-  }
-
-  function setAnim(name) {
-    if (!player.mixer || !player.actions) return;
-    const target = player.actions[name];
-    if (!target) return;
-    Object.values(player.actions).forEach(a => {
-      if (a !== target && a.isRunning()) a.fadeOut(0.18);
+  function showPanel(title, buttons){
+    panel.innerHTML = `<h3>${title}</h3><div class="actions"></div>`;
+    const act = panel.querySelector('.actions');
+    buttons.forEach(b=>{
+      const btn = document.createElement('button');
+      btn.textContent = b.label;
+      if(b.disabled) btn.disabled = true;
+      btn.onclick = ()=>{ b.action(); hidePanel(); };
+      act.appendChild(btn);
     });
-    if (!target.isRunning()) target.reset().fadeIn(0.18).play();
+    panel.style.display = 'block';
   }
+  function hidePanel(){ panel.style.display = 'none'; currentInteract = null; }
 
-  function shoot() {
-    const w = WEAPONS[player.weapon];
-    const now = performance.now() / 1000;
-    if (now - player.lastShot < w.rate) return;
+  function interact(){
+    // Trouver le plus proche
+    let best = null, bestDist = 3.2;
+    interactables.forEach(it=>{
+      // mettre à jour position des PNJ
+      if(it.type==='npc') it.pos = it.data.mesh.position;
+      const d = player.mesh.position.distanceTo(it.pos);
+      if(d < it.radius && d < bestDist){
+        bestDist = d;
+        best = it;
+      }
+    });
 
-    if (w.melee) {
-      player.lastShot = now;
-      zombies.forEach(z => {
-        if (z.hp <= 0) return;
-        if (z.mesh.position.distanceTo(player.mesh.position) < w.range) {
-          z.hp -= w.dmg;
-          if (z.hp <= 0) { player.kills++; log('Infecté abattu'); }
-        }
-      });
+    if(!best){
+      // actions générales
+      showPanel('Actions', [
+        {label:'Manger (15€)', action:()=>{
+          if(player.money<15){ toast('Pas assez d\'argent'); return; }
+          player.money-=15; player.hunger=Math.min(100,player.hunger+45);
+          player.hour+=0.5; toast('Tu as mangé');
+        }},
+        {label:'Se reposer un peu', action:()=>{
+          player.energy=Math.min(100,player.energy+20);
+          player.hour+=1; toast('Petite sieste');
+        }},
+        {label: player.hasHouse ? 'Rentrer chez soi dormir' : 'Dormir dehors (mauvais)', action:()=>{
+          if(player.hasHouse){
+            player.energy=100; player.hunger=Math.max(20,player.hunger-10);
+            player.hour=7; player.day++;
+            toast('Bonne nuit chez toi');
+          } else {
+            player.energy=Math.min(100,player.energy+40);
+            player.happy=Math.max(0,player.happy-15);
+            player.hour=8; player.day++;
+            toast('Tu as dormi dehors… pas top');
+          }
+        }}
+      ]);
       return;
     }
 
-    if (player.ammo <= 0) {
-      toast('Plus de munitions !');
-      return;
+    currentInteract = best;
+
+    if(best.type==='house'){
+      if(best.data.owned){
+        showPanel('Ta maison', [
+          {label:'Dormir', action:()=>{
+            player.energy=100; player.hunger=Math.max(15,player.hunger-8);
+            player.hour=7; player.day++;
+            toast('Tu as bien dormi');
+          }},
+          {label:'Se détendre chez soi', action:()=>{
+            player.happy=Math.min(100,player.happy+15);
+            player.energy=Math.min(100,player.energy+10);
+            player.hour+=1.5; toast('+ bonheur');
+          }}
+        ]);
+      } else {
+        showPanel(best.label, [
+          {label:`Acheter (${best.data.price}€)`, disabled: player.money < best.data.price, action:()=>{
+            player.money -= best.data.price;
+            best.data.owned = true;
+            player.hasHouse = true;
+            player.housePos = best.pos.clone();
+            best.label = 'Ta maison';
+            toast('Félicitations ! Tu as acheté une maison 🏠');
+            player.happy = Math.min(100, player.happy+25);
+          }},
+          {label:'Plus tard', action:()=>{}}
+        ]);
+      }
     }
-
-    player.lastShot = now;
-    player.ammo--;
-
-    const dir = new THREE.Vector3(
-      -Math.sin(yaw) * Math.cos(pitch),
-      Math.sin(pitch),
-      -Math.cos(yaw) * Math.cos(pitch)
-    ).normalize();
-
-    const origin = player.mesh.position.clone().add(new THREE.Vector3(0, 1.35, 0));
-    const count = w.pellets || 1;
-    const spreadMul = ads ? 0.2 : 1.0;
-
-    for (let i = 0; i < count; i++) {
-      const d = dir.clone();
-      d.x += (Math.random() - 0.5) * w.spread * spreadMul;
-      d.y += (Math.random() - 0.5) * w.spread * spreadMul;
-      d.z += (Math.random() - 0.5) * w.spread * spreadMul;
-      d.normalize();
-
-      const ball = new THREE.Mesh(
-        new THREE.SphereGeometry(0.055, 5, 5),
-        new THREE.MeshBasicMaterial({ color: 0xfbbf24 })
-      );
-      ball.position.copy(origin);
-      scene.add(ball);
-      bullets.push({ mesh: ball, dir: d, speed: w.speed, dmg: w.dmg, life: 1.55 });
+    else if(best.type==='job'){
+      showPanel(best.label, [
+        {label:`Travailler (+${best.data.pay}€)`, action:()=>{
+          if(player.energy < best.data.energyCost){ toast('Trop fatigué'); return; }
+          player.energy -= best.data.energyCost;
+          player.money += best.data.pay;
+          player.hour += 4;
+          player.job = best.data.name;
+          player.happy = Math.max(0, player.happy-5);
+          toast(`Tu as travaillé comme ${best.data.name}`);
+        }}
+      ]);
+    }
+    else if(best.type==='leisure'){
+      showPanel(best.label, [
+        {label:'Profiter', action:()=>{
+          player.happy = Math.min(100, player.happy + best.data.happy);
+          player.energy = Math.max(0, Math.min(100, player.energy + (best.data.energy||0)));
+          player.hour += 1.5;
+          toast('Moment agréable');
+        }}
+      ]);
+    }
+    else if(best.type==='shop'){
+      showPanel('Épicerie', [
+        {label:'Repas correct (12€)', action:()=>{
+          if(player.money<12){ toast('Pas assez d\'argent'); return; }
+          player.money-=12; player.hunger=Math.min(100,player.hunger+40); player.hour+=0.3;
+          toast('Bon repas');
+        }},
+        {label:'En-cas (6€)', action:()=>{
+          if(player.money<6){ toast('Pas assez d\'argent'); return; }
+          player.money-=6; player.hunger=Math.min(100,player.hunger+18); player.hour+=0.2;
+        }}
+      ]);
+    }
+    else if(best.type==='npc'){
+      const npc = best.data;
+      const btns = [
+        {label:`Parler avec ${npc.name}`, action:()=>{
+          npc.friendship = Math.min(100, npc.friendship+12);
+          player.social = Math.min(100, player.social+10);
+          player.happy = Math.min(100, player.happy+6);
+          player.hour += 0.8;
+          if(npc.friendship>=30 && npc.friendship<42) toast(`${npc.name} commence à bien t'apprécier`);
+          if(npc.friendship>=60) toast(`Vous êtes devenus amis avec ${npc.name} !`);
+          updateFriends();
+        }}
+      ];
+      if(npc.friendship >= 55 && !player.partner){
+        btns.push({label:`Proposer de sortir avec ${npc.name}`, action:()=>{
+          if(player.social<40){ toast('Tu n\'es pas assez sociable'); return; }
+          player.partner = npc.name;
+          player.happy = Math.min(100, player.happy+30);
+          toast(`Tu sors maintenant avec ${npc.name} ❤️`);
+        }});
+      }
+      if(player.partner === npc.name){
+        btns.push({label:'Passer du temps ensemble', action:()=>{
+          player.happy=Math.min(100,player.happy+14);
+          player.social=Math.min(100,player.social+8);
+          player.hour+=1.5;
+          toast(`Bel moment avec ${npc.name}`);
+        }});
+      }
+      showPanel(npc.name + (npc.friendship>50?' (ami)':''), btns);
     }
   }
 
-  const bullets = [];
+  function updateFriends(){
+    player.friends = npcs.filter(n=>n.friendship>=50).length;
+  }
+
+  // Contrôles
+  const keys = {};
+  let yaw=0, pitch=0.15;
+  window.addEventListener('keydown', e=>{
+    keys[e.code]=true;
+    if(e.code==='KeyE') interact();
+  });
+  window.addEventListener('keyup', e=> keys[e.code]=false);
+
+  renderer.domElement.addEventListener('mousedown', ()=> renderer.domElement.requestPointerLock());
+  window.addEventListener('mousemove', e=>{
+    if(document.pointerLockElement===renderer.domElement){
+      yaw -= e.movementX*0.0022;
+      pitch = Math.max(-0.5, Math.min(0.55, pitch - e.movementY*0.002));
+    }
+  });
+
   let last = performance.now();
-  let spawnTimer = 26;
-  let dayTime = 0;
 
-  function hud() {
-    document.getElementById('hp').style.width = Math.max(0, player.hp / player.maxHp * 100) + '%';
-    document.getElementById('hg').style.width = Math.max(0, player.hunger) + '%';
-    const w = WEAPONS[player.weapon];
-    document.getElementById('wpn').textContent = w.name + (w.melee ? '' : ` ${player.ammo}/${player.reserve}`);
-    document.getElementById('zcount').textContent = 'Zombies ' + zombies.filter(z => z.hp > 0).length;
-    document.getElementById('day').textContent = 'Jour ' + Math.floor(dayTime / 130 + 1);
-  }
-
-  function loop(now) {
-    const dt = Math.min(0.05, (now - last) / 1000);
+  function loop(now){
+    const dt = Math.min(0.05, (now-last)/1000);
     last = now;
-    dayTime += dt;
+
+    // Temps qui passe doucement
+    player.hour += dt * 0.15; // ~1h toutes les 7 secondes
+    if(player.hour >= 24){
+      player.hour -= 24;
+      player.day++;
+      // dégradations journalières
+      player.hunger = Math.max(0, player.hunger-8);
+      player.energy = Math.max(0, player.energy-5);
+      if(player.hunger<20) player.happy = Math.max(0,player.happy-4);
+      if(player.energy<20) player.happy = Math.max(0,player.happy-3);
+    }
 
     // Mouvement
-    const forward = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
-    const right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
+    const forward = new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
+    const right = new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
     let mv = new THREE.Vector3();
-    if (keys['KeyW'] || keys['KeyZ'] || keys['ArrowUp']) mv.add(forward);
-    if (keys['KeyS'] || keys['ArrowDown']) mv.sub(forward);
-    if (keys['KeyA'] || keys['KeyQ'] || keys['ArrowLeft']) mv.sub(right);
-    if (keys['KeyD'] || keys['ArrowRight']) mv.add(right);
+    if(keys['KeyW']||keys['KeyZ']||keys['ArrowUp']) mv.add(forward);
+    if(keys['KeyS']||keys['ArrowDown']) mv.sub(forward);
+    if(keys['KeyA']||keys['KeyQ']||keys['ArrowLeft']) mv.sub(right);
+    if(keys['KeyD']||keys['ArrowRight']) mv.add(right);
 
-    player.isMoving = mv.lengthSq() > 0;
-
-    if (player.isMoving) {
-      mv.normalize().multiplyScalar(player.speed * (ads ? 0.52 : 1) * dt);
-      const old = player.mesh.position.clone();
+    const moving = mv.lengthSq()>0;
+    if(moving){
+      mv.normalize().multiplyScalar(6.5*dt);
       player.mesh.position.add(mv);
-      if (collides(player.mesh.position)) player.mesh.position.copy(old);
+      player.mesh.position.x = Math.max(-70,Math.min(70,player.mesh.position.x));
+      player.mesh.position.z = Math.max(-70,Math.min(70,player.mesh.position.z));
     }
-
-    // Animations
-    if (player.mixer) {
-      player.mixer.update(dt);
-      if ((ads || mouseDown) && player.actions.aim) setAnim('aim');
-      else if (player.isMoving && player.actions.walk) setAnim('walk');
-      else if (player.actions.idle) setAnim('idle');
-    }
-
     player.mesh.rotation.y = yaw + Math.PI;
 
-    // Saut
-    if (keys['Space'] && player.onGround) {
-      player.velY = 6.3;
-      player.onGround = false;
-    }
-    player.velY -= 22 * dt;
-    player.mesh.position.y += player.velY * dt;
-    if (player.mesh.position.y <= 0) {
-      player.mesh.position.y = 0;
-      player.velY = 0;
-      player.onGround = true;
+    // Anim
+    if(player.mixer){
+      player.mixer.update(dt);
+      if(moving && player.actions.walk){
+        if(player.actions.idle) player.actions.idle.fadeOut(0.2);
+        if(!player.actions.walk.isRunning()) player.actions.walk.reset().fadeIn(0.2).play();
+      } else if(player.actions.idle){
+        if(player.actions.walk) player.actions.walk.fadeOut(0.2);
+        if(!player.actions.idle.isRunning()) player.actions.idle.reset().fadeIn(0.2).play();
+      }
     }
 
-    player.mesh.position.x = Math.max(-105, Math.min(105, player.mesh.position.x));
-    player.mesh.position.z = Math.max(-105, Math.min(105, player.mesh.position.z));
+    // PNJ qui marchent un peu
+    npcs.forEach(n=>{
+      n.timer -= dt;
+      if(n.timer<=0){
+        n.timer = 3+Math.random()*5;
+        n.dir.set(Math.random()-0.5,0,Math.random()-0.5).normalize();
+      }
+      n.mesh.position.add(n.dir.clone().multiplyScalar(1.1*dt));
+      n.mesh.position.x = Math.max(-55,Math.min(55,n.mesh.position.x));
+      n.mesh.position.z = Math.max(-55,Math.min(55,n.mesh.position.z));
+      n.mesh.rotation.y = Math.atan2(n.dir.x, n.dir.z);
+    });
 
     // Caméra
     const target = player.mesh.position.clone();
-    const dist = ads ? 2.5 : 5.8;
-    const off = new THREE.Vector3(Math.sin(yaw) * dist, 2.3 + pitch * 1.15, Math.cos(yaw) * dist);
-    camera.position.lerp(target.clone().add(off), 0.15);
-    camera.lookAt(target.x, target.y + 1.32, target.z);
-    camera.fov = THREE.MathUtils.lerp(camera.fov, ads ? 37 : 65, 0.12);
-    camera.updateProjectionMatrix();
+    const dist = 6.5;
+    const off = new THREE.Vector3(Math.sin(yaw)*dist, 2.8+pitch, Math.cos(yaw)*dist);
+    camera.position.lerp(target.clone().add(off), 0.12);
+    camera.lookAt(target.x, target.y+1.4, target.z);
 
-    if (mouseDown) shoot();
+    // Besoins qui baissent
+    player.hunger = Math.max(0, player.hunger - 0.7*dt);
+    player.energy = Math.max(0, player.energy - 0.35*dt);
+    if(player.hunger<=0) player.happy = Math.max(0,player.happy-1.5*dt);
+    if(player.energy<=0) player.happy = Math.max(0,player.happy-1.2*dt);
 
-    // Survie
-    player.hunger = Math.max(0, player.hunger - 0.75 * dt);
-    if (player.hunger <= 0) player.hp -= 1.9 * dt;
-
-    // Interaction E
-    if (keys['KeyE']) {
-      loot.forEach(L => {
-        if (L.taken) return;
-        if (L.mesh.position.distanceTo(player.mesh.position) < 2.5) {
-          L.taken = true;
-          L.mesh.visible = false;
-          if (L.type === 'weapon') {
-            player.weapon = L.weapon;
-            player.ammo = WEAPONS[L.weapon].ammo || 1;
-            attachWeaponToHand(player, L.weapon);
-            toast('Trouvé : ' + WEAPONS[L.weapon].name);
-            log('Arme récupérée');
-          } else if (L.type === 'ammo') {
-            player.reserve += 14;
-            toast('+ munitions');
-          } else if (L.type === 'food') {
-            player.hunger = Math.min(100, player.hunger + 36);
-            toast('+ nourriture');
-          } else {
-            player.hp = Math.min(100, player.hp + 40);
-            toast('+ soins');
-          }
-        }
-      });
-
-      buildings.forEach(b => {
-        if (b.looted) return;
-        if (Math.hypot(player.mesh.position.x - b.x, player.mesh.position.z - b.z) < 5.5) {
-          b.looted = true;
-          const r = Math.random();
-          if (r < 0.35) { player.reserve += 10; toast('Fouille : munitions'); }
-          else if (r < 0.6) { player.hunger = Math.min(100, player.hunger + 24); toast('Fouille : rations'); }
-          else if (r < 0.8) { player.hp = Math.min(100, player.hp + 20); toast('Fouille : bandages'); }
-          else toast('Fouille : rien…');
-          log('Bâtiment fouillé');
-        }
-      });
-    }
-
-    loot.forEach(L => {
-      if (!L.taken && L.mesh.userData?.rotate) L.mesh.rotation.y += dt * 1.25;
-    });
-
-    // Zombies
-    zombies.forEach(z => {
-      if (z.hp <= 0) {
-        z.mesh.visible = false;
-        return;
-      }
-      if (z.mixer) z.mixer.update(dt);
-
-      const to = player.mesh.position.clone().sub(z.mesh.position);
-      const dist = to.length();
-      if (dist < 40) z.aggro = true;
-
-      const old = z.mesh.position.clone();
-      if (z.aggro && dist > 2.05) {
-        to.y = 0;
-        to.normalize();
-        z.mesh.position.add(to.multiplyScalar(z.speed * dt));
-        z.mesh.lookAt(player.mesh.position.x, 0, player.mesh.position.z);
-      } else if (z.aggro && dist <= 2.05) {
-        player.hp -= 8 * dt;
-        z.mesh.lookAt(player.mesh.position.x, 0, player.mesh.position.z);
-      } else {
-        z.timer -= dt;
-        if (z.timer <= 0) {
-          z.timer = 3 + Math.random() * 3.2;
-          z.dir.set(Math.random()-0.5, 0, Math.random()-0.5).normalize();
-        }
-        z.mesh.position.add(z.dir.clone().multiplyScalar(0.75 * dt));
-      }
-      if (collides(z.mesh.position, 0.48)) z.mesh.position.copy(old);
-      z.mesh.position.y = 0; // force au sol
-    });
-
-    // Balles
-    for (let i = bullets.length - 1; i >= 0; i--) {
-      const b = bullets[i];
-      b.mesh.position.add(b.dir.clone().multiplyScalar(b.speed * dt));
-      b.life -= dt;
-      if (b.life <= 0) {
-        scene.remove(b.mesh);
-        bullets.splice(i, 1);
-        continue;
-      }
-      for (const z of zombies) {
-        if (z.hp <= 0) continue;
-        if (b.mesh.position.distanceTo(z.mesh.position) < 1.0) {
-          z.hp -= b.dmg;
-          scene.remove(b.mesh);
-          bullets.splice(i, 1);
-          if (z.hp <= 0) {
-            player.kills++;
-            log('Infecté éliminé');
-          }
-          break;
-        }
-      }
-    }
-
-    spawnTimer -= dt;
-    if (spawnTimer <= 0) {
-      spawnTimer = 21 + Math.random() * 11;
-      spawnZ(1 + Math.floor(Math.random() * 2));
-      log('Des infectés approchent…');
-    }
-
-    if (player.hp <= 0) {
-      toast('Tu es mort. Recharge la page.');
-      player.hp = 0;
-    }
-
-    hud();
+    updateHUD();
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
   }
 
   requestAnimationFrame(loop);
-
-  window.addEventListener('resize', () => {
-    camera.aspect = innerWidth / innerHeight;
+  window.addEventListener('resize', ()=>{
+    camera.aspect = innerWidth/innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
+    renderer.setSize(innerWidth,innerHeight);
   });
 
-  toast('Clique dans le jeu pour capturer la souris');
-  log('Pieds collés au sol + vitesse réduite.');
+  toast('Bienvenue dans ta nouvelle vie ! Appuie sur E près des bâtiments et des gens.');
+  updateHUD();
 }
 </script>
 </body>
