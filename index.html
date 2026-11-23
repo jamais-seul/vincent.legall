@@ -54,7 +54,7 @@ body{overflow:hidden;background:#0a0a0a;font-family:system-ui,sans-serif;color:#
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { SkeletonUtils } from 'three/addons/utils/SkeletonUtils.js';
+import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 
 const WEAPONS = {
   pistol:  { name:'Pistolet', dmg:22, rate:0.28, speed:55, spread:0.04, ammo:12, rare:false },
@@ -88,7 +88,6 @@ let modelsLoaded = false;
 const loader = new GLTFLoader();
 
 async function loadZombieModels() {
-  // Chemins avec espaces correctement encodés
   const paths = [
     './Zombie_Chubby%20(1).gltf',
     './Zombie_Ribcage%20(1).gltf'
@@ -111,12 +110,11 @@ async function loadZombieModels() {
 }
 
 function createZombieMesh() {
-  // Si les modèles 3D sont chargés → on les utilise
   if (modelsLoaded && (chubbyGltf || ribcageGltf)) {
     const source = (Math.random() < 0.5 && chubbyGltf) ? chubbyGltf : (ribcageGltf || chubbyGltf);
     const clone = SkeletonUtils.clone(source.scene);
 
-    // Ajuste l’échelle ici si tes modèles sont trop grands/petits
+    // Ajuste l’échelle ici si besoin (1.0 = taille originale)
     clone.scale.setScalar(1.0);
 
     clone.traverse(obj => {
@@ -135,7 +133,7 @@ function createZombieMesh() {
     return { mesh: clone, mixer };
   }
 
-  // Fallback : zombie géométrique (si les GLTF ne chargent pas)
+  // Fallback géométrique
   const mesh = human(0x3f5a3a, 1.02);
   return { mesh, mixer: null };
 }
@@ -154,7 +152,6 @@ soloBtn.onclick = async () => {
     toast('Fichiers .gltf non trouvés. Le jeu démarre quand même en mode simple.');
   }
 
-  // Petite pause pour que le message soit visible
   await new Promise(r => setTimeout(r, 600));
   startGame();
 };
