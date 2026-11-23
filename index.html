@@ -11,7 +11,7 @@ body{overflow:hidden;background:#0a0a0a;font-family:system-ui,sans-serif;color:#
 #menu h1{font-size:2.4rem;color:#f97316;letter-spacing:-1px;text-shadow:0 0 40px #f9731644}
 #menu .tag{color:#a8a29e;max-width:420px;text-align:center;line-height:1.5;font-size:14px}
 .btn{padding:12px 28px;border:0;border-radius:10px;background:#f97316;color:#1c1917;font-weight:800;font-size:15px;cursor:pointer}
-.btn.sec{background:#292524;color:#e7e5e4}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
 #hud{position:absolute;top:0;left:0;right:0;padding:10px 14px;display:none;gap:12px;align-items:center;background:linear-gradient(#000c,#0000);z-index:10;pointer-events:none;font-size:12px;flex-wrap:wrap}
 .bar{width:100px;height:11px;background:#292524;border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle}
 .bar i{display:block;height:100%}
@@ -29,6 +29,7 @@ body{overflow:hidden;background:#0a0a0a;font-family:system-ui,sans-serif;color:#
   <h1>LAST DISTRICT</h1>
   <p class="tag">La ville est morte. Les rues appartiennent aux infectés. Tu commences avec un pistolet, peu de munitions. Les armes correctes sont rares. Fouille les bâtiments abandonnés, gère ta faim, ne te fais pas encercler.</p>
   <button class="btn" id="solo">Mode solo — Survivre</button>
+  <p id="status" style="font-size:12px;color:#a8a29e;min-height:18px"></p>
   <p style="font-size:12px;color:#57534e">Multijoueur local / en ligne = étape suivante</p>
 </div>
 <div id="hud">
@@ -63,8 +64,9 @@ const WEAPONS = {
   melee:   { name:'Barre de fer', dmg:35, rate:0.5, melee:true, range:2.4, rare:false }
 };
 
-function toast(t){const m=document.getElementById('msg');m.textContent=t;m.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>m.classList.remove('show'),2800);}
+function toast(t){const m=document.getElementById('msg');m.textContent=t;m.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>m.classList.remove('show'),3200);}
 function log(t){const el=document.getElementById('log');const d=document.createElement('div');d.textContent=t;el.prepend(d);while(el.children.length>8)el.lastChild.remove();}
+function setStatus(t){document.getElementById('status').textContent=t;}
 
 function human(color, scale=1){
   const g=new THREE.Group();
@@ -78,59 +80,86 @@ function human(color, scale=1){
   return g;
 }
 
-// ===== Modèles zombies GLTF =====
+// ===== Modèles zombies =====
 let chubbyGltf = null;
 let ribcageGltf = null;
+let modelsLoaded = false;
 
 const loader = new GLTFLoader();
 
 async function loadZombieModels() {
-  const [chubby, ribcage] = await Promise.all([
-    loader.loadAsync('./Zombie_Chubby (1).gltf'),
-    loader.loadAsync('./Zombie_Ribcage (1).gltf')
-  ]);
-  chubbyGltf = chubby;
-  ribcageGltf = ribcage;
-}
+  // Chemins avec espaces correctement encodés
+  const paths = [
+    './Zombie_Chubby%20(1).gltf',
+    './Zombie_Ribcage%20(1).gltf'
+  ];
 
-function createZombieFromGltf() {
-  // Choisit aléatoirement l'un des deux modèles
-  const source = Math.random() < 0.5 ? chubbyGltf : ribcageGltf;
-  const clone = SkeletonUtils.clone(source.scene);
-
-  // Scale et orientation de base (ajuste si besoin selon la taille réelle de tes modèles)
-  clone.scale.setScalar(1.0);
-  clone.traverse(obj => {
-    if (obj.isMesh) {
-      obj.castShadow = true;
-      obj.receiveShadow = true;
-    }
-  });
-
-  const mixer = new THREE.AnimationMixer(clone);
-  if (source.animations && source.animations.length > 0) {
-    // Lance la première animation en boucle (généralement la marche)
-    const action = mixer.clipAction(source.animations[0]);
-    action.setLoop(THREE.LoopRepeat);
-    action.play();
-  }
-
-  return { mesh: clone, mixer };
-}
-
-document.getElementById('solo').onclick = () => start();
-
-async function start(){
-  // Charge les modèles avant de démarrer
-  toast('Chargement des infectés…');
   try {
-    await loadZombieModels();
+    const [chubby, ribcage] = await Promise.all([
+      loader.loadAsync(paths[0]),
+      loader.loadAsync(paths[1])
+    ]);
+    chubbyGltf = chubby;
+    ribcageGltf = ribcage;
+    modelsLoaded = true;
+    return true;
   } catch (err) {
-    console.error(err);
-    toast('Erreur de chargement des modèles 3D. Vérifie les chemins des fichiers .gltf');
-    return;
+    console.error('Erreur chargement GLTF:', err);
+    modelsLoaded = false;
+    return false;
+  }
+}
+
+function createZombieMesh() {
+  // Si les modèles 3D sont chargés → on les utilise
+  if (modelsLoaded && (chubbyGltf || ribcageGltf)) {
+    const source = (Math.random() < 0.5 && chubbyGltf) ? chubbyGltf : (ribcageGltf || chubbyGltf);
+    const clone = SkeletonUtils.clone(source.scene);
+
+    // Ajuste l’échelle ici si tes modèles sont trop grands/petits
+    clone.scale.setScalar(1.0);
+
+    clone.traverse(obj => {
+      if (obj.isMesh) {
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+      }
+    });
+
+    const mixer = new THREE.AnimationMixer(clone);
+    if (source.animations && source.animations.length > 0) {
+      const action = mixer.clipAction(source.animations[0]);
+      action.setLoop(THREE.LoopRepeat);
+      action.play();
+    }
+    return { mesh: clone, mixer };
   }
 
+  // Fallback : zombie géométrique (si les GLTF ne chargent pas)
+  const mesh = human(0x3f5a3a, 1.02);
+  return { mesh, mixer: null };
+}
+
+const soloBtn = document.getElementById('solo');
+soloBtn.onclick = async () => {
+  soloBtn.disabled = true;
+  setStatus('Chargement des infectés…');
+
+  const ok = await loadZombieModels();
+
+  if (ok) {
+    setStatus('Modèles 3D chargés ✓');
+  } else {
+    setStatus('Modèles 3D introuvables → mode secours (formes simples)');
+    toast('Fichiers .gltf non trouvés. Le jeu démarre quand même en mode simple.');
+  }
+
+  // Petite pause pour que le message soit visible
+  await new Promise(r => setTimeout(r, 600));
+  startGame();
+};
+
+function startGame(){
   document.getElementById('menu').style.display='none';
   document.getElementById('hud').style.display='flex';
   document.getElementById('cross').style.display='block';
@@ -153,28 +182,24 @@ async function start(){
   sun.position.set(30,50,10); sun.castShadow=true;
   sun.shadow.mapSize.set(1024,1024); scene.add(sun);
 
-  // ruined city ground
+  // ground
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200), new THREE.MeshStandardMaterial({color:0x292524,roughness:1}));
   ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
 
-  // roads cross
+  // roads
   const roadM=new THREE.MeshStandardMaterial({color:0x1c1917,roughness:0.95});
   const roadH=new THREE.Mesh(new THREE.PlaneGeometry(16,200),roadM); roadH.rotation.x=-Math.PI/2; roadH.position.y=0.02; scene.add(roadH);
   const roadV=new THREE.Mesh(new THREE.PlaneGeometry(200,16),roadM); roadV.rotation.x=-Math.PI/2; roadV.position.y=0.02; scene.add(roadV);
 
-  // abandoned buildings
+  // buildings
   const buildings=[];
   function building(x,z,w,d,h){
     const mat=new THREE.MeshStandardMaterial({color:0x44403c,roughness:0.9});
     const g=new THREE.Group();
-    // broken walls - open door gap front
-    const t=0.4;
     const body=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
     body.position.y=h/2; body.castShadow=true; body.receiveShadow=true; g.add(body);
-    // dark interior hole visual: cut not real, add door plane black
     const door=new THREE.Mesh(new THREE.PlaneGeometry(1.8,2.3), new THREE.MeshStandardMaterial({color:0x0c0a09}));
     door.position.set(0,1.15,d/2+0.05); g.add(door);
-    // windows dark
     for(let wy=2.5;wy<h-1;wy+=2.5){
       for(let wx=-w/2+1.5;wx<w/2-1;wx+=2.5){
         const win=new THREE.Mesh(new THREE.PlaneGeometry(1.2,1.4), new THREE.MeshStandardMaterial({color:0x0c0a09}));
@@ -184,23 +209,21 @@ async function start(){
     g.position.set(x,0,z); scene.add(g);
     buildings.push({x,z,w,d,h, looted:false});
   }
-  // city blocks
   for(let ix=-3;ix<=3;ix++){
     for(let iz=-3;iz<=3;iz++){
-      if(Math.abs(ix)<1 && Math.abs(iz)<1) continue; // center crossroads empty
+      if(Math.abs(ix)<1 && Math.abs(iz)<1) continue;
       if(Math.random()<0.15) continue;
       const w=8+Math.random()*6, d=8+Math.random()*6, h=6+Math.random()*14;
       building(ix*22+(Math.random()-0.5)*4, iz*22+(Math.random()-0.5)*4, w, d, h);
     }
   }
 
-  // debris / cars wrecks as boxes
+  // cars + barricades
   for(let i=0;i<35;i++){
     const car=new THREE.Mesh(new THREE.BoxGeometry(2.2,1.1,4.5), new THREE.MeshStandardMaterial({color:0x44403c,roughness:0.8}));
     car.position.set((Math.random()-0.5)*160,0.55,(Math.random()-0.5)*160);
     car.rotation.y=Math.random()*Math.PI; car.castShadow=true; scene.add(car);
   }
-  // barricades
   for(let i=0;i<20;i++){
     const b=new THREE.Mesh(new THREE.BoxGeometry(3,1.2,0.4), new THREE.MeshStandardMaterial({color:0x57534e}));
     b.position.set((Math.random()-0.5)*140,0.6,(Math.random()-0.5)*140); b.castShadow=true; scene.add(b);
@@ -219,7 +242,7 @@ async function start(){
   const zombies=[];
   function spawnZ(n=1){
     for(let i=0;i<n;i++){
-      const { mesh, mixer } = createZombieFromGltf();
+      const { mesh, mixer } = createZombieMesh();
       const z = {
         mesh,
         mixer,
@@ -231,7 +254,6 @@ async function start(){
       };
       const ang = Math.random() * Math.PI * 2, dist = 25 + Math.random() * 50;
       z.mesh.position.set(Math.cos(ang) * dist, 0, Math.sin(ang) * dist);
-      // keep away from player spawn
       if (z.mesh.position.length() < 15) z.mesh.position.multiplyScalar(2);
       scene.add(z.mesh);
       zombies.push(z);
@@ -239,7 +261,7 @@ async function start(){
   }
   spawnZ(28);
 
-  // rare loot + common
+  // loot
   const loot=[];
   function addLoot(type, extra={}){
     let mesh, color=0x78716c;
@@ -250,7 +272,6 @@ async function start(){
     mesh.position.set((Math.random()-0.5)*150, 0.2, (Math.random()-0.5)*150);
     scene.add(mesh); loot.push({type, mesh, taken:false, ...extra});
   }
-  // rare weapons few
   addLoot('weapon',{weapon:'smg'});
   addLoot('weapon',{weapon:'shotgun'});
   addLoot('weapon',{weapon:'rifle'});
@@ -354,11 +375,11 @@ async function start(){
 
     if(mouseDown) shoot();
 
-    // survival drain
+    // survival
     player.hunger=Math.max(0, player.hunger-0.9*dt);
     if(player.hunger<=0) player.hp-=2.5*dt;
 
-    // loot
+    // loot + search
     if(keys['KeyE']){
       loot.forEach(L=>{
         if(L.taken) return;
@@ -373,7 +394,6 @@ async function start(){
           else { player.hp=Math.min(player.maxHp,player.hp+40); toast('+ trousse de soin'); }
         }
       });
-      // "search building" near door
       buildings.forEach(b=>{
         if(b.looted) return;
         const dx=player.mesh.position.x-b.x, dz=player.mesh.position.z-b.z;
@@ -395,8 +415,6 @@ async function start(){
         z.mesh.visible=false;
         return;
       }
-
-      // Mise à jour de l'AnimationMixer
       if (z.mixer) z.mixer.update(dt);
 
       const to=player.mesh.position.clone().sub(z.mesh.position);
@@ -407,7 +425,6 @@ async function start(){
         z.mesh.position.add(to.multiplyScalar(z.speed*dt));
         z.mesh.lookAt(player.mesh.position.x, 0, player.mesh.position.z);
       } else if(z.aggro && dist<=2.2){
-        // attack
         player.hp-=12*dt;
         z.mesh.lookAt(player.mesh.position.x,0,player.mesh.position.z);
       } else {
@@ -434,7 +451,7 @@ async function start(){
       }
     }
 
-    // respawn pressure
+    // respawn
     spawnTimer-=dt;
     if(spawnTimer<=0){
       spawnTimer=18+Math.random()*12;
@@ -454,7 +471,7 @@ async function start(){
   requestAnimationFrame(loop);
   window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
   toast('Clique pour jouer — survire dans le district');
-  log('Pistolet équipé. Munitions limitées.');
+  log(modelsLoaded ? 'Modèles 3D chargés.' : 'Mode secours (pas de modèles 3D).');
 }
 </script>
 </body>
