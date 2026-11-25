@@ -3,489 +3,441 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Études Sup France — BTS, BUT, Licences, CPGE...</title>
+<title>Études Sup France — 20 BTS · 20 BUT · 20 Licences</title>
 <style>
-:root {
-  --primary: #1e3a8a;
-  --primary-light: #3b82f6;
-  --secondary: #0f766e;
-  --accent: #f59e0b;
-  --bg: #f1f5f9;
-  --card: #ffffff;
-  --text: #1e293b;
-  --muted: #64748b;
-  --border: #e2e8f0;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-a { color: var(--primary-light); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-header {
-  background: linear-gradient(135deg, #1e3a8a, #1e40af);
-  color: white;
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-.header-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .8rem;
-}
-.logo { font-size: 1.35rem; font-weight: 800; letter-spacing: -.5px; }
-.logo span { color: #fbbf24; }
-nav { display: flex; gap: .4rem; flex-wrap: wrap; }
-nav a {
-  color: white;
-  padding: .45rem .85rem;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: .9rem;
-  transition: .2s;
-}
-nav a:hover, nav a.active { background: rgba(255,255,255,.18); text-decoration: none; }
-
-main { max-width: 1100px; margin: 0 auto; padding: 1.8rem 1.2rem 4rem; }
-
-h1 { font-size: 2rem; color: var(--primary); margin-bottom: .6rem; }
-h2 { font-size: 1.45rem; color: var(--primary); margin: 2.2rem 0 1rem; border-bottom: 3px solid var(--primary-light); padding-bottom: .35rem; }
-h3 { font-size: 1.15rem; color: var(--secondary); margin: 1.2rem 0 .5rem; }
-.lead { font-size: 1.08rem; color: var(--muted); margin-bottom: 1.4rem; }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.1rem;
-  margin: 1.3rem 0;
-}
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.2rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,.05);
-  transition: .22s;
-  cursor: pointer;
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0,0,0,.1);
-  border-color: var(--primary-light);
-}
-.card .icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
-.card h3 { margin-top: 0; font-size: 1.05rem; color: var(--primary); }
-.card p { font-size: .92rem; color: var(--muted); margin: 0; }
-.tag {
-  display: inline-block;
-  background: #e0f2fe;
-  color: #0369a1;
-  font-size: .72rem;
-  font-weight: 700;
-  padding: .18rem .5rem;
-  border-radius: 5px;
-  margin-bottom: .45rem;
-}
-
-.info, .warning, .success {
-  padding: 1rem 1.15rem;
-  border-radius: 0 10px 10px 0;
-  margin: 1.3rem 0;
-  font-size: .95rem;
-}
-.info { background: #eff6ff; border-left: 4px solid #3b82f6; }
-.warning { background: #fffbeb; border-left: 4px solid #f59e0b; }
-.success { background: #ecfdf5; border-left: 4px solid #059669; }
-
-.specialty-list {
-  columns: 2;
-  column-gap: 2rem;
-  list-style: none;
-  margin: 1rem 0;
-}
-.specialty-list li {
-  break-inside: avoid;
-  padding: .4rem 0;
-  border-bottom: 1px dashed var(--border);
-  font-size: .93rem;
-}
-@media (max-width: 700px) { .specialty-list { columns: 1; } }
-
-.fiche {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.3rem;
-  margin: 1rem 0;
-}
-.fiche h3 { margin-top: 0; }
-.fiche ul { margin-left: 1.2rem; margin-top: .5rem; }
-
-footer {
-  background: #0f172a;
-  color: #94a3b8;
-  text-align: center;
-  padding: 1.8rem 1rem;
-  font-size: .88rem;
-}
-
-.section { display: none; }
-.section.active { display: block; }
-
-.btn {
-  display: inline-block;
-  background: var(--primary);
-  color: white;
-  padding: .55rem 1.1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: .9rem;
-  border: none;
-  cursor: pointer;
-  margin: .3rem .3rem .3rem 0;
-}
-.btn:hover { background: #1e40af; text-decoration: none; color: white; }
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-}
-.btn-outline:hover { background: var(--primary); color: white; }
+:root{--p:#1e3a8a;--pl:#3b82f6;--s:#0f766e;--a:#f59e0b;--bg:#f1f5f9;--c:#fff;--t:#1e293b;--m:#64748b;--b:#e2e8f0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.55}
+a{color:var(--pl);text-decoration:none}a:hover{text-decoration:underline}
+header{background:linear-gradient(135deg,#1e3a8a,#1e40af);color:#fff;padding:.9rem 0;position:sticky;top:0;z-index:50;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.hi{max-width:1150px;margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.logo{font-size:1.25rem;font-weight:800}.logo span{color:#fbbf24}
+nav{display:flex;gap:.35rem;flex-wrap:wrap}
+nav a{color:#fff;padding:.4rem .75rem;border-radius:7px;font-size:.88rem;font-weight:500}
+nav a:hover,nav a.on{background:rgba(255,255,255,.2);text-decoration:none}
+main{max-width:1150px;margin:0 auto;padding:1.5rem 1rem 3.5rem}
+h1{font-size:1.85rem;color:var(--p);margin-bottom:.5rem}
+h2{font-size:1.35rem;color:var(--p);margin:1.8rem 0 .8rem;border-bottom:3px solid var(--pl);padding-bottom:.3rem}
+h3{font-size:1.08rem;color:var(--s);margin:1rem 0 .4rem}
+.lead{color:var(--m);margin-bottom:1.2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin:1rem 0}
+.card{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:1.1rem;box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.1);border-color:var(--pl)}
+.card .ic{font-size:1.7rem;display:block;margin-bottom:.35rem}
+.card h3{margin:0 0 .3rem;font-size:1rem;color:var(--p)}
+.card p{font-size:.88rem;color:var(--m);margin:0}
+.tag{display:inline-block;background:#e0f2fe;color:#0369a1;font-size:.7rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;margin-bottom:.35rem}
+.box{padding:.9rem 1.1rem;border-radius:0 10px 10px 0;margin:1.1rem 0;font-size:.93rem}
+.info{background:#eff6ff;border-left:4px solid #3b82f6}
+.warn{background:#fffbeb;border-left:4px solid #f59e0b}
+.ok{background:#ecfdf5;border-left:4px solid #059669}
+.fiche{background:#fff;border:1px solid var(--b);border-radius:12px;padding:1.2rem;margin:1rem 0;display:none}
+.fiche.show{display:block}
+.fiche h3{margin-top:0}
+.fiche ul{margin:.5rem 0 .5rem 1.2rem}
+.fiche li{margin-bottom:.25rem}
+.btn{display:inline-block;background:var(--p);color:#fff;padding:.45rem .9rem;border-radius:7px;font-size:.85rem;font-weight:600;border:none;cursor:pointer;margin:.25rem .25rem .25rem 0}
+.btn:hover{background:#1e40af;color:#fff;text-decoration:none}
+.sec{display:none}.sec.on{display:block}
+footer{background:#0f172a;color:#94a3b8;text-align:center;padding:1.5rem 1rem;font-size:.85rem}
+.list2{columns:2;column-gap:1.8rem;list-style:none}
+.list2 li{break-inside:avoid;padding:.3rem 0;border-bottom:1px dashed var(--b);font-size:.9rem}
+@media(max-width:700px){.list2{columns:1}}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="header-inner">
-    <div class="logo">Études Sup <span>France</span></div>
-    <nav>
-      <a href="#" class="active" onclick="show('accueil')">Accueil</a>
-      <a href="#" onclick="show('bts')">BTS / BTSA</a>
-      <a href="#" onclick="show('but')">BUT</a>
-      <a href="#" onclick="show('licences')">Licences</a>
-      <a href="#" onclick="show('autres')">Autres voies</a>
-    </nav>
-  </div>
+<div class="hi">
+  <div class="logo">Études Sup <span>France</span></div>
+  <nav>
+    <a href="#" class="on" onclick="go('home')">Accueil</a>
+    <a href="#" onclick="go('bts')">20 BTS</a>
+    <a href="#" onclick="go('but')">20 BUT</a>
+    <a href="#" onclick="go('lic')">20 Licences</a>
+  </nav>
+</div>
 </header>
-
 <main>
 
-<!-- ========== ACCUEIL ========== -->
-<section id="accueil" class="section active">
-  <h1>L’enseignement supérieur en France</h1>
-  <p class="lead">Panorama clair et structuré : BTS, BUT, Licences, CPGE, Grandes Écoles, Santé… Contenu basé sur les sources officielles.</p>
-
-  <div class="warning">
-    <strong>⚠️ Important</strong><br>
-    Ce site est une synthèse. Les programmes détaillés (heures, compétences, épreuves) se trouvent sur 
-    <a href="https://eduscol.education.gouv.fr" target="_blank">éduscol</a>, 
-    <a href="https://www.onisep.fr" target="_blank">Onisep</a> et 
-    <a href="https://www.enseignementsup-recherche.gouv.fr" target="_blank">enseignementsup-recherche.gouv.fr</a>.
-  </div>
-
-  <h2>Le système LMD</h2>
-  <div class="grid">
-    <div class="card">
-      <span class="icon">📘</span>
-      <span class="tag">Bac+3 · 180 ECTS</span>
-      <h3>Licence</h3>
-      <p>Premier cycle. 6 semestres. Fondamentaux + compétences transversales. Accès après le bac via Parcoursup.</p>
-    </div>
-    <div class="card">
-      <span class="icon">📗</span>
-      <span class="tag">Bac+5 · 300 ECTS</span>
-      <h3>Master</h3>
-      <p>Deuxième cycle. 4 semestres. Spécialisation pro ou recherche. Sélection à l’entrée du M1 (Mon Master).</p>
-    </div>
-    <div class="card">
-      <span class="icon">📕</span>
-      <span class="tag">Bac+8</span>
-      <h3>Doctorat</h3>
-      <p>Troisième cycle. Recherche originale + thèse. Accessible après un Master.</p>
-    </div>
-  </div>
-
-  <div class="info">
-    <strong>Crédits ECTS</strong> : 1 semestre ≈ 30 crédits · 1 année ≈ 60 crédits. Capitalisables et transférables en Europe.
-  </div>
-
-  <h2>Les grandes voies après le bac</h2>
-  <div class="grid">
-    <div class="card" onclick="show('bts')">
-      <span class="icon">🛠️</span>
-      <h3>BTS / BTSA</h3>
-      <p><strong>Bac+2</strong> · Formation professionnalisante en lycée. ~80–100 spécialités. Stages + insertion rapide.</p>
-    </div>
-    <div class="card" onclick="show('but')">
-      <span class="icon">🎓</span>
-      <h3>BUT</h3>
-      <p><strong>Bac+3</strong> · Grade de Licence. Dans les IUT. 24 mentions. Très pro, stages longs, alternance.</p>
-    </div>
-    <div class="card" onclick="show('licences')">
-      <span class="icon">📚</span>
-      <h3>Licence</h3>
-      <p><strong>Bac+3</strong> · Universités. Mentions disciplinaires nombreuses. Licence pro orientée métier.</p>
-    </div>
-    <div class="card" onclick="show('autres')">
-      <span class="icon">🏛️</span>
-      <h3>CPGE & Grandes Écoles</h3>
-      <p>Prépas → concours. Ingénieurs, commerce, ENS, vétérinaire…</p>
-    </div>
-    <div class="card" onclick="show('autres')">
-      <span class="icon">🏥</span>
-      <h3>Santé</h3>
-      <p>PASS / LAS → Médecine, Pharmacie, Odontologie, Maïeutique + paramédical.</p>
-    </div>
-    <div class="card" onclick="show('autres')">
-      <span class="icon">🎨</span>
-      <h3>Autres</h3>
-      <p>DN MADE, DCG, écoles d’art, architecture, social, sport…</p>
-    </div>
-  </div>
+<!-- ACCUEIL -->
+<section id="home" class="sec on">
+<h1>Études Sup France — Version enrichie</h1>
+<p class="lead">20 BTS + 20 BUT + 20 domaines de Licence avec fiches structurées (programme type + chapitres principaux + points clés).</p>
+<div class="warn"><strong>Limite assumée</strong> : ce ne sont pas des cours complets de 200 pages par spécialité (impossible et souvent protégé). Ce sont des fiches solides basées sur les programmes officiels publics + structure pédagogique que j’ai rédigée.</div>
+<div class="grid">
+  <div class="card" onclick="go('bts')"><span class="ic">🛠️</span><h3>20 BTS</h3><p>Les plus demandés avec fiche programme + chapitres type</p></div>
+  <div class="card" onclick="go('but')"><span class="ic">🎓</span><h3>20 BUT</h3><p>Presque toutes les mentions nationales</p></div>
+  <div class="card" onclick="go('lic')"><span class="ic">📚</span><h3>20 Licences</h3><p>Domaines principaux + structure type</p></div>
+</div>
 </section>
 
-<!-- ========== BTS ========== -->
-<section id="bts" class="section">
-  <h1>🛠️ BTS & BTSA</h1>
-  <p class="lead">Brevet de Technicien Supérieur — Bac+2 (120 ECTS) — Niveau 5. Préparé en 2 ans en STS (lycée) ou lycée agricole.</p>
+<!-- ========== 20 BTS ========== -->
+<section id="bts" class="sec">
+<h1>🛠️ 20 BTS populaires</h1>
+<p class="lead">Clique sur une carte pour ouvrir la fiche (programme + chapitres type + points clés).</p>
+<div class="grid">
+  <div class="card" onclick="tog('f-mco')"><span class="ic">🛒</span><h3>BTS MCO</h3><p>Management Commercial Opérationnel</p></div>
+  <div class="card" onclick="tog('f-ndrc')"><span class="ic">🤝</span><h3>BTS NDRC</h3><p>Négociation & Digitalisation Relation Client</p></div>
+  <div class="card" onclick="tog('f-cg')"><span class="ic">📒</span><h3>BTS CG</h3><p>Comptabilité et Gestion</p></div>
+  <div class="card" onclick="tog('f-sio')"><span class="ic">💻</span><h3>BTS SIO</h3><p>Services Informatiques aux Organisations</p></div>
+  <div class="card" onclick="tog('f-opti')"><span class="ic">👓</span><h3>BTS Opticien-Lunetier</h3><p>Optique-lunetterie</p></div>
+  <div class="card" onclick="tog('f-elec')"><span class="ic">⚡</span><h3>BTS Électrotechnique</h3><p>Électricité & automatismes</p></div>
+  <div class="card" onclick="tog('f-gpme')"><span class="ic">🏢</span><h3>BTS GPME</h3><p>Gestion de la PME</p></div>
+  <div class="card" onclick="tog('f-ci')"><span class="ic">🌍</span><h3>BTS Commerce International</h3><p>Import-export</p></div>
+  <div class="card" onclick="tog('f-sam')"><span class="ic">📋</span><h3>BTS SAM</h3><p>Support à l’Action Managériale</p></div>
+  <div class="card" onclick="tog('f-tour')"><span class="ic">✈️</span><h3>BTS Tourisme</h3><p>Tourisme & accueil</p></div>
+  <div class="card" onclick="tog('f-com')"><span class="ic">📢</span><h3>BTS Communication</h3><p>Communication</p></div>
+  <div class="card" onclick="tog('f-banque')"><span class="ic">🏦</span><h3>BTS Banque</h3><p>Conseiller clientèle</p></div>
+  <div class="card" onclick="tog('f-immo')"><span class="ic">🏠</span><h3>BTS Professions Immobilières</h3><p>Immobilier</p></div>
+  <div class="card" onclick="tog('f-esf')"><span class="ic">👨‍👩‍👧</span><h3>BTS ESF</h3><p>Économie Sociale Familiale</p></div>
+  <div class="card" onclick="tog('f-sp3s')"><span class="ic">🏥</span><h3>BTS SP3S</h3><p>Services Sanitaires et Sociaux</p></div>
+  <div class="card" onclick="tog('f-mhr')"><span class="ic">🍽️</span><h3>BTS MHR</h3><p>Management Hôtellerie-Restauration</p></div>
+  <div class="card" onclick="tog('f-crsa')"><span class="ic">🤖</span><h3>BTS CRSA</h3><p>Conception Réalisation Systèmes Automatiques</p></div>
+  <div class="card" onclick="tog('f-maint')"><span class="ic">🔧</span><h3>BTS Maintenance des Systèmes</h3><p>Maintenance industrielle</p></div>
+  <div class="card" onclick="tog('f-ciel')"><span class="ic">🔒</span><h3>BTS CIEL</h3><p>Cybersécurité, Informatique, Électronique</p></div>
+  <div class="card" onclick="tog('f-diet')"><span class="ic">🥗</span><h3>BTS Diététique</h3><p>Nutrition & diététique</p></div>
+</div>
 
-  <div class="info">
-    <strong>Points clés</strong>
-    <ul>
-      <li>Plus de 80 spécialités (services + production) + BTSA agricoles</li>
-      <li>Stages obligatoires + forte professionnalisation</li>
-      <li>Accès principalement via Parcoursup</li>
-      <li>Poursuite possible : Licence pro, école d’ingénieurs (ATS), etc.</li>
-    </ul>
-  </div>
+<!-- FICHES BTS -->
+<div id="f-mco" class="fiche">
+<h3>BTS MCO — Management Commercial Opérationnel</h3>
+<p><strong>Durée</strong> : 2 ans · <strong>Niveau</strong> : Bac+2</p>
+<p><strong>Objectif</strong> : Former des managers de rayon / responsables d’unité commerciale capables de développer l’offre, animer l’équipe et gérer la relation client.</p>
+<p><strong>Grands blocs du programme</strong> :</p>
+<ul>
+<li>Développement de la relation client et vente conseil</li>
+<li>Animation et dynamisation de l’offre commerciale</li>
+<li>Gestion opérationnelle (stocks, indicateurs, rentabilité)</li>
+<li>Management d’équipe</li>
+<li>Culture économique, juridique et managériale</li>
+<li>Culture générale et expression + LV1</li>
+</ul>
+<p><strong>Chapitres type</strong> : Étude de marché locale, merchandising, techniques de vente, management situationnel, tableaux de bord, droit commercial de base, communication professionnelle.</p>
+</div>
 
-  <h2>Secteur des services (exemples majeurs)</h2>
-  <ul class="specialty-list">
-    <li>Management commercial opérationnel (MCO)</li>
-    <li>Négociation et digitalisation de la relation client (NDRC)</li>
-    <li>Commerce international</li>
-    <li>Comptabilité et gestion (CG)</li>
-    <li>Gestion de la PME (GPME)</li>
-    <li>Support à l’action managériale (SAM)</li>
-    <li>Services informatiques aux organisations (SIO) – SISR / SLAM</li>
-    <li>Cybersécurité, Informatique et réseaux, Électronique (CIEL)</li>
-    <li>Communication</li>
-    <li>Tourisme</li>
-    <li>Professions immobilières</li>
-    <li>Banque</li>
-    <li>Assurance</li>
-    <li>Économie sociale familiale (ESF)</li>
-    <li>Services et prestations des secteurs sanitaire et social (SP3S)</li>
-    <li>Management en hôtellerie-restauration (MHR)</li>
-    <li>Métiers de l’esthétique, cosmétique et parfumerie</li>
-    <li>Métiers de la coiffure</li>
-    <li>Diététique / Diététique et nutrition</li>
-    <li>Opticien-lunetier</li>
-    <li>Collaborateur juriste notarial</li>
-  </ul>
+<div id="f-ndrc" class="fiche">
+<h3>BTS NDRC — Négociation et Digitalisation de la Relation Client</h3>
+<p><strong>Objectif</strong> : Former des commerciaux et chargés de relation client capables d’utiliser les outils digitaux (CRM, réseaux, e-commerce).</p>
+<ul>
+<li>Relation client omnicanale</li>
+<li>Négociation-vente</li>
+<li>Digitalisation de la relation client (CRM, data, réseaux sociaux)</li>
+<li>Management de l’équipe commerciale</li>
+<li>Culture économique & juridique</li>
+</ul>
+</div>
 
-  <h2>Secteur de la production / industrie</h2>
-  <ul class="specialty-list">
-    <li>Électrotechnique</li>
-    <li>Maintenance des systèmes (plusieurs options)</li>
-    <li>Maintenance des véhicules</li>
-    <li>Conception et réalisation de systèmes automatiques (CRSA)</li>
-    <li>Conception des processus de réalisation de produits (CPRP)</li>
-    <li>Conception de produits industriels (CPI)</li>
-    <li>Conception et réalisation en chaudronnerie industrielle</li>
-    <li>Aéronautique</li>
-    <li>Assistance technique d’ingénieur (ATI)</li>
-    <li>Fluides, énergies, domotique (FED)</li>
-    <li>Bâtiment</li>
-    <li>Enveloppe des bâtiments</li>
-    <li>Travaux publics</li>
-    <li>Architectures en métal</li>
-    <li>Développement et réalisation bois</li>
-    <li>Fonderie / Forge</li>
-    <li>Contrôle industriel et régulation automatique (CIRA)</li>
-    <li>Bioanalyses en laboratoire de contrôle</li>
-    <li>Biotechnologie en recherche et production</li>
-    <li>Photonique</li>
-    <li>Construction et aménagement de véhicules</li>
-  </ul>
+<div id="f-cg" class="fiche">
+<h3>BTS CG — Comptabilité et Gestion</h3>
+<p><strong>Objectif</strong> : Technicien comptable capable de tenir la comptabilité, établir les documents de synthèse et participer à la gestion.</p>
+<ul>
+<li>Comptabilité approfondie (passif, actif, opérations courantes)</li>
+<li>Contrôle et traitement des opérations comptables</li>
+<li>Gestion fiscale et sociale</li>
+<li>Analyse financière et prévisionnelle</li>
+<li>Systèmes d’information de gestion</li>
+</ul>
+</div>
 
-  <h2>BTSA (agricoles)</h2>
-  <ul class="specialty-list">
-    <li>Agronomie – cultures durables</li>
-    <li>Aménagements paysagers</li>
-    <li>Analyses agricoles, biologiques et biotechnologiques</li>
-    <li>Analyse, conduite et stratégie de l’entreprise agricole</li>
-    <li>Aquaculture</li>
-    <li>Gestion et protection de la nature</li>
-    <li>Productions animales / végétales</li>
-    <li>Technico-commercial</li>
-    <li>Viticulture-œnologie</li>
-    <li>Génie des équipements agricoles</li>
-    <li>Gestion et maîtrise de l’eau</li>
-  </ul>
+<div id="f-sio" class="fiche">
+<h3>BTS SIO — Services Informatiques aux Organisations</h3>
+<p>Deux options : <strong>SISR</strong> (Infrastructure, Systèmes et Réseaux) et <strong>SLAM</strong> (Solutions Logicielles et Applications Métiers).</p>
+<ul>
+<li>Support et mise à disposition de services informatiques</li>
+<li>Administration des systèmes et des réseaux (SISR)</li>
+<li>Conception et développement d’applications (SLAM)</li>
+<li>Cybersécurité de base</li>
+<li>Gestion de projet informatique</li>
+</ul>
+</div>
 
-  <div class="success">
-    <strong>Sources officielles</strong><br>
-    • <a href="https://eduscol.education.gouv.fr/5583/le-brevet-de-technicien-superieur" target="_blank">éduscol – BTS</a><br>
-    • <a href="https://enqdip.sup.adc.education.fr/bts/index.htm" target="_blank">Liste des spécialités + référentiels</a><br>
-    • <a href="https://www.onisep.fr" target="_blank">Onisep</a>
-  </div>
+<div id="f-opti" class="fiche">
+<h3>BTS Opticien-Lunetier</h3>
+<p><strong>Objectif</strong> : Opticien capable de réaliser des examens de vue, conseiller, monter et adapter les équipements optiques.</p>
+<ul>
+<li>Analyse de la vision / examens de vue</li>
+<li>Étude technique des équipements (verres, montures, lentilles)</li>
+<li>Prise de mesures et adaptation</li>
+<li>Réalisation et contrôle des équipements</li>
+<li>Communication professionnelle et vente conseil</li>
+<li>Sciences appliquées (optique, anatomie de l’œil, physiologie)</li>
+<li>Gestion et management de point de vente</li>
+</ul>
+<p><strong>Chapitres type</strong> : Anatomie et physiologie de l’œil, réfraction, défauts visuels, verres correcteurs, lentilles de contact, montage, législation, relation client.</p>
+</div>
+
+<div id="f-elec" class="fiche">
+<h3>BTS Électrotechnique</h3>
+<ul>
+<li>Études et conception d’installations électriques</li>
+<li>Réalisation et mise en service</li>
+<li>Maintenance et contrôle</li>
+<li>Énergies renouvelables et efficacité énergétique</li>
+<li>Automatismes et réseaux industriels</li>
+</ul>
+</div>
+
+<div id="f-gpme" class="fiche">
+<h3>BTS GPME — Gestion de la PME</h3>
+<ul>
+<li>Gérer la relation avec les clients et les fournisseurs de la PME</li>
+<li>Participer à la gestion des risques et des ressources humaines</li>
+<li>Soutenir le fonctionnement et le développement de la PME</li>
+<li>Culture économique, juridique et managériale</li>
+</ul>
+</div>
+
+<div id="f-ci" class="fiche">
+<h3>BTS Commerce International</h3>
+<ul>
+<li>Développement commercial international</li>
+<li>Import-export et logistique</li>
+<li>Négociation et vente à l’international</li>
+<li>Gestion des opérations de commerce international</li>
+<li>Langues étrangères (2 LV minimum)</li>
+</ul>
+</div>
+
+<div id="f-sam" class="fiche">
+<h3>BTS SAM — Support à l’Action Managériale</h3>
+<ul>
+<li>Soutien à la communication et aux relations internes/externes</li>
+<li>Soutien à l’information et à la documentation</li>
+<li>Soutien à la gestion des ressources humaines et à l’organisation</li>
+<li>Culture économique et juridique</li>
+</ul>
+</div>
+
+<div id="f-tour" class="fiche">
+<h3>BTS Tourisme</h3>
+<ul>
+<li>Gestion de la relation client touristique</li>
+<li>Élaboration de l’offre touristique</li>
+<li>Gestion de l’information touristique</li>
+<li>Cadre organisationnel et juridique</li>
+</ul>
+</div>
+
+<div id="f-com" class="fiche">
+<h3>BTS Communication</h3>
+<ul>
+<li>Réponse à la demande d’un annonceur</li>
+<li>Conception et mise en œuvre de solutions de communication</li>
+<li>Conseil et relation commerciale</li>
+<li>Culture de la communication</li>
+</ul>
+</div>
+
+<div id="f-banque" class="fiche">
+<h3>BTS Banque</h3>
+<ul>
+<li>Accueil et conseil du client</li>
+<li>Développement commercial</li>
+<li>Gestion des risques et conformité</li>
+<li>Environnement économique et bancaire</li>
+</ul>
+</div>
+
+<div id="f-immo" class="fiche">
+<h3>BTS Professions Immobilières</h3>
+<ul>
+<li>Transaction immobilière</li>
+<li>Gestion locative</li>
+<li>Conseil et négociation</li>
+<li>Droit immobilier et urbanisme</li>
+</ul>
+</div>
+
+<div id="f-esf" class="fiche">
+<h3>BTS ESF — Économie Sociale Familiale</h3>
+<ul>
+<li>Expertise et conseil technologiques</li>
+<li>Animation et formation</li>
+<li>Intervention sociale et familiale</li>
+<li>Gestion de la vie quotidienne</li>
+</ul>
+</div>
+
+<div id="f-sp3s" class="fiche">
+<h3>BTS SP3S</h3>
+<ul>
+<li>Gestion de la demande et de l’offre de services</li>
+<li>Accompagnement des usagers</li>
+<li>Organisation et animation d’équipe</li>
+<li>Environnement institutionnel sanitaire et social</li>
+</ul>
+</div>
+
+<div id="f-mhr" class="fiche">
+<h3>BTS MHR — Management en Hôtellerie-Restauration</h3>
+<ul>
+<li>Production culinaire / service / hébergement (selon option)</li>
+<li>Management d’équipe</li>
+<li>Pilotage de la production et des prestations</li>
+<li>Entrepreneuriat et développement</li>
+</ul>
+</div>
+
+<div id="f-crsa" class="fiche">
+<h3>BTS CRSA</h3>
+<ul>
+<li>Conception des systèmes automatiques</li>
+<li>Réalisation et mise en service</li>
+<li>Maintenance et amélioration</li>
+<li>Gestion de projet technique</li>
+</ul>
+</div>
+
+<div id="f-maint" class="fiche">
+<h3>BTS Maintenance des Systèmes</h3>
+<ul>
+<li>Maintenance préventive et corrective</li>
+<li>Amélioration continue</li>
+<li>Organisation de la maintenance</li>
+<li>Sécurité et environnement</li>
+</ul>
+</div>
+
+<div id="f-ciel" class="fiche">
+<h3>BTS CIEL</h3>
+<ul>
+<li>Cybersécurité</li>
+<li>Informatique et réseaux</li>
+<li>Électronique</li>
+<li>Deux options (Informatique & réseaux / Électronique & réseaux)</li>
+</ul>
+</div>
+
+<div id="f-diet" class="fiche">
+<h3>BTS Diététique</h3>
+<ul>
+<li>Nutrition et alimentation</li>
+<li>Activités technologiques (cuisine, analyses)</li>
+<li>Biologie et physiologie</li>
+<li>Économie et gestion</li>
+<li>Communication professionnelle</li>
+</ul>
+</div>
 </section>
 
-<!-- ========== BUT ========== -->
-<section id="but" class="section">
-  <h1>🎓 BUT — Bachelor Universitaire de Technologie</h1>
-  <p class="lead">Bac+3 (180 ECTS) conférant le <strong>grade de Licence</strong>. Préparé en 3 ans dans les IUT. 24 mentions nationales + parcours.</p>
+<!-- ========== 20 BUT ========== -->
+<section id="but" class="sec">
+<h1>🎓 20 BUT (sur 24)</h1>
+<p class="lead">Presque toutes les mentions nationales. Clique pour la fiche.</p>
+<div class="grid">
+  <div class="card" onclick="tog('b-gea')"><span class="ic">📊</span><h3>BUT GEA</h3><p>Gestion des Entreprises et Administrations</p></div>
+  <div class="card" onclick="tog('b-tc')"><span class="ic">🛒</span><h3>BUT TC</h3><p>Techniques de Commercialisation</p></div>
+  <div class="card" onclick="tog('b-info')"><span class="ic">💻</span><h3>BUT Informatique</h3><p>Développement & SI</p></div>
+  <div class="card" onclick="tog('b-gmp')"><span class="ic">⚙️</span><h3>BUT GMP</h3><p>Génie Mécanique et Productique</p></div>
+  <div class="card" onclick="tog('b-geii')"><span class="ic">⚡</span><h3>BUT GEII</h3><p>Génie Électrique et Informatique Industrielle</p></div>
+  <div class="card" onclick="tog('b-gb')"><span class="ic">🧬</span><h3>BUT Génie Biologique</h3><p>Biologie, agronomie, santé…</p></div>
+  <div class="card" onclick="tog('b-gccd')"><span class="ic">🏗️</span><h3>BUT GCCD</h3><p>Génie Civil Construction Durable</p></div>
+  <div class="card" onclick="tog('b-mmi')"><span class="ic">🌐</span><h3>BUT MMI</h3><p>Métiers du Multimédia et de l’Internet</p></div>
+  <div class="card" onclick="tog('b-cj')"><span class="ic">⚖️</span><h3>BUT Carrières Juridiques</h3><p>Droit & justice</p></div>
+  <div class="card" onclick="tog('b-cs')"><span class="ic">🤝</span><h3>BUT Carrières Sociales</h3><p>Intervention sociale</p></div>
+  <div class="card" onclick="tog('b-mlt')"><span class="ic">🚚</span><h3>BUT MLT</h3><p>Management Logistique et Transports</p></div>
+  <div class="card" onclick="tog('b-sd')"><span class="ic">📈</span><h3>BUT Science des Données</h3><p>Data & statistique</p></div>
+  <div class="card" onclick="tog('b-hse')"><span class="ic">🛡️</span><h3>BUT HSE</h3><p>Hygiène Sécurité Environnement</p></div>
+  <div class="card" onclick="tog('b-chimie')"><span class="ic">🧪</span><h3>BUT Chimie</h3><p>Analyse & formulation</p></div>
+  <div class="card" onclick="tog('b-gim')"><span class="ic">🔧</span><h3>BUT GIM</h3><p>Génie Industriel et Maintenance</p></div>
+  <div class="card" onclick="tog('b-rt')"><span class="ic">📡</span><h3>BUT Réseaux et Télécoms</h3><p>Réseaux & cybersécurité</p></div>
+  <div class="card" onclick="tog('b-gaco')"><span class="ic">🗂️</span><h3>BUT GACO</h3><p>Gestion Administrative et Commerciale</p></div>
+  <div class="card" onclick="tog('b-mp')"><span class="ic">📏</span><h3>BUT Mesures Physiques</h3><p>Métrologie & instrumentation</p></div>
+  <div class="card" onclick="tog('b-qlio')"><span class="ic">✅</span><h3>BUT QLIO</h3><p>Qualité Logistique Industrielle Organisation</p></div>
+  <div class="card" onclick="tog('b-mt2e')"><span class="ic">🔋</span><h3>BUT MT2E</h3><p>Transition & Efficacité Énergétiques</p></div>
+</div>
 
-  <div class="info">
-    <strong>Points clés</strong>
-    <ul>
-      <li>24 mentions nationales</li>
-      <li>Plus de 80 parcours de spécialisation</li>
-      <li>Pédagogie par compétences, projets, stages longs (jusqu’à 22–26 semaines)</li>
-      <li>Alternance très répandue</li>
-      <li>Accès sélectif via Parcoursup</li>
-    </ul>
-  </div>
-
-  <h2>Secteur des services (8 mentions)</h2>
-  <div class="grid">
-    <div class="card">
-      <span class="icon">⚖️</span>
-      <h3>Carrières Juridiques (CJ)</h3>
-      <p>Droit, justice, fonction publique, entreprise. Parcours : Administration et justice, Patrimoine et finance…</p>
-    </div>
-    <div class="card">
-      <span class="icon">🤝</span>
-      <h3>Carrières Sociales (CS)</h3>
-      <p>Éducation spécialisée, animation, assistance sociale, coordination d’établissements, villes et territoires durables.</p>
-    </div>
-    <div class="card">
-      <span class="icon">📊</span>
-      <h3>GEA</h3>
-      <p>Gestion des Entreprises et des Administrations. Finance, RH, contrôle de gestion, entrepreneuriat.</p>
-    </div>
-    <div class="card">
-      <span class="icon">🗂️</span>
-      <h3>GACO</h3>
-      <p>Gestion Administrative et Commerciale des Organisations. Polyvalence + projet.</p>
-    </div>
-    <div class="card">
-      <span class="icon">🛒</span>
-      <h3>Techniques de Commercialisation (TC)</h3>
-      <p>Vente, marketing, négociation, digital, international, relation client.</p>
-    </div>
-    <div class="card">
-      <span class="icon">🚚</span>
-      <h3>MLT</h3>
-      <p>Management de la Logistique et des Transports. Supply chain, mobilité, flux.</p>
-    </div>
-    <div class="card">
-      <span class="icon">📢</span>
-      <h3>Information-Communication</h3>
-      <p>Communication des organisations, métiers du livre, journalisme, publicité…</p>
-    </div>
-    <div class="card">
-      <span class="icon">📈</span>
-      <h3>Science des Données (SD)</h3>
-      <p>Statistique, data, informatique décisionnelle (ex-STID).</p>
-    </div>
-  </div>
-
-  <h2>Secteur industriel / sciences (16 mentions)</h2>
-  <div class="grid">
-    <div class="card"><span class="icon">🧪</span><h3>Chimie</h3><p>Analyse, synthèse, formulation, contrôle qualité.</p></div>
-    <div class="card"><span class="icon">🧬</span><h3>Génie Biologique (GB)</h3><p>Agronomie, biologie médicale, diététique, agroalimentaire, environnement.</p></div>
-    <div class="card"><span class="icon">⚗️</span><h3>GCGP</h3><p>Génie Chimique – Génie des Procédés.</p></div>
-    <div class="card"><span class="icon">🏗️</span><h3>GCCD</h3><p>Génie Civil – Construction Durable.</p></div>
-    <div class="card"><span class="icon">⚡</span><h3>GEII</h3><p>Génie Électrique et Informatique Industrielle.</p></div>
-    <div class="card"><span class="icon">🔧</span><h3>GIM</h3><p>Génie Industriel et Maintenance.</p></div>
-    <div class="card"><span class="icon">⚙️</span><h3>GMP</h3><p>Génie Mécanique et Productique.</p></div>
-    <div class="card"><span class="icon">🛡️</span><h3>HSE</h3><p>Hygiène, Sécurité, Environnement.</p></div>
-    <div class="card"><span class="icon">💻</span><h3>Informatique</h3><p>Développement, systèmes, données, SI.</p></div>
-    <div class="card"><span class="icon">📏</span><h3>Mesures Physiques</h3><p>Métrologie, instrumentation, contrôles.</p></div>
-    <div class="card"><span class="icon">🌐</span><h3>MMI</h3><p>Métiers du Multimédia et de l’Internet.</p></div>
-    <div class="card"><span class="icon">📦</span><h3>PEC</h3><p>Packaging, Emballage et Conditionnement.</p></div>
-    <div class="card"><span class="icon">✅</span><h3>QLIO</h3><p>Qualité, Logistique Industrielle et Organisation.</p></div>
-    <div class="card"><span class="icon">📡</span><h3>Réseaux et Télécoms</h3><p>Réseaux, cybersécurité, cloud.</p></div>
-    <div class="card"><span class="icon">🧱</span><h3>Science et Génie des Matériaux</h3><p>Matériaux et procédés.</p></div>
-    <div class="card"><span class="icon">🔋</span><h3>MT2E</h3><p>Métiers de la Transition et de l’Efficacité Énergétiques.</p></div>
-  </div>
-
-  <div class="success">
-    Source officielle : <a href="https://www.iut.fr/les-24-specialites-de-but/" target="_blank">iut.fr – Les 24 spécialités</a>
-  </div>
+<div id="b-gea" class="fiche"><h3>BUT GEA</h3><p>3 ans · Grade Licence. Parcours : Gestion comptable et financière, Gestion et pilotage des ressources humaines, Gestion et management des organisations, Contrôle de gestion…</p><ul><li>Comptabilité, finance, RH, management, droit, économie</li><li>Projets + stages longs + alternance possible</li></ul></div>
+<div id="b-tc" class="fiche"><h3>BUT Techniques de Commercialisation</h3><ul><li>Marketing, vente, négociation, digital, international</li><li>Relation client, merchandising, e-commerce</li></ul></div>
+<div id="b-info" class="fiche"><h3>BUT Informatique</h3><ul><li>Réalisation d’applications</li><li>Administration des données</li><li>Déploiement d’applications communicantes</li><li>Intégration et management du SI</li></ul></div>
+<div id="b-gmp" class="fiche"><h3>BUT GMP</h3><ul><li>Conception mécanique</li><li>Industrialisation</li><li>Organisation de la production</li><li>Innovation et management de process</li></ul></div>
+<div id="b-geii" class="fiche"><h3>BUT GEII</h3><ul><li>Électricité, automatismes, robotique</li><li>Informatique industrielle</li><li>Énergie et conversion</li></ul></div>
+<div id="b-gb" class="fiche"><h3>BUT Génie Biologique</h3><p>Parcours dès la 1re année : Agronomie, Biologie médicale & biotechnologies, Diététique, Sciences de l’aliment, Environnement.</p></div>
+<div id="b-gccd" class="fiche"><h3>BUT GCCD</h3><ul><li>Bâtiment et travaux publics</li><li>Construction durable</li><li>Bureau d’études et chantier</li></ul></div>
+<div id="b-mmi" class="fiche"><h3>BUT MMI</h3><ul><li>Création numérique</li><li>Développement web</li><li>Stratégie de communication digitale</li></ul></div>
+<div id="b-cj" class="fiche"><h3>BUT Carrières Juridiques</h3><ul><li>Droit civil, commercial, social</li><li>Justice, entreprises, collectivités</li></ul></div>
+<div id="b-cs" class="fiche"><h3>BUT Carrières Sociales</h3><ul><li>Éducation spécialisée</li><li>Animation sociale</li><li>Assistance sociale</li><li>Coordination d’établissements</li></ul></div>
+<div id="b-mlt" class="fiche"><h3>BUT MLT</h3><ul><li>Logistique, transport, supply chain</li><li>Pilotage des flux</li></ul></div>
+<div id="b-sd" class="fiche"><h3>BUT Science des Données</h3><ul><li>Statistique</li><li>Informatique décisionnelle</li><li>Data visualisation</li></ul></div>
+<div id="b-hse" class="fiche"><h3>BUT HSE</h3><ul><li>Prévention des risques professionnels et environnementaux</li><li>Management QHSSE</li></ul></div>
+<div id="b-chimie" class="fiche"><h3>BUT Chimie</h3><ul><li>Analyse</li><li>Synthèse</li><li>Formulation</li><li>Contrôle qualité</li></ul></div>
+<div id="b-gim" class="fiche"><h3>BUT GIM</h3><ul><li>Maintenance de systèmes pluritechniques</li><li>Organisation et amélioration</li></ul></div>
+<div id="b-rt" class="fiche"><h3>BUT Réseaux et Télécommunications</h3><ul><li>Réseaux</li><li>Télécoms</li><li>Cybersécurité des infrastructures</li></ul></div>
+<div id="b-gaco" class="fiche"><h3>BUT GACO</h3><ul><li>Gestion polyvalente</li><li>Commercial</li><li>Projet et entrepreneuriat</li></ul></div>
+<div id="b-mp" class="fiche"><h3>BUT Mesures Physiques</h3><ul><li>Métrologie</li><li>Instrumentation</li><li>Contrôles physico-chimiques</li></ul></div>
+<div id="b-qlio" class="fiche"><h3>BUT QLIO</h3><ul><li>Qualité</li><li>Logistique industrielle</li><li>Organisation de la production</li></ul></div>
+<div id="b-mt2e" class="fiche"><h3>BUT MT2E</h3><ul><li>Énergétique du bâtiment et de l’industrie</li><li>Efficacité énergétique</li><li>Énergies renouvelables</li></ul></div>
 </section>
 
-<!-- ========== LICENCES ========== -->
-<section id="licences" class="section">
-  <h1>📚 Les Licences</h1>
-  <p class="lead">Diplôme national Bac+3 (180 ECTS) conférant le grade de Licence. Préparé à l’université.</p>
+<!-- ========== 20 LICENCES ========== -->
+<section id="lic" class="sec">
+<h1>📚 20 domaines de Licence</h1>
+<p class="lead">Les grandes mentions / domaines. Chaque université propose des parcours.</p>
+<div class="grid">
+  <div class="card" onclick="tog('l-droit')"><span class="ic">⚖️</span><h3>Droit</h3><p>Droit privé, public, science politique…</p></div>
+  <div class="card" onclick="tog('l-eco')"><span class="ic">💰</span><h3>Économie</h3><p>Économie, économétrie…</p></div>
+  <div class="card" onclick="tog('l-gest')"><span class="ic">📊</span><h3>Gestion</h3><p>Gestion, AES, comptabilité…</p></div>
+  <div class="card" onclick="tog('l-info')"><span class="ic">💻</span><h3>Informatique</h3><p>Informatique, MIAGE…</p></div>
+  <div class="card" onclick="tog('l-maths')"><span class="ic">∑</span><h3>Mathématiques</h3><p>Maths, maths appliquées…</p></div>
+  <div class="card" onclick="tog('l-phys')"><span class="ic">⚛️</span><h3>Physique</h3><p>Physique, physique-chimie…</p></div>
+  <div class="card" onclick="tog('l-chimie')"><span class="ic">🧪</span><h3>Chimie</h3><p>Chimie, chimie-physique…</p></div>
+  <div class="card" onclick="tog('l-sv')"><span class="ic">🧬</span><h3>Sciences de la Vie</h3><p>Biologie, SVT…</p></div>
+  <div class="card" onclick="tog('l-staps')"><span class="ic">🏃</span><h3>STAPS</h3><p>Activités physiques et sportives</p></div>
+  <div class="card" onclick="tog('l-psycho')"><span class="ic">🧠</span><h3>Psychologie</h3><p>Psychologie</p></div>
+  <div class="card" onclick="tog('l-socio')"><span class="ic">👥</span><h3>Sociologie</h3><p>Sociologie, sciences sociales</p></div>
+  <div class="card" onclick="tog('l-hist')"><span class="ic">📜</span><h3>Histoire</h3><p>Histoire, histoire de l’art…</p></div>
+  <div class="card" onclick="tog('l-geo')"><span class="ic">🗺️</span><h3>Géographie</h3><p>Géographie, aménagement…</p></div>
+  <div class="card" onclick="tog('l-lettres')"><span class="ic">📖</span><h3>Lettres</h3><p>Lettres modernes, classiques…</p></div>
+  <div class="card" onclick="tog('l-lea')"><span class="ic">🌐</span><h3>LEA / LLCER</h3><p>Langues étrangères</p></div>
+  <div class="card" onclick="tog('l-philo')"><span class="ic">💭</span><h3>Philosophie</h3><p>Philosophie</p></div>
+  <div class="card" onclick="tog('l-info-com')"><span class="ic">📢</span><h3>Information-Communication</h3><p>Communication, médias…</p></div>
+  <div class="card" onclick="tog('l-arts')"><span class="ic">🎨</span><h3>Arts</h3><p>Arts plastiques, musique, cinéma…</p></div>
+  <div class="card" onclick="tog('l-educ')"><span class="ic">👩‍🏫</span><h3>Sciences de l’Éducation</h3><p>Éducation, formation…</p></div>
+  <div class="card" onclick="tog('l-sante')"><span class="ic">🏥</span><h3>Santé (PASS/LAS)</h3><p>Accès études de santé</p></div>
+</div>
 
-  <div class="grid">
-    <div class="card"><span class="icon">⚖️</span><h3>Droit</h3><p>Droit privé, public, science politique, carrières judiciaires…</p></div>
-    <div class="card"><span class="icon">💰</span><h3>Économie & Gestion</h3><p>Économie, Gestion, AES, Comptabilité, Finance, Marketing…</p></div>
-    <div class="card"><span class="icon">🔬</span><h3>Sciences & Technologies</h3><p>Maths, Physique, Chimie, SVT, Informatique, Mécanique, Génie civil…</p></div>
-    <div class="card"><span class="icon">🧠</span><h3>Sciences Humaines & Sociales</h3><p>Histoire, Géographie, Psychologie, Sociologie, Philosophie, Sciences de l’éducation…</p></div>
-    <div class="card"><span class="icon">📖</span><h3>Lettres, Langues, Arts</h3><p>Lettres, LEA, LLCER, Arts, Histoire de l’art, Musicologie, Cinéma…</p></div>
-    <div class="card"><span class="icon">🏃</span><h3>STAPS</h3><p>Sciences et Techniques des Activités Physiques et Sportives.</p></div>
-    <div class="card"><span class="icon">🏥</span><h3>Santé (accès)</h3><p>PASS et LAS → Médecine, Pharmacie, Odontologie, Maïeutique…</p></div>
-    <div class="card"><span class="icon">🎯</span><h3>Licence professionnelle</h3><p>Bac+3 orientée métier. Accès souvent après BTS/BUT/L2. Alternance fréquente.</p></div>
-  </div>
-
-  <div class="info">
-    Les mentions exactes varient selon les universités. Consultez les catalogues des universités et Parcoursup pour les attendus et les places.
-  </div>
-</section>
-
-<!-- ========== AUTRES ========== -->
-<section id="autres" class="section">
-  <h1>🏛️ Autres voies</h1>
-
-  <h2>Classes Préparatoires aux Grandes Écoles (CPGE)</h2>
-  <div class="grid">
-    <div class="card"><span class="icon">📐</span><h3>Scientifiques</h3><p>MPSI/MP, PCSI/PC, PTSI/PT, BCPST, MPI… → Écoles d’ingénieurs, ENS, vétérinaire.</p></div>
-    <div class="card"><span class="icon">📈</span><h3>Économiques</h3><p>ECG, ECT → Écoles de commerce (HEC, ESSEC, ESCP…).</p></div>
-    <div class="card"><span class="icon">📜</span><h3>Littéraires</h3><p>A/L, B/L → ENS, commerce, IEP…</p></div>
-  </div>
-
-  <h2>Grandes Écoles & Santé</h2>
-  <div class="grid">
-    <div class="card"><span class="icon">🏗️</span><h3>Écoles d’ingénieurs</h3><p>Post-prépa ou post-bac. Titre d’ingénieur (grade de Master) sous contrôle CTI.</p></div>
-    <div class="card"><span class="icon">💼</span><h3>Écoles de commerce</h3><p>Post-prépa ou post-bac. Grade de Master pour les programmes reconnus.</p></div>
-    <div class="card"><span class="icon">🏥</span><h3>Études de santé</h3><p>PASS / LAS → Médecine, Pharmacie, Odontologie, Maïeutique. + IFSI, kiné, etc.</p></div>
-  </div>
-
-  <h2>Autres diplômes</h2>
-  <div class="grid">
-    <div class="card"><span class="icon">🎨</span><h3>DN MADE</h3><p>Diplôme National des Métiers d’Art et du Design (Bac+3).</p></div>
-    <div class="card"><span class="icon">📑</span><h3>DCG / DSCG</h3><p>Comptabilité et Gestion → Expertise comptable.</p></div>
-    <div class="card"><span class="icon">🎭</span><h3>Écoles d’art & architecture</h3><p>Beaux-Arts, arts appliqués, architecture…</p></div>
-  </div>
+<div id="l-droit" class="fiche"><h3>Licence Droit</h3><p>L1-L2-L3. Fondamentaux du droit (civil, constitutionnel, administratif, pénal, commercial…). Introduction à la science politique. Méthodologie juridique. Poursuite classique : Master Droit.</p></div>
+<div id="l-eco" class="fiche"><h3>Licence Économie</h3><p>Microéconomie, macroéconomie, statistiques, mathématiques pour l’économie, histoire de la pensée économique, économie internationale…</p></div>
+<div id="l-gest" class="fiche"><h3>Licence Gestion / AES</h3><p>Comptabilité, marketing, management, droit, économie, ressources humaines. AES est plus pluridisciplinaire.</p></div>
+<div id="l-info" class="fiche"><h3>Licence Informatique</h3><p>Algorithmique, programmation, bases de données, réseaux, systèmes, architecture, mathématiques discrètes…</p></div>
+<div id="l-maths" class="fiche"><h3>Licence Mathématiques</h3><p>Algèbre, analyse, géométrie, probabilités, statistiques, mathématiques appliquées…</p></div>
+<div id="l-phys" class="fiche"><h3>Licence Physique</h3><p>Mécanique, électromagnétisme, thermodynamique, optique, physique quantique, physique statistique…</p></div>
+<div id="l-chimie" class="fiche"><h3>Licence Chimie</h3><p>Chimie générale, organique, inorganique, analytique, physico-chimie…</p></div>
+<div id="l-sv" class="fiche"><h3>Licence Sciences de la Vie</h3><p>Biologie cellulaire, moléculaire, génétique, physiologie, écologie, microbiologie…</p></div>
+<div id="l-staps" class="fiche"><h3>Licence STAPS</h3><p>Anatomie, physiologie, sciences humaines, pratique sportive, pédagogie, management du sport…</p></div>
+<div id="l-psycho" class="fiche"><h3>Licence Psychologie</h3><p>Psychologie cognitive, sociale, développementale, clinique, méthodologie, statistiques…</p></div>
+<div id="l-socio" class="fiche"><h3>Licence Sociologie</h3><p>Théories sociologiques, enquêtes, statistiques, sociologie de… (travail, éducation, famille…)</p></div>
+<div id="l-hist" class="fiche"><h3>Licence Histoire</h3><p>Histoire ancienne, médiévale, moderne, contemporaine + méthodologie historique.</p></div>
+<div id="l-geo" class="fiche"><h3>Licence Géographie</h3><p>Géographie physique, humaine, aménagement, cartographie, SIG…</p></div>
+<div id="l-lettres" class="fiche"><h3>Licence Lettres</h3><p>Littérature française, grammaire, stylistique, littérature comparée, latin/grec selon parcours.</p></div>
+<div id="l-lea" class="fiche"><h3>Licence LEA / LLCER</h3><p>LEA = Langues Étrangères Appliquées (2 langues + économie/gestion). LLCER = plus littéraire et culturel.</p></div>
+<div id="l-philo" class="fiche"><h3>Licence Philosophie</h3><p>Histoire de la philosophie, logique, éthique, métaphysique, philosophie contemporaine…</p></div>
+<div id="l-info-com" class="fiche"><h3>Licence Information-Communication</h3><p>Théories de la communication, médias, sémiologie, communication des organisations…</p></div>
+<div id="l-arts" class="fiche"><h3>Licence Arts</h3><p>Arts plastiques, histoire de l’art, musique, cinéma selon la mention.</p></div>
+<div id="l-educ" class="fiche"><h3>Licence Sciences de l’Éducation</h3><p>Histoire de l’éducation, pédagogie, psychologie de l’apprentissage, politiques éducatives…</p></div>
+<div id="l-sante" class="fiche"><h3>PASS / LAS</h3><p>Parcours Accès Santé Spécifique ou Licence Accès Santé. Sélection vers Médecine, Pharmacie, Odontologie, Maïeutique, Kinésithérapie…</p></div>
 </section>
 
 </main>
-
 <footer>
-  <p><strong>Études Sup France</strong> — Synthèse open-source basée sur sources publiques · 2026</p>
-  <p>Vérifiez toujours les textes officiels et Parcoursup pour l’année en cours.</p>
+  <p><strong>Études Sup France</strong> — 20 BTS · 20 BUT · 20 Licences · Fiches structurées</p>
+  <p>Basé sur programmes officiels publics · Contenu pédagogique original · 2026</p>
 </footer>
-
 <script>
-function show(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-  // simple highlight
-  event.target.classList.add('active');
+function go(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('on'));
+  event.target.classList.add('on');
   window.scrollTo(0,0);
+  document.querySelectorAll('.fiche').forEach(f=>f.classList.remove('show'));
+}
+function tog(id){
+  const el=document.getElementById(id);
+  const was=el.classList.contains('show');
+  document.querySelectorAll('.fiche').forEach(f=>f.classList.remove('show'));
+  if(!was) el.classList.add('show');
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 </script>
 </body>
