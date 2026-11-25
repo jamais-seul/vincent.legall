@@ -1,270 +1,492 @@
-/* Études Sup France - Style moderne et clair */
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Études Sup France — BTS, BUT, Licences, CPGE...</title>
+<style>
 :root {
   --primary: #1e3a8a;
   --primary-light: #3b82f6;
   --secondary: #0f766e;
   --accent: #f59e0b;
-  --bg: #f8fafc;
+  --bg: #f1f5f9;
   --card: #ffffff;
   --text: #1e293b;
   --muted: #64748b;
   --border: #e2e8f0;
-  --success: #059669;
 }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+a { color: var(--primary-light); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-a {
-  color: var(--primary-light);
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-
-/* Header */
 header {
-  background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
   color: white;
   padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
-
 .header-inner {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: .8rem;
 }
-
-.logo {
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-.logo span {
-  color: var(--accent);
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
+.logo { font-size: 1.35rem; font-weight: 800; letter-spacing: -.5px; }
+.logo span { color: #fbbf24; }
+nav { display: flex; gap: .4rem; flex-wrap: wrap; }
 nav a {
   color: white;
-  padding: 0.5rem 0.9rem;
-  border-radius: 6px;
+  padding: .45rem .85rem;
+  border-radius: 8px;
   font-weight: 500;
-  font-size: 0.95rem;
-  transition: background 0.2s;
+  font-size: .9rem;
+  transition: .2s;
 }
-nav a:hover, nav a.active {
-  background: rgba(255,255,255,0.15);
-  text-decoration: none;
-}
+nav a:hover, nav a.active { background: rgba(255,255,255,.18); text-decoration: none; }
 
-/* Main */
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
+main { max-width: 1100px; margin: 0 auto; padding: 1.8rem 1.2rem 4rem; }
 
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.75rem;
-  color: var(--primary);
-}
-h2 {
-  font-size: 1.6rem;
-  margin: 2rem 0 1rem;
-  color: var(--primary);
-  border-bottom: 3px solid var(--primary-light);
-  padding-bottom: 0.4rem;
-}
-h3 {
-  font-size: 1.25rem;
-  margin: 1.5rem 0 0.6rem;
-  color: var(--secondary);
-}
+h1 { font-size: 2rem; color: var(--primary); margin-bottom: .6rem; }
+h2 { font-size: 1.45rem; color: var(--primary); margin: 2.2rem 0 1rem; border-bottom: 3px solid var(--primary-light); padding-bottom: .35rem; }
+h3 { font-size: 1.15rem; color: var(--secondary); margin: 1.2rem 0 .5rem; }
+.lead { font-size: 1.08rem; color: var(--muted); margin-bottom: 1.4rem; }
 
-p, li {
-  margin-bottom: 0.75rem;
-}
-
-.lead {
-  font-size: 1.15rem;
-  color: var(--muted);
-  margin-bottom: 1.5rem;
-}
-
-/* Cards grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.1rem;
+  margin: 1.3rem 0;
 }
-
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 14px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  transition: .22s;
+  cursor: pointer;
 }
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.1);
+  border-color: var(--primary-light);
 }
-.card h3 {
-  margin-top: 0;
-  font-size: 1.1rem;
-}
-.card .tag {
+.card .icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
+.card h3 { margin-top: 0; font-size: 1.05rem; color: var(--primary); }
+.card p { font-size: .92rem; color: var(--muted); margin: 0; }
+.tag {
   display: inline-block;
   background: #e0f2fe;
   color: #0369a1;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .18rem .5rem;
+  border-radius: 5px;
+  margin-bottom: .45rem;
 }
 
-/* Tables */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1rem 0 2rem;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+.info, .warning, .success {
+  padding: 1rem 1.15rem;
+  border-radius: 0 10px 10px 0;
+  margin: 1.3rem 0;
+  font-size: .95rem;
 }
-th, td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-th {
-  background: var(--primary);
-  color: white;
-  font-weight: 600;
-}
-tr:nth-child(even) {
-  background: #f1f5f9;
-}
-tr:hover {
-  background: #e0f2fe;
-}
+.info { background: #eff6ff; border-left: 4px solid #3b82f6; }
+.warning { background: #fffbeb; border-left: 4px solid #f59e0b; }
+.success { background: #ecfdf5; border-left: 4px solid #059669; }
 
-/* Lists */
 .specialty-list {
   columns: 2;
   column-gap: 2rem;
   list-style: none;
+  margin: 1rem 0;
 }
 .specialty-list li {
   break-inside: avoid;
-  padding: 0.35rem 0;
+  padding: .4rem 0;
   border-bottom: 1px dashed var(--border);
-  font-size: 0.95rem;
+  font-size: .93rem;
 }
-@media (max-width: 700px) {
-  .specialty-list { columns: 1; }
-}
+@media (max-width: 700px) { .specialty-list { columns: 1; } }
 
-/* Alerts / info boxes */
-.info {
-  background: #eff6ff;
-  border-left: 4px solid var(--primary-light);
-  padding: 1rem 1.25rem;
-  border-radius: 0 8px 8px 0;
-  margin: 1.5rem 0;
+.fiche {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.3rem;
+  margin: 1rem 0;
 }
-.warning {
-  background: #fffbeb;
-  border-left: 4px solid var(--accent);
-  padding: 1rem 1.25rem;
-  border-radius: 0 8px 8px 0;
-  margin: 1.5rem 0;
-}
-.success {
-  background: #ecfdf5;
-  border-left: 4px solid var(--success);
-  padding: 1rem 1.25rem;
-  border-radius: 0 8px 8px 0;
-  margin: 1.5rem 0;
-}
+.fiche h3 { margin-top: 0; }
+.fiche ul { margin-left: 1.2rem; margin-top: .5rem; }
 
-/* Footer */
 footer {
   background: #0f172a;
   color: #94a3b8;
-  padding: 2rem 1.5rem;
   text-align: center;
-  font-size: 0.9rem;
-}
-footer a {
-  color: #60a5fa;
+  padding: 1.8rem 1rem;
+  font-size: .88rem;
 }
 
-/* Search / filter */
-.search-box {
-  margin: 1.5rem 0;
-}
-.search-box input {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.7rem 1rem;
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  font-size: 1rem;
-}
-.search-box input:focus {
-  outline: none;
-  border-color: var(--primary-light);
-}
+.section { display: none; }
+.section.active { display: block; }
 
-/* Badge */
-.badge {
+.btn {
   display: inline-block;
-  background: var(--secondary);
+  background: var(--primary);
   color: white;
-  font-size: 0.7rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-  margin-left: 0.4rem;
-  vertical-align: middle;
+  padding: .55rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .9rem;
+  border: none;
+  cursor: pointer;
+  margin: .3rem .3rem .3rem 0;
 }
+.btn:hover { background: #1e40af; text-decoration: none; color: white; }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline:hover { background: var(--primary); color: white; }
+</style>
+</head>
+<body>
 
-/* Responsive */
-@media (max-width: 600px) {
-  h1 { font-size: 1.7rem; }
-  .header-inner { flex-direction: column; align-items: flex-start; }
-  nav ul { gap: 0.3rem; }
-  nav a { padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+<header>
+  <div class="header-inner">
+    <div class="logo">Études Sup <span>France</span></div>
+    <nav>
+      <a href="#" class="active" onclick="show('accueil')">Accueil</a>
+      <a href="#" onclick="show('bts')">BTS / BTSA</a>
+      <a href="#" onclick="show('but')">BUT</a>
+      <a href="#" onclick="show('licences')">Licences</a>
+      <a href="#" onclick="show('autres')">Autres voies</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ========== ACCUEIL ========== -->
+<section id="accueil" class="section active">
+  <h1>L’enseignement supérieur en France</h1>
+  <p class="lead">Panorama clair et structuré : BTS, BUT, Licences, CPGE, Grandes Écoles, Santé… Contenu basé sur les sources officielles.</p>
+
+  <div class="warning">
+    <strong>⚠️ Important</strong><br>
+    Ce site est une synthèse. Les programmes détaillés (heures, compétences, épreuves) se trouvent sur 
+    <a href="https://eduscol.education.gouv.fr" target="_blank">éduscol</a>, 
+    <a href="https://www.onisep.fr" target="_blank">Onisep</a> et 
+    <a href="https://www.enseignementsup-recherche.gouv.fr" target="_blank">enseignementsup-recherche.gouv.fr</a>.
+  </div>
+
+  <h2>Le système LMD</h2>
+  <div class="grid">
+    <div class="card">
+      <span class="icon">📘</span>
+      <span class="tag">Bac+3 · 180 ECTS</span>
+      <h3>Licence</h3>
+      <p>Premier cycle. 6 semestres. Fondamentaux + compétences transversales. Accès après le bac via Parcoursup.</p>
+    </div>
+    <div class="card">
+      <span class="icon">📗</span>
+      <span class="tag">Bac+5 · 300 ECTS</span>
+      <h3>Master</h3>
+      <p>Deuxième cycle. 4 semestres. Spécialisation pro ou recherche. Sélection à l’entrée du M1 (Mon Master).</p>
+    </div>
+    <div class="card">
+      <span class="icon">📕</span>
+      <span class="tag">Bac+8</span>
+      <h3>Doctorat</h3>
+      <p>Troisième cycle. Recherche originale + thèse. Accessible après un Master.</p>
+    </div>
+  </div>
+
+  <div class="info">
+    <strong>Crédits ECTS</strong> : 1 semestre ≈ 30 crédits · 1 année ≈ 60 crédits. Capitalisables et transférables en Europe.
+  </div>
+
+  <h2>Les grandes voies après le bac</h2>
+  <div class="grid">
+    <div class="card" onclick="show('bts')">
+      <span class="icon">🛠️</span>
+      <h3>BTS / BTSA</h3>
+      <p><strong>Bac+2</strong> · Formation professionnalisante en lycée. ~80–100 spécialités. Stages + insertion rapide.</p>
+    </div>
+    <div class="card" onclick="show('but')">
+      <span class="icon">🎓</span>
+      <h3>BUT</h3>
+      <p><strong>Bac+3</strong> · Grade de Licence. Dans les IUT. 24 mentions. Très pro, stages longs, alternance.</p>
+    </div>
+    <div class="card" onclick="show('licences')">
+      <span class="icon">📚</span>
+      <h3>Licence</h3>
+      <p><strong>Bac+3</strong> · Universités. Mentions disciplinaires nombreuses. Licence pro orientée métier.</p>
+    </div>
+    <div class="card" onclick="show('autres')">
+      <span class="icon">🏛️</span>
+      <h3>CPGE & Grandes Écoles</h3>
+      <p>Prépas → concours. Ingénieurs, commerce, ENS, vétérinaire…</p>
+    </div>
+    <div class="card" onclick="show('autres')">
+      <span class="icon">🏥</span>
+      <h3>Santé</h3>
+      <p>PASS / LAS → Médecine, Pharmacie, Odontologie, Maïeutique + paramédical.</p>
+    </div>
+    <div class="card" onclick="show('autres')">
+      <span class="icon">🎨</span>
+      <h3>Autres</h3>
+      <p>DN MADE, DCG, écoles d’art, architecture, social, sport…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BTS ========== -->
+<section id="bts" class="section">
+  <h1>🛠️ BTS & BTSA</h1>
+  <p class="lead">Brevet de Technicien Supérieur — Bac+2 (120 ECTS) — Niveau 5. Préparé en 2 ans en STS (lycée) ou lycée agricole.</p>
+
+  <div class="info">
+    <strong>Points clés</strong>
+    <ul>
+      <li>Plus de 80 spécialités (services + production) + BTSA agricoles</li>
+      <li>Stages obligatoires + forte professionnalisation</li>
+      <li>Accès principalement via Parcoursup</li>
+      <li>Poursuite possible : Licence pro, école d’ingénieurs (ATS), etc.</li>
+    </ul>
+  </div>
+
+  <h2>Secteur des services (exemples majeurs)</h2>
+  <ul class="specialty-list">
+    <li>Management commercial opérationnel (MCO)</li>
+    <li>Négociation et digitalisation de la relation client (NDRC)</li>
+    <li>Commerce international</li>
+    <li>Comptabilité et gestion (CG)</li>
+    <li>Gestion de la PME (GPME)</li>
+    <li>Support à l’action managériale (SAM)</li>
+    <li>Services informatiques aux organisations (SIO) – SISR / SLAM</li>
+    <li>Cybersécurité, Informatique et réseaux, Électronique (CIEL)</li>
+    <li>Communication</li>
+    <li>Tourisme</li>
+    <li>Professions immobilières</li>
+    <li>Banque</li>
+    <li>Assurance</li>
+    <li>Économie sociale familiale (ESF)</li>
+    <li>Services et prestations des secteurs sanitaire et social (SP3S)</li>
+    <li>Management en hôtellerie-restauration (MHR)</li>
+    <li>Métiers de l’esthétique, cosmétique et parfumerie</li>
+    <li>Métiers de la coiffure</li>
+    <li>Diététique / Diététique et nutrition</li>
+    <li>Opticien-lunetier</li>
+    <li>Collaborateur juriste notarial</li>
+  </ul>
+
+  <h2>Secteur de la production / industrie</h2>
+  <ul class="specialty-list">
+    <li>Électrotechnique</li>
+    <li>Maintenance des systèmes (plusieurs options)</li>
+    <li>Maintenance des véhicules</li>
+    <li>Conception et réalisation de systèmes automatiques (CRSA)</li>
+    <li>Conception des processus de réalisation de produits (CPRP)</li>
+    <li>Conception de produits industriels (CPI)</li>
+    <li>Conception et réalisation en chaudronnerie industrielle</li>
+    <li>Aéronautique</li>
+    <li>Assistance technique d’ingénieur (ATI)</li>
+    <li>Fluides, énergies, domotique (FED)</li>
+    <li>Bâtiment</li>
+    <li>Enveloppe des bâtiments</li>
+    <li>Travaux publics</li>
+    <li>Architectures en métal</li>
+    <li>Développement et réalisation bois</li>
+    <li>Fonderie / Forge</li>
+    <li>Contrôle industriel et régulation automatique (CIRA)</li>
+    <li>Bioanalyses en laboratoire de contrôle</li>
+    <li>Biotechnologie en recherche et production</li>
+    <li>Photonique</li>
+    <li>Construction et aménagement de véhicules</li>
+  </ul>
+
+  <h2>BTSA (agricoles)</h2>
+  <ul class="specialty-list">
+    <li>Agronomie – cultures durables</li>
+    <li>Aménagements paysagers</li>
+    <li>Analyses agricoles, biologiques et biotechnologiques</li>
+    <li>Analyse, conduite et stratégie de l’entreprise agricole</li>
+    <li>Aquaculture</li>
+    <li>Gestion et protection de la nature</li>
+    <li>Productions animales / végétales</li>
+    <li>Technico-commercial</li>
+    <li>Viticulture-œnologie</li>
+    <li>Génie des équipements agricoles</li>
+    <li>Gestion et maîtrise de l’eau</li>
+  </ul>
+
+  <div class="success">
+    <strong>Sources officielles</strong><br>
+    • <a href="https://eduscol.education.gouv.fr/5583/le-brevet-de-technicien-superieur" target="_blank">éduscol – BTS</a><br>
+    • <a href="https://enqdip.sup.adc.education.fr/bts/index.htm" target="_blank">Liste des spécialités + référentiels</a><br>
+    • <a href="https://www.onisep.fr" target="_blank">Onisep</a>
+  </div>
+</section>
+
+<!-- ========== BUT ========== -->
+<section id="but" class="section">
+  <h1>🎓 BUT — Bachelor Universitaire de Technologie</h1>
+  <p class="lead">Bac+3 (180 ECTS) conférant le <strong>grade de Licence</strong>. Préparé en 3 ans dans les IUT. 24 mentions nationales + parcours.</p>
+
+  <div class="info">
+    <strong>Points clés</strong>
+    <ul>
+      <li>24 mentions nationales</li>
+      <li>Plus de 80 parcours de spécialisation</li>
+      <li>Pédagogie par compétences, projets, stages longs (jusqu’à 22–26 semaines)</li>
+      <li>Alternance très répandue</li>
+      <li>Accès sélectif via Parcoursup</li>
+    </ul>
+  </div>
+
+  <h2>Secteur des services (8 mentions)</h2>
+  <div class="grid">
+    <div class="card">
+      <span class="icon">⚖️</span>
+      <h3>Carrières Juridiques (CJ)</h3>
+      <p>Droit, justice, fonction publique, entreprise. Parcours : Administration et justice, Patrimoine et finance…</p>
+    </div>
+    <div class="card">
+      <span class="icon">🤝</span>
+      <h3>Carrières Sociales (CS)</h3>
+      <p>Éducation spécialisée, animation, assistance sociale, coordination d’établissements, villes et territoires durables.</p>
+    </div>
+    <div class="card">
+      <span class="icon">📊</span>
+      <h3>GEA</h3>
+      <p>Gestion des Entreprises et des Administrations. Finance, RH, contrôle de gestion, entrepreneuriat.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🗂️</span>
+      <h3>GACO</h3>
+      <p>Gestion Administrative et Commerciale des Organisations. Polyvalence + projet.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🛒</span>
+      <h3>Techniques de Commercialisation (TC)</h3>
+      <p>Vente, marketing, négociation, digital, international, relation client.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🚚</span>
+      <h3>MLT</h3>
+      <p>Management de la Logistique et des Transports. Supply chain, mobilité, flux.</p>
+    </div>
+    <div class="card">
+      <span class="icon">📢</span>
+      <h3>Information-Communication</h3>
+      <p>Communication des organisations, métiers du livre, journalisme, publicité…</p>
+    </div>
+    <div class="card">
+      <span class="icon">📈</span>
+      <h3>Science des Données (SD)</h3>
+      <p>Statistique, data, informatique décisionnelle (ex-STID).</p>
+    </div>
+  </div>
+
+  <h2>Secteur industriel / sciences (16 mentions)</h2>
+  <div class="grid">
+    <div class="card"><span class="icon">🧪</span><h3>Chimie</h3><p>Analyse, synthèse, formulation, contrôle qualité.</p></div>
+    <div class="card"><span class="icon">🧬</span><h3>Génie Biologique (GB)</h3><p>Agronomie, biologie médicale, diététique, agroalimentaire, environnement.</p></div>
+    <div class="card"><span class="icon">⚗️</span><h3>GCGP</h3><p>Génie Chimique – Génie des Procédés.</p></div>
+    <div class="card"><span class="icon">🏗️</span><h3>GCCD</h3><p>Génie Civil – Construction Durable.</p></div>
+    <div class="card"><span class="icon">⚡</span><h3>GEII</h3><p>Génie Électrique et Informatique Industrielle.</p></div>
+    <div class="card"><span class="icon">🔧</span><h3>GIM</h3><p>Génie Industriel et Maintenance.</p></div>
+    <div class="card"><span class="icon">⚙️</span><h3>GMP</h3><p>Génie Mécanique et Productique.</p></div>
+    <div class="card"><span class="icon">🛡️</span><h3>HSE</h3><p>Hygiène, Sécurité, Environnement.</p></div>
+    <div class="card"><span class="icon">💻</span><h3>Informatique</h3><p>Développement, systèmes, données, SI.</p></div>
+    <div class="card"><span class="icon">📏</span><h3>Mesures Physiques</h3><p>Métrologie, instrumentation, contrôles.</p></div>
+    <div class="card"><span class="icon">🌐</span><h3>MMI</h3><p>Métiers du Multimédia et de l’Internet.</p></div>
+    <div class="card"><span class="icon">📦</span><h3>PEC</h3><p>Packaging, Emballage et Conditionnement.</p></div>
+    <div class="card"><span class="icon">✅</span><h3>QLIO</h3><p>Qualité, Logistique Industrielle et Organisation.</p></div>
+    <div class="card"><span class="icon">📡</span><h3>Réseaux et Télécoms</h3><p>Réseaux, cybersécurité, cloud.</p></div>
+    <div class="card"><span class="icon">🧱</span><h3>Science et Génie des Matériaux</h3><p>Matériaux et procédés.</p></div>
+    <div class="card"><span class="icon">🔋</span><h3>MT2E</h3><p>Métiers de la Transition et de l’Efficacité Énergétiques.</p></div>
+  </div>
+
+  <div class="success">
+    Source officielle : <a href="https://www.iut.fr/les-24-specialites-de-but/" target="_blank">iut.fr – Les 24 spécialités</a>
+  </div>
+</section>
+
+<!-- ========== LICENCES ========== -->
+<section id="licences" class="section">
+  <h1>📚 Les Licences</h1>
+  <p class="lead">Diplôme national Bac+3 (180 ECTS) conférant le grade de Licence. Préparé à l’université.</p>
+
+  <div class="grid">
+    <div class="card"><span class="icon">⚖️</span><h3>Droit</h3><p>Droit privé, public, science politique, carrières judiciaires…</p></div>
+    <div class="card"><span class="icon">💰</span><h3>Économie & Gestion</h3><p>Économie, Gestion, AES, Comptabilité, Finance, Marketing…</p></div>
+    <div class="card"><span class="icon">🔬</span><h3>Sciences & Technologies</h3><p>Maths, Physique, Chimie, SVT, Informatique, Mécanique, Génie civil…</p></div>
+    <div class="card"><span class="icon">🧠</span><h3>Sciences Humaines & Sociales</h3><p>Histoire, Géographie, Psychologie, Sociologie, Philosophie, Sciences de l’éducation…</p></div>
+    <div class="card"><span class="icon">📖</span><h3>Lettres, Langues, Arts</h3><p>Lettres, LEA, LLCER, Arts, Histoire de l’art, Musicologie, Cinéma…</p></div>
+    <div class="card"><span class="icon">🏃</span><h3>STAPS</h3><p>Sciences et Techniques des Activités Physiques et Sportives.</p></div>
+    <div class="card"><span class="icon">🏥</span><h3>Santé (accès)</h3><p>PASS et LAS → Médecine, Pharmacie, Odontologie, Maïeutique…</p></div>
+    <div class="card"><span class="icon">🎯</span><h3>Licence professionnelle</h3><p>Bac+3 orientée métier. Accès souvent après BTS/BUT/L2. Alternance fréquente.</p></div>
+  </div>
+
+  <div class="info">
+    Les mentions exactes varient selon les universités. Consultez les catalogues des universités et Parcoursup pour les attendus et les places.
+  </div>
+</section>
+
+<!-- ========== AUTRES ========== -->
+<section id="autres" class="section">
+  <h1>🏛️ Autres voies</h1>
+
+  <h2>Classes Préparatoires aux Grandes Écoles (CPGE)</h2>
+  <div class="grid">
+    <div class="card"><span class="icon">📐</span><h3>Scientifiques</h3><p>MPSI/MP, PCSI/PC, PTSI/PT, BCPST, MPI… → Écoles d’ingénieurs, ENS, vétérinaire.</p></div>
+    <div class="card"><span class="icon">📈</span><h3>Économiques</h3><p>ECG, ECT → Écoles de commerce (HEC, ESSEC, ESCP…).</p></div>
+    <div class="card"><span class="icon">📜</span><h3>Littéraires</h3><p>A/L, B/L → ENS, commerce, IEP…</p></div>
+  </div>
+
+  <h2>Grandes Écoles & Santé</h2>
+  <div class="grid">
+    <div class="card"><span class="icon">🏗️</span><h3>Écoles d’ingénieurs</h3><p>Post-prépa ou post-bac. Titre d’ingénieur (grade de Master) sous contrôle CTI.</p></div>
+    <div class="card"><span class="icon">💼</span><h3>Écoles de commerce</h3><p>Post-prépa ou post-bac. Grade de Master pour les programmes reconnus.</p></div>
+    <div class="card"><span class="icon">🏥</span><h3>Études de santé</h3><p>PASS / LAS → Médecine, Pharmacie, Odontologie, Maïeutique. + IFSI, kiné, etc.</p></div>
+  </div>
+
+  <h2>Autres diplômes</h2>
+  <div class="grid">
+    <div class="card"><span class="icon">🎨</span><h3>DN MADE</h3><p>Diplôme National des Métiers d’Art et du Design (Bac+3).</p></div>
+    <div class="card"><span class="icon">📑</span><h3>DCG / DSCG</h3><p>Comptabilité et Gestion → Expertise comptable.</p></div>
+    <div class="card"><span class="icon">🎭</span><h3>Écoles d’art & architecture</h3><p>Beaux-Arts, arts appliqués, architecture…</p></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>Études Sup France</strong> — Synthèse open-source basée sur sources publiques · 2026</p>
+  <p>Vérifiez toujours les textes officiels et Parcoursup pour l’année en cours.</p>
+</footer>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  // simple highlight
+  event.target.classList.add('active');
+  window.scrollTo(0,0);
 }
+</script>
+</body>
+</html>
