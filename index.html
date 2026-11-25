@@ -1,588 +1,270 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ma Vie — Simulation</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{overflow:hidden;background:#0f0f0f;font-family:system-ui,sans-serif;color:#f5f5f4}
-#menu{position:absolute;inset:0;background:linear-gradient(135deg,#1c1917,#292524);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:30;gap:16px;padding:20px}
-#menu h1{font-size:2.6rem;color:#f97316;letter-spacing:-1px}
-#menu p{color:#a8a29e;max-width:420px;text-align:center;line-height:1.5}
-.btn{padding:13px 32px;border:0;border-radius:12px;background:#f97316;color:#1c1917;font-weight:800;font-size:16px;cursor:pointer}
-#hud{position:absolute;top:0;left:0;right:0;padding:12px 16px;display:none;gap:14px;align-items:center;background:linear-gradient(#000a,#0000);z-index:10;pointer-events:none;font-size:13px;flex-wrap:wrap}
-.bar{width:90px;height:10px;background:#292524;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle}
-.bar i{display:block;height:100%;transition:width .3s}
-#panel{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:#1c1917ee;border:1px solid #44403c;border-radius:14px;padding:14px 18px;display:none;z-index:15;min-width:280px;max-width:90vw}
-#panel h3{color:#f97316;margin-bottom:8px;font-size:15px}
-#panel .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-#panel button{padding:8px 14px;border:0;border-radius:8px;background:#44403c;color:#e7e5e4;font-size:13px;cursor:pointer}
-#panel button:hover{background:#f97316;color:#1c1917}
-#panel button:disabled{opacity:.4;cursor:not-allowed}
-#msg{position:absolute;top:70px;left:50%;transform:translateX(-50%);background:#000c;padding:9px 16px;border-radius:10px;opacity:0;transition:.3s;z-index:20;font-size:14px;text-align:center;max-width:90%}
-#msg.show{opacity:1}
-#hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);color:#57534e;font-size:12px;z-index:10;display:none}
-#dayinfo{position:absolute;top:12px;right:16px;font-size:13px;color:#a8a29e;z-index:10;display:none}
-</style>
-</head>
-<body>
-<div id="menu">
-  <h1>MA VIE</h1>
-  <p>Construis ta vie. Trouve un travail, achète une maison, fais-toi des amis, prends soin de toi et avance vers le bonheur.</p>
-  <button class="btn" id="start">Commencer ma vie</button>
-  <p id="status" style="font-size:13px;color:#78716c"></p>
-</div>
-
-<div id="hud">
-  <span>💰 <b id="money">350</b>€</span>
-  <span>🍖 <span class="bar"><i id="hunger" style="width:80%;background:#ea580c"></i></span></span>
-  <span>⚡ <span class="bar"><i id="energy" style="width:90%;background:#3b82f6"></i></span></span>
-  <span>😊 <span class="bar"><i id="happy" style="width:70%;background:#22c55e"></i></span></span>
-  <span>👥 <span class="bar"><i id="social" style="width:40%;background:#a855f7"></i></span></span>
-</div>
-
-<div id="dayinfo">Jour 1 — 08:00</div>
-<div id="msg"></div>
-<div id="panel"></div>
-<div id="hint">ZQSD / Flèches pour bouger · Souris pour regarder · E pour interagir</div>
-
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-  }
-}
-</script>
-<script type="module">
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
-
-function toast(t, time=2800){
-  const m = document.getElementById('msg');
-  m.textContent = t;
-  m.classList.add('show');
-  clearTimeout(toast._t);
-  toast._t = setTimeout(()=>m.classList.remove('show'), time);
-}
-function setStatus(t){ document.getElementById('status').textContent = t; }
-
-function groundModel(model){
-  model.updateMatrixWorld(true);
-  const box = new THREE.Box3().setFromObject(model);
-  model.position.y -= box.min.y;
+/* Études Sup France - Style moderne et clair */
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --secondary: #0f766e;
+  --accent: #f59e0b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --success: #059669;
 }
 
-function simpleHuman(color=0x3b82f6, scale=1){
-  const g = new THREE.Group();
-  const skin = new THREE.MeshStandardMaterial({color:0xc4a574, roughness:0.7});
-  const cloth = new THREE.MeshStandardMaterial({color, roughness:0.85});
-  const pants = new THREE.MeshStandardMaterial({color:0x1e293b, roughness:0.9});
-  [-0.12,0.12].forEach(x=>{
-    const l = new THREE.Mesh(new THREE.CapsuleGeometry(0.09*scale,0.45*scale,4,6), pants);
-    l.position.set(x*scale,0.38*scale,0); l.castShadow=true; g.add(l);
-  });
-  const t = new THREE.Mesh(new THREE.CapsuleGeometry(0.24*scale,0.48*scale,4,8), cloth);
-  t.position.y = 1.05*scale; t.castShadow=true; g.add(t);
-  const h = new THREE.Mesh(new THREE.SphereGeometry(0.2*scale,8,8), skin);
-  h.position.y = 1.65*scale; h.castShadow=true; g.add(h);
-  return g;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-const loader = new GLTFLoader();
-const models = {};
-
-async function loadModel(path, key){
-  try{
-    models[key] = await loader.loadAsync(path);
-    return true;
-  }catch(e){
-    console.warn(key, e.message);
-    models[key] = null;
-    return false;
-  }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-async function loadAll(){
-  setStatus('Chargement des personnages…');
-  await Promise.all([
-    loadModel('./Characters_Matt.gltf', 'player'),
-    loadModel('./Street_Straight.gltf', 'street'),
-    loadModel('./Street_4Way.gltf', 'cross'),
-    loadModel('./StreetLights.gltf', 'lamp')
-  ]);
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
-function createPlayer(){
-  if(models.player){
-    const clone = SkeletonUtils.clone(models.player.scene);
-    clone.scale.setScalar(1);
-    clone.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; }});
-    groundModel(clone);
-    const mixer = new THREE.AnimationMixer(clone);
-    const actions = {};
-    if(models.player.animations?.length){
-      models.player.animations.forEach(clip=>{
-        const n = clip.name.toLowerCase();
-        const a = mixer.clipAction(clip);
-        if(/walk|run|course|marche/.test(n)) actions.walk = a;
-        else if(/idle|stand|wait/.test(n)) actions.idle = a;
-      });
-      if(actions.idle){ actions.idle.setLoop(THREE.LoopRepeat); actions.idle.play(); }
-      if(actions.walk) actions.walk.setLoop(THREE.LoopRepeat);
-    }
-    return { mesh: clone, mixer, actions };
-  }
-  return { mesh: simpleHuman(0xf97316), mixer:null, actions:{} };
+/* Header */
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+  color: white;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-// ========== JEU ==========
-document.getElementById('start').onclick = async ()=>{
-  document.getElementById('start').disabled = true;
-  await loadAll();
-  startGame();
-};
-
-function startGame(){
-  document.getElementById('menu').style.display = 'none';
-  document.getElementById('hud').style.display = 'flex';
-  document.getElementById('hint').style.display = 'block';
-  document.getElementById('dayinfo').style.display = 'block';
-
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x87a0b8);
-  scene.fog = new THREE.FogExp2(0x87a0b8, 0.012);
-
-  const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 200);
-  const renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  renderer.shadowMap.enabled = true;
-  document.body.appendChild(renderer.domElement);
-
-  // Lumières
-  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-  scene.add(new THREE.HemisphereLight(0xddeeff, 0x445566, 0.7));
-  const sun = new THREE.DirectionalLight(0xfff5e0, 1.0);
-  sun.position.set(30,50,20);
-  sun.castShadow = true;
-  scene.add(sun);
-
-  // Sol
-  const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(180,180),
-    new THREE.MeshStandardMaterial({color:0x4a7c3f, roughness:0.9})
-  );
-  ground.rotation.x = -Math.PI/2;
-  ground.receiveShadow = true;
-  scene.add(ground);
-
-  // Routes
-  const TILE = 12;
-  function placeStreet(key, x, z, rot=0){
-    if(!models[key]) return;
-    const c = SkeletonUtils.clone(models[key].scene);
-    c.scale.setScalar(1.1);
-    c.position.set(x, 0.02, z);
-    c.rotation.y = rot;
-    c.traverse(o=>{ if(o.isMesh) o.receiveShadow=true; });
-    scene.add(c);
-  }
-  placeStreet('cross', 0, 0);
-  for(let i=1;i<=4;i++){
-    placeStreet('street', 0, i*TILE);
-    placeStreet('street', 0, -i*TILE);
-    placeStreet('street', i*TILE, 0, Math.PI/2);
-    placeStreet('street', -i*TILE, 0, Math.PI/2);
-  }
-
-  // Lampadaires
-  for(let i=0;i<10;i++){
-    if(!models.lamp) break;
-    const c = SkeletonUtils.clone(models.lamp.scene);
-    const x = (Math.random()-0.5)*80;
-    const z = (Math.random()-0.5)*80;
-    c.position.set(x,0,z);
-    scene.add(c);
-  }
-
-  // ===== BÂTIMENTS =====
-  const interactables = []; // {mesh, type, data, label}
-
-  function makeBuilding(x, z, w, d, h, color, label, type, data={}){
-    const g = new THREE.Group();
-    const mat = new THREE.MeshStandardMaterial({color, roughness:0.85});
-    const body = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat);
-    body.position.y = h/2;
-    body.castShadow = true; body.receiveShadow = true;
-    g.add(body);
-
-    // porte
-    const door = new THREE.Mesh(new THREE.PlaneGeometry(1.4,2.1), new THREE.MeshStandardMaterial({color:0x1e1b18}));
-    door.position.set(0,1.05,d/2+0.01);
-    g.add(door);
-
-    // toit
-    const roof = new THREE.Mesh(new THREE.BoxGeometry(w+0.3,0.3,d+0.3), new THREE.MeshStandardMaterial({color:0x3f2e28}));
-    roof.position.y = h+0.15;
-    g.add(roof);
-
-    g.position.set(x,0,z);
-    scene.add(g);
-
-    interactables.push({
-      pos: new THREE.Vector3(x,0,z),
-      radius: Math.max(w,d)*0.6,
-      type, data, label, mesh: g
-    });
-    return g;
-  }
-
-  // Maison à vendre
-  makeBuilding(18, 14, 9, 8, 6, 0xc4a574, 'Maison à vendre — 1200€', 'house', {price:1200, owned:false});
-  makeBuilding(-20, 16, 8, 7, 5.5, 0xa8a29e, 'Petit appartement — 800€', 'house', {price:800, owned:false});
-  makeBuilding(22, -18, 10, 9, 7, 0xd6d3d1, 'Belle maison — 2000€', 'house', {price:2000, owned:false});
-
-  // Travail
-  makeBuilding(-16, -18, 11, 9, 8, 0x3b82f6, 'Bureau — Travailler ici', 'job', {pay:85, energyCost:25, name:'Employé de bureau'});
-  makeBuilding(0, 28, 10, 8, 6, 0x16a34a, 'Café — Serveur', 'job', {pay:55, energyCost:20, name:'Serveur'});
-
-  // Loisirs / lieux
-  makeBuilding(28, 5, 7, 6, 4, 0x7c3aed, 'Parc & Bancs — Se détendre', 'leisure', {happy:18, energy:8});
-  makeBuilding(-28, 5, 8, 7, 5, 0xdc2626, 'Salle de sport', 'leisure', {happy:12, energy:-15, strength:true});
-
-  // Magasin nourriture
-  makeBuilding(8, -26, 7, 6, 4.5, 0xea580c, 'Épicerie — Acheter à manger', 'shop', {});
-
-  // ===== PNJ (amis potentiels) =====
-  const npcs = [];
-  const npcNames = ['Léa', 'Thomas', 'Sarah', 'Karim', 'Emma', 'Noah'];
-  const npcColors = [0xec4899, 0x3b82f6, 0x14b8a6, 0xf59e0b, 0x8b5cf6, 0xef4444];
-
-  for(let i=0;i<6;i++){
-    const mesh = simpleHuman(npcColors[i], 0.95);
-    const a = Math.random()*Math.PI*2;
-    const d = 15 + Math.random()*25;
-    mesh.position.set(Math.cos(a)*d, 0, Math.sin(a)*d);
-    scene.add(mesh);
-    npcs.push({
-      mesh,
-      name: npcNames[i],
-      friendship: 0,
-      dir: new THREE.Vector3(Math.random()-0.5,0,Math.random()-0.5).normalize(),
-      timer: 2+Math.random()*4
-    });
-    interactables.push({
-      pos: mesh.position,
-      radius: 2.2,
-      type: 'npc',
-      data: npcs[i],
-      label: npcNames[i]
-    });
-  }
-
-  // ===== JOUEUR =====
-  const pd = createPlayer();
-  const player = {
-    mesh: pd.mesh,
-    mixer: pd.mixer,
-    actions: pd.actions,
-    money: 350,
-    hunger: 80,
-    energy: 90,
-    happy: 70,
-    social: 30,
-    hasHouse: false,
-    housePos: null,
-    job: null,
-    day: 1,
-    hour: 8,
-    friends: 0,
-    partner: null
-  };
-  player.mesh.position.set(0,0,6);
-  scene.add(player.mesh);
-
-  // ===== ÉTAT UI =====
-  let currentInteract = null;
-  const panel = document.getElementById('panel');
-
-  function updateHUD(){
-    document.getElementById('money').textContent = Math.floor(player.money);
-    document.getElementById('hunger').style.width = Math.max(0,player.hunger)+'%';
-    document.getElementById('energy').style.width = Math.max(0,player.energy)+'%';
-    document.getElementById('happy').style.width = Math.max(0,player.happy)+'%';
-    document.getElementById('social').style.width = Math.max(0,player.social)+'%';
-    document.getElementById('dayinfo').textContent = `Jour ${player.day} — ${String(Math.floor(player.hour)).padStart(2,'0')}:00`;
-  }
-
-  function showPanel(title, buttons){
-    panel.innerHTML = `<h3>${title}</h3><div class="actions"></div>`;
-    const act = panel.querySelector('.actions');
-    buttons.forEach(b=>{
-      const btn = document.createElement('button');
-      btn.textContent = b.label;
-      if(b.disabled) btn.disabled = true;
-      btn.onclick = ()=>{ b.action(); hidePanel(); };
-      act.appendChild(btn);
-    });
-    panel.style.display = 'block';
-  }
-  function hidePanel(){ panel.style.display = 'none'; currentInteract = null; }
-
-  function interact(){
-    // Trouver le plus proche
-    let best = null, bestDist = 3.2;
-    interactables.forEach(it=>{
-      // mettre à jour position des PNJ
-      if(it.type==='npc') it.pos = it.data.mesh.position;
-      const d = player.mesh.position.distanceTo(it.pos);
-      if(d < it.radius && d < bestDist){
-        bestDist = d;
-        best = it;
-      }
-    });
-
-    if(!best){
-      // actions générales
-      showPanel('Actions', [
-        {label:'Manger (15€)', action:()=>{
-          if(player.money<15){ toast('Pas assez d\'argent'); return; }
-          player.money-=15; player.hunger=Math.min(100,player.hunger+45);
-          player.hour+=0.5; toast('Tu as mangé');
-        }},
-        {label:'Se reposer un peu', action:()=>{
-          player.energy=Math.min(100,player.energy+20);
-          player.hour+=1; toast('Petite sieste');
-        }},
-        {label: player.hasHouse ? 'Rentrer chez soi dormir' : 'Dormir dehors (mauvais)', action:()=>{
-          if(player.hasHouse){
-            player.energy=100; player.hunger=Math.max(20,player.hunger-10);
-            player.hour=7; player.day++;
-            toast('Bonne nuit chez toi');
-          } else {
-            player.energy=Math.min(100,player.energy+40);
-            player.happy=Math.max(0,player.happy-15);
-            player.hour=8; player.day++;
-            toast('Tu as dormi dehors… pas top');
-          }
-        }}
-      ]);
-      return;
-    }
-
-    currentInteract = best;
-
-    if(best.type==='house'){
-      if(best.data.owned){
-        showPanel('Ta maison', [
-          {label:'Dormir', action:()=>{
-            player.energy=100; player.hunger=Math.max(15,player.hunger-8);
-            player.hour=7; player.day++;
-            toast('Tu as bien dormi');
-          }},
-          {label:'Se détendre chez soi', action:()=>{
-            player.happy=Math.min(100,player.happy+15);
-            player.energy=Math.min(100,player.energy+10);
-            player.hour+=1.5; toast('+ bonheur');
-          }}
-        ]);
-      } else {
-        showPanel(best.label, [
-          {label:`Acheter (${best.data.price}€)`, disabled: player.money < best.data.price, action:()=>{
-            player.money -= best.data.price;
-            best.data.owned = true;
-            player.hasHouse = true;
-            player.housePos = best.pos.clone();
-            best.label = 'Ta maison';
-            toast('Félicitations ! Tu as acheté une maison 🏠');
-            player.happy = Math.min(100, player.happy+25);
-          }},
-          {label:'Plus tard', action:()=>{}}
-        ]);
-      }
-    }
-    else if(best.type==='job'){
-      showPanel(best.label, [
-        {label:`Travailler (+${best.data.pay}€)`, action:()=>{
-          if(player.energy < best.data.energyCost){ toast('Trop fatigué'); return; }
-          player.energy -= best.data.energyCost;
-          player.money += best.data.pay;
-          player.hour += 4;
-          player.job = best.data.name;
-          player.happy = Math.max(0, player.happy-5);
-          toast(`Tu as travaillé comme ${best.data.name}`);
-        }}
-      ]);
-    }
-    else if(best.type==='leisure'){
-      showPanel(best.label, [
-        {label:'Profiter', action:()=>{
-          player.happy = Math.min(100, player.happy + best.data.happy);
-          player.energy = Math.max(0, Math.min(100, player.energy + (best.data.energy||0)));
-          player.hour += 1.5;
-          toast('Moment agréable');
-        }}
-      ]);
-    }
-    else if(best.type==='shop'){
-      showPanel('Épicerie', [
-        {label:'Repas correct (12€)', action:()=>{
-          if(player.money<12){ toast('Pas assez d\'argent'); return; }
-          player.money-=12; player.hunger=Math.min(100,player.hunger+40); player.hour+=0.3;
-          toast('Bon repas');
-        }},
-        {label:'En-cas (6€)', action:()=>{
-          if(player.money<6){ toast('Pas assez d\'argent'); return; }
-          player.money-=6; player.hunger=Math.min(100,player.hunger+18); player.hour+=0.2;
-        }}
-      ]);
-    }
-    else if(best.type==='npc'){
-      const npc = best.data;
-      const btns = [
-        {label:`Parler avec ${npc.name}`, action:()=>{
-          npc.friendship = Math.min(100, npc.friendship+12);
-          player.social = Math.min(100, player.social+10);
-          player.happy = Math.min(100, player.happy+6);
-          player.hour += 0.8;
-          if(npc.friendship>=30 && npc.friendship<42) toast(`${npc.name} commence à bien t'apprécier`);
-          if(npc.friendship>=60) toast(`Vous êtes devenus amis avec ${npc.name} !`);
-          updateFriends();
-        }}
-      ];
-      if(npc.friendship >= 55 && !player.partner){
-        btns.push({label:`Proposer de sortir avec ${npc.name}`, action:()=>{
-          if(player.social<40){ toast('Tu n\'es pas assez sociable'); return; }
-          player.partner = npc.name;
-          player.happy = Math.min(100, player.happy+30);
-          toast(`Tu sors maintenant avec ${npc.name} ❤️`);
-        }});
-      }
-      if(player.partner === npc.name){
-        btns.push({label:'Passer du temps ensemble', action:()=>{
-          player.happy=Math.min(100,player.happy+14);
-          player.social=Math.min(100,player.social+8);
-          player.hour+=1.5;
-          toast(`Bel moment avec ${npc.name}`);
-        }});
-      }
-      showPanel(npc.name + (npc.friendship>50?' (ami)':''), btns);
-    }
-  }
-
-  function updateFriends(){
-    player.friends = npcs.filter(n=>n.friendship>=50).length;
-  }
-
-  // Contrôles
-  const keys = {};
-  let yaw=0, pitch=0.15;
-  window.addEventListener('keydown', e=>{
-    keys[e.code]=true;
-    if(e.code==='KeyE') interact();
-  });
-  window.addEventListener('keyup', e=> keys[e.code]=false);
-
-  renderer.domElement.addEventListener('mousedown', ()=> renderer.domElement.requestPointerLock());
-  window.addEventListener('mousemove', e=>{
-    if(document.pointerLockElement===renderer.domElement){
-      yaw -= e.movementX*0.0022;
-      pitch = Math.max(-0.5, Math.min(0.55, pitch - e.movementY*0.002));
-    }
-  });
-
-  let last = performance.now();
-
-  function loop(now){
-    const dt = Math.min(0.05, (now-last)/1000);
-    last = now;
-
-    // Temps qui passe doucement
-    player.hour += dt * 0.15; // ~1h toutes les 7 secondes
-    if(player.hour >= 24){
-      player.hour -= 24;
-      player.day++;
-      // dégradations journalières
-      player.hunger = Math.max(0, player.hunger-8);
-      player.energy = Math.max(0, player.energy-5);
-      if(player.hunger<20) player.happy = Math.max(0,player.happy-4);
-      if(player.energy<20) player.happy = Math.max(0,player.happy-3);
-    }
-
-    // Mouvement
-    const forward = new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
-    const right = new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
-    let mv = new THREE.Vector3();
-    if(keys['KeyW']||keys['KeyZ']||keys['ArrowUp']) mv.add(forward);
-    if(keys['KeyS']||keys['ArrowDown']) mv.sub(forward);
-    if(keys['KeyA']||keys['KeyQ']||keys['ArrowLeft']) mv.sub(right);
-    if(keys['KeyD']||keys['ArrowRight']) mv.add(right);
-
-    const moving = mv.lengthSq()>0;
-    if(moving){
-      mv.normalize().multiplyScalar(6.5*dt);
-      player.mesh.position.add(mv);
-      player.mesh.position.x = Math.max(-70,Math.min(70,player.mesh.position.x));
-      player.mesh.position.z = Math.max(-70,Math.min(70,player.mesh.position.z));
-    }
-    player.mesh.rotation.y = yaw + Math.PI;
-
-    // Anim
-    if(player.mixer){
-      player.mixer.update(dt);
-      if(moving && player.actions.walk){
-        if(player.actions.idle) player.actions.idle.fadeOut(0.2);
-        if(!player.actions.walk.isRunning()) player.actions.walk.reset().fadeIn(0.2).play();
-      } else if(player.actions.idle){
-        if(player.actions.walk) player.actions.walk.fadeOut(0.2);
-        if(!player.actions.idle.isRunning()) player.actions.idle.reset().fadeIn(0.2).play();
-      }
-    }
-
-    // PNJ qui marchent un peu
-    npcs.forEach(n=>{
-      n.timer -= dt;
-      if(n.timer<=0){
-        n.timer = 3+Math.random()*5;
-        n.dir.set(Math.random()-0.5,0,Math.random()-0.5).normalize();
-      }
-      n.mesh.position.add(n.dir.clone().multiplyScalar(1.1*dt));
-      n.mesh.position.x = Math.max(-55,Math.min(55,n.mesh.position.x));
-      n.mesh.position.z = Math.max(-55,Math.min(55,n.mesh.position.z));
-      n.mesh.rotation.y = Math.atan2(n.dir.x, n.dir.z);
-    });
-
-    // Caméra
-    const target = player.mesh.position.clone();
-    const dist = 6.5;
-    const off = new THREE.Vector3(Math.sin(yaw)*dist, 2.8+pitch, Math.cos(yaw)*dist);
-    camera.position.lerp(target.clone().add(off), 0.12);
-    camera.lookAt(target.x, target.y+1.4, target.z);
-
-    // Besoins qui baissent
-    player.hunger = Math.max(0, player.hunger - 0.7*dt);
-    player.energy = Math.max(0, player.energy - 0.35*dt);
-    if(player.hunger<=0) player.happy = Math.max(0,player.happy-1.5*dt);
-    if(player.energy<=0) player.happy = Math.max(0,player.happy-1.2*dt);
-
-    updateHUD();
-    renderer.render(scene, camera);
-    requestAnimationFrame(loop);
-  }
-
-  requestAnimationFrame(loop);
-  window.addEventListener('resize', ()=>{
-    camera.aspect = innerWidth/innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth,innerHeight);
-  });
-
-  toast('Bienvenue dans ta nouvelle vie ! Appuie sur E près des bâtiments et des gens.');
-  updateHUD();
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
-</script>
-</body>
-</html>
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.logo span {
+  color: var(--accent);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+nav a {
+  color: white;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+nav a:hover, nav a.active {
+  background: rgba(255,255,255,0.15);
+  text-decoration: none;
+}
+
+/* Main */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+h2 {
+  font-size: 1.6rem;
+  margin: 2rem 0 1rem;
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary-light);
+  padding-bottom: 0.4rem;
+}
+h3 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 0.6rem;
+  color: var(--secondary);
+}
+
+p, li {
+  margin-bottom: 0.75rem;
+}
+
+.lead {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Cards grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.card h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+.card .tag {
+  display: inline-block;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+tr:nth-child(even) {
+  background: #f1f5f9;
+}
+tr:hover {
+  background: #e0f2fe;
+}
+
+/* Lists */
+.specialty-list {
+  columns: 2;
+  column-gap: 2rem;
+  list-style: none;
+}
+.specialty-list li {
+  break-inside: avoid;
+  padding: 0.35rem 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.95rem;
+}
+@media (max-width: 700px) {
+  .specialty-list { columns: 1; }
+}
+
+/* Alerts / info boxes */
+.info {
+  background: #eff6ff;
+  border-left: 4px solid var(--primary-light);
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5rem 0;
+}
+.warning {
+  background: #fffbeb;
+  border-left: 4px solid var(--accent);
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5rem 0;
+}
+.success {
+  background: #ecfdf5;
+  border-left: 4px solid var(--success);
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5rem 0;
+}
+
+/* Footer */
+footer {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+footer a {
+  color: #60a5fa;
+}
+
+/* Search / filter */
+.search-box {
+  margin: 1.5rem 0;
+}
+.search-box input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary-light);
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  background: var(--secondary);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 { font-size: 1.7rem; }
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  nav ul { gap: 0.3rem; }
+  nav a { padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+}
