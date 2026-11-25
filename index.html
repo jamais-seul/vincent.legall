@@ -3,396 +3,322 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Études Sup France — Cours structurés</title>
+<title>Études Sup France — Cours complets BTS</title>
 <style>
-:root {
-  --primary: #1e3a8a;
-  --primary-dark: #1e40af;
-  --accent: #0f766e;
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --text: #1e293b;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --orange: #ea580c;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-a { color: #2563eb; text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* Header */
-header {
-  background: #1e3a8a;
-  color: white;
-  padding: 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 12px rgba(0,0,0,.15);
-}
-.topbar {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.7rem 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.logo { font-size: 1.25rem; font-weight: 700; }
-.logo span { color: #fbbf24; }
-nav { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-nav a {
-  color: white;
-  padding: 0.4rem 0.85rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-nav a:hover, nav a.active { background: rgba(255,255,255,0.18); text-decoration: none; }
-
-/* Layout */
-.container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1.2rem 3rem; display: grid; grid-template-columns: 260px 1fr; gap: 1.5rem; }
-@media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
-
-/* Sidebar */
-.sidebar {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem;
-  height: fit-content;
-  position: sticky;
-  top: 70px;
-}
-.sidebar h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.8rem; }
-.sidebar a {
-  display: block;
-  padding: 0.45rem 0.7rem;
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 0.9rem;
-  margin-bottom: 0.2rem;
-}
-.sidebar a:hover, .sidebar a.active { background: #eff6ff; color: var(--primary); text-decoration: none; font-weight: 500; }
-
-/* Main content */
-.content h1 { font-size: 1.8rem; color: var(--primary); margin-bottom: 0.4rem; }
-.content .lead { color: var(--muted); margin-bottom: 1.5rem; }
-
-.section-title {
-  font-size: 1.35rem;
-  color: var(--orange);
-  margin: 2rem 0 1rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid #fed7aa;
-}
-
-/* Sequence cards */
-.sequence {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.1rem 1.3rem;
-  margin-bottom: 0.8rem;
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  transition: 0.2s;
-}
-.sequence:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-.seq-num {
-  background: #eff6ff;
-  color: var(--primary);
-  font-weight: 700;
-  font-size: 0.9rem;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.seq-body h3 { font-size: 1.05rem; margin-bottom: 0.25rem; color: var(--text); }
-.seq-body p { font-size: 0.9rem; color: var(--muted); margin: 0; }
-
-/* Fiche détaillée */
-.fiche {
-  display: none;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-top: 1rem;
-}
-.fiche.show { display: block; }
-.fiche h2 { color: var(--primary); margin-bottom: 0.5rem; }
-.memo {
-  background: #f0fdf4;
-  border-left: 4px solid #16a34a;
-  padding: 0.9rem 1.1rem;
-  margin: 1rem 0;
-  border-radius: 0 8px 8px 0;
-  font-size: 0.95rem;
-}
-.exo {
-  background: #fff7ed;
-  border-left: 4px solid #ea580c;
-  padding: 0.9rem 1.1rem;
-  margin: 1rem 0;
-  border-radius: 0 8px 8px 0;
-}
-.grid-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.9rem;
-  margin: 1.2rem 0;
-}
-.card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); border-color: #93c5fd; }
-.card .icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
-.card h3 { font-size: 0.95rem; color: var(--primary); margin-bottom: 0.2rem; }
-.card p { font-size: 0.82rem; color: var(--muted); margin: 0; }
-
-footer {
-  background: #0f172a;
-  color: #94a3b8;
-  text-align: center;
-  padding: 1.5rem;
-  font-size: 0.85rem;
-  margin-top: 2rem;
-}
+:root{--p:#1e3a8a;--pl:#3b82f6;--s:#0f766e;--o:#ea580c;--bg:#f1f5f9;--c:#fff;--t:#1e293b;--m:#64748b;--b:#e2e8f0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.6}
+a{color:#2563eb;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1e3a8a;color:#fff;padding:.7rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.top{max-width:1200px;margin:0 auto;padding:0 1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.logo{font-weight:700;font-size:1.2rem}.logo span{color:#fbbf24}
+nav a{color:#fff;padding:.35rem .8rem;border-radius:6px;font-size:.9rem}
+nav a:hover,nav a.on{background:rgba(255,255,255,.18);text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:1.3rem 1.2rem 3rem;display:grid;grid-template-columns:250px 1fr;gap:1.4rem}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.side{background:#fff;border:1px solid var(--b);border-radius:12px;padding:1rem;height:fit-content;position:sticky;top:65px}
+.side h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--m);margin-bottom:.7rem}
+.side a{display:block;padding:.4rem .65rem;border-radius:6px;color:var(--t);font-size:.88rem;margin-bottom:.15rem}
+.side a:hover,.side a.on{background:#eff6ff;color:var(--p);text-decoration:none;font-weight:500}
+.main h1{font-size:1.7rem;color:var(--p);margin-bottom:.3rem}
+.lead{color:var(--m);margin-bottom:1.2rem}
+.sec-title{font-size:1.25rem;color:var(--o);margin:1.6rem 0 .8rem;padding-bottom:.25rem;border-bottom:2px solid #fed7aa}
+.seq{background:#fff;border:1px solid var(--b);border-radius:10px;padding:1rem 1.2rem;margin-bottom:.7rem;cursor:pointer;transition:.2s;display:flex;gap:1rem;align-items:flex-start}
+.seq:hover{border-color:#93c5fd;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.num{background:#eff6ff;color:var(--p);font-weight:700;font-size:.88rem;min-width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.seq h3{font-size:1rem;margin-bottom:.2rem}
+.seq p{font-size:.88rem;color:var(--m);margin:0}
+.cours{display:none;background:#fff;border:1px solid var(--b);border-radius:12px;padding:1.4rem;margin:1rem 0}
+.cours.show{display:block}
+.cours h2{color:var(--p);margin-bottom:.6rem}
+.cours h3{color:var(--s);margin:1.1rem 0 .4rem}
+.memo{background:#f0fdf4;border-left:4px solid #16a34a;padding:.85rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.exo{background:#fff7ed;border-left:4px solid #ea580c;padding:.85rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.res{background:#eff6ff;border-left:4px solid #3b82f6;padding:.85rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.85rem;margin:1rem 0}
+.card{background:#fff;border:1px solid var(--b);border-radius:10px;padding:1rem;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08);border-color:#93c5fd}
+.card .ic{font-size:1.4rem;margin-bottom:.25rem}
+.card h3{font-size:.92rem;color:var(--p);margin-bottom:.15rem}
+.card p{font-size:.8rem;color:var(--m);margin:0}
+footer{background:#0f172a;color:#94a3b8;text-align:center;padding:1.4rem;font-size:.84rem;margin-top:2rem}
+.view{display:none}.view.on{display:block}
+ul{margin:.4rem 0 .6rem 1.3rem}li{margin-bottom:.25rem}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="topbar">
-    <div class="logo">Études Sup <span>France</span></div>
-    <nav>
-      <a href="#" class="active" onclick="showHome()">Accueil</a>
-      <a href="#" onclick="showList()">Formations</a>
-    </nav>
-  </div>
+<div class="top">
+  <div class="logo">Études Sup <span>France</span></div>
+  <nav>
+    <a href="#" class="on" onclick="goHome()">Accueil</a>
+    <a href="#" onclick="goList()">Formations</a>
+  </nav>
+</div>
 </header>
+<div class="wrap">
+<aside class="side">
+  <h3>Formations BTS</h3>
+  <a href="#" onclick="openForm('opti')">BTS Opticien-Lunetier</a>
+  <a href="#" onclick="openForm('mco')">BTS MCO</a>
+  <a href="#" onclick="openForm('sio')">BTS SIO</a>
+  <a href="#" onclick="openForm('cg')">BTS CG</a>
+  <a href="#" onclick="openForm('ndrc')">BTS NDRC</a>
+  <a href="#" onclick="openForm('elec')">BTS Électrotechnique</a>
+  <a href="#" onclick="openForm('gpme')">BTS GPME</a>
+  <a href="#" onclick="openForm('ci')">BTS Commerce International</a>
+  <a href="#" onclick="openForm('sam')">BTS SAM</a>
+  <a href="#" onclick="openForm('tour')">BTS Tourisme</a>
+  <a href="#" onclick="openForm('com')">BTS Communication</a>
+  <a href="#" onclick="openForm('banque')">BTS Banque</a>
+  <a href="#" onclick="openForm('immo')">BTS Prof. Immobilières</a>
+  <a href="#" onclick="openForm('esf')">BTS ESF</a>
+  <a href="#" onclick="openForm('sp3s')">BTS SP3S</a>
+  <a href="#" onclick="openForm('mhr')">BTS MHR</a>
+  <a href="#" onclick="openForm('crsa')">BTS CRSA</a>
+  <a href="#" onclick="openForm('maint')">BTS Maintenance</a>
+  <a href="#" onclick="openForm('ciel')">BTS CIEL</a>
+  <a href="#" onclick="openForm('diet')">BTS Diététique</a>
+</aside>
+<div class="main">
 
-<div class="container">
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <h3>Formations</h3>
-    <a href="#" onclick="openFiche('opti')" class="active">BTS Opticien-Lunetier</a>
-    <a href="#" onclick="openFiche('mco')">BTS MCO</a>
-    <a href="#" onclick="openFiche('sio')">BTS SIO</a>
-    <a href="#" onclick="openFiche('cg')">BTS CG</a>
-    <a href="#" onclick="openFiche('ndrc')">BTS NDRC</a>
-    <a href="#" onclick="openFiche('elec')">BTS Électrotechnique</a>
-    <a href="#" onclick="openFiche('gpme')">BTS GPME</a>
-    <a href="#" onclick="openFiche('ci')">BTS Commerce International</a>
-    <a href="#" onclick="openFiche('sam')">BTS SAM</a>
-    <a href="#" onclick="openFiche('tour')">BTS Tourisme</a>
-    <a href="#" onclick="openFiche('com')">BTS Communication</a>
-    <a href="#" onclick="openFiche('banque')">BTS Banque</a>
-    <a href="#" onclick="openFiche('immo')">BTS Prof. Immobilières</a>
-    <a href="#" onclick="openFiche('esf')">BTS ESF</a>
-    <a href="#" onclick="openFiche('sp3s')">BTS SP3S</a>
-    <a href="#" onclick="openFiche('mhr')">BTS MHR</a>
-    <a href="#" onclick="openFiche('crsa')">BTS CRSA</a>
-    <a href="#" onclick="openFiche('maint')">BTS Maintenance</a>
-    <a href="#" onclick="openFiche('ciel')">BTS CIEL</a>
-    <a href="#" onclick="openFiche('diet')">BTS Diététique</a>
-  </aside>
-
-  <!-- Content -->
-  <div class="content">
-    <div id="home-view">
-      <h1>Cours structurés — Études supérieures</h1>
-      <p class="lead">Supports pédagogiques organisés en séquences pour les principales formations post-bac (BTS).</p>
-
-      <div class="section-title">Choisir une formation</div>
-      <div class="grid-cards">
-        <div class="card" onclick="openFiche('opti')"><div class="icon">👓</div><h3>BTS Opticien-Lunetier</h3><p>Analyse de la vision, équipements, adaptation</p></div>
-        <div class="card" onclick="openFiche('mco')"><div class="icon">🛒</div><h3>BTS MCO</h3><p>Management commercial opérationnel</p></div>
-        <div class="card" onclick="openFiche('sio')"><div class="icon">💻</div><h3>BTS SIO</h3><p>Services informatiques (SISR / SLAM)</p></div>
-        <div class="card" onclick="openFiche('cg')"><div class="icon">📒</div><h3>BTS CG</h3><p>Comptabilité et gestion</p></div>
-        <div class="card" onclick="openFiche('ndrc')"><div class="icon">🤝</div><h3>BTS NDRC</h3><p>Négociation & digitalisation relation client</p></div>
-        <div class="card" onclick="openFiche('elec')"><div class="icon">⚡</div><h3>BTS Électrotechnique</h3><p>Installations électriques & automatismes</p></div>
-      </div>
-    </div>
-
-    <!-- ========== BTS OPTICIEN ========== -->
-    <div id="fiche-opti" class="fiche">
-      <h2>👓 BTS Opticien-Lunetier</h2>
-      <p style="color:var(--muted);margin-bottom:1.2rem;">Formation en 2 ans — Bac+2. Objectif : réaliser des examens de vue, conseiller, monter et adapter les équipements optiques.</p>
-
-      <div class="section-title">Séquences de cours</div>
-
-      <div class="sequence">
-        <div class="seq-num">01</div>
-        <div class="seq-body">
-          <h3>Anatomie et physiologie de l’œil</h3>
-          <p>Structure de l’œil, cornée, cristallin, rétine, milieux transparents, nerf optique.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">02</div>
-        <div class="seq-body">
-          <h3>Optique géométrique appliquée</h3>
-          <p>Réfraction, vergence, lentilles, dioptries, formation des images.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">03</div>
-        <div class="seq-body">
-          <h3>Les défauts visuels</h3>
-          <p>Myopie, hypermétropie, astigmatisme, presbytie — causes et corrections.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">04</div>
-        <div class="seq-body">
-          <h3>Examens de vue et réfraction</h3>
-          <p>Techniques de mesure, acuité visuelle, réfractométrie, skiascopie.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">05</div>
-        <div class="seq-body">
-          <h3>Verres correcteurs et montures</h3>
-          <p>Types de verres, traitements, indices, choix des montures, centrage.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">06</div>
-        <div class="seq-body">
-          <h3>Lentilles de contact</h3>
-          <p>Types de lentilles, adaptation, entretien, contre-indications.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">07</div>
-        <div class="seq-body">
-          <h3>Prise de mesures et montage</h3>
-          <p>Écarts pupillaires, hauteur, montage des verres, contrôle qualité.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">08</div>
-        <div class="seq-body">
-          <h3>Relation client et vente conseil</h3>
-          <p>Accueil, analyse des besoins, argumentation, fidélisation.</p>
-        </div>
-      </div>
-      <div class="sequence">
-        <div class="seq-num">09</div>
-        <div class="seq-body">
-          <h3>Gestion du point de vente</h3>
-          <p>Stocks, indicateurs, législation, responsabilité professionnelle.</p>
-        </div>
-      </div>
-
-      <div class="memo">
-        <strong>Fiche mémo — Défauts visuels</strong><br>
-        • Myopie → œil trop long → image en avant de la rétine → verres divergents (−)<br>
-        • Hypermétropie → œil trop court → image en arrière → verres convergents (+)<br>
-        • Astigmatisme → cornée non sphérique → cylindre<br>
-        • Presbytie → perte d’accommodation → addition
-      </div>
-
-      <div class="exo">
-        <strong>Exercice</strong> : Un client présente une myopie de −4,25 δ et un astigmatisme de −1,00 à 90°. Quelle est la nature des verres à réaliser ? Où se forme l’image sans correction pour la myopie ?
-      </div>
-    </div>
-
-    <!-- ========== BTS MCO ========== -->
-    <div id="fiche-mco" class="fiche">
-      <h2>🛒 BTS MCO — Management Commercial Opérationnel</h2>
-      <p style="color:var(--muted);margin-bottom:1.2rem;">Former un manager de rayon capable de développer l’offre, animer l’équipe et gérer la relation client.</p>
-
-      <div class="section-title">Séquences de cours</div>
-      <div class="sequence"><div class="seq-num">01</div><div class="seq-body"><h3>Développement de la relation client</h3><p>Accueil, découverte des besoins, vente conseil, fidélisation.</p></div></div>
-      <div class="sequence"><div class="seq-num">02</div><div class="seq-body"><h3>Animation et dynamisation de l’offre</h3><p>Merchandising, implantation, promotions, tête de gondole.</p></div></div>
-      <div class="sequence"><div class="seq-num">03</div><div class="seq-body"><h3>Gestion opérationnelle</h3><p>Stocks, rotation, marge, taux de marque, tableaux de bord.</p></div></div>
-      <div class="sequence"><div class="seq-num">04</div><div class="seq-body"><h3>Management d’équipe</h3><p>Organisation du travail, motivation, évaluation, management situationnel.</p></div></div>
-      <div class="sequence"><div class="seq-num">05</div><div class="seq-body"><h3>Culture économique et juridique</h3><p>Droit commercial, économie d’entreprise, gestion.</p></div></div>
-
-      <div class="memo">
-        <strong>Fiche mémo — Indicateurs clés</strong><br>
-        • Taux de rotation = Coût d’achat des marchandises vendues / Stock moyen<br>
-        • Marge commerciale = Ventes – Coût d’achat<br>
-        • Taux de marque = Marge / Prix de vente HT
-      </div>
-    </div>
-
-    <!-- ========== BTS SIO ========== -->
-    <div id="fiche-sio" class="fiche">
-      <h2>💻 BTS SIO — Services Informatiques aux Organisations</h2>
-      <p style="color:var(--muted);margin-bottom:1.2rem;">Deux options : SISR (Infrastructure) et SLAM (Développement).</p>
-
-      <div class="section-title">Séquences communes</div>
-      <div class="sequence"><div class="seq-num">01</div><div class="seq-body"><h3>Support et mise à disposition de services</h3><p>Assistance utilisateurs, maintenance, supervision.</p></div></div>
-      <div class="sequence"><div class="seq-num">02</div><div class="seq-body"><h3>Cybersécurité de base</h3><p>Menaces, protection, bonnes pratiques, sauvegarde.</p></div></div>
-      <div class="sequence"><div class="seq-num">03</div><div class="seq-body"><h3>Gestion de projet informatique</h3><p>Méthodes, planification, suivi, documentation.</p></div></div>
-
-      <div class="section-title">Option SISR</div>
-      <div class="sequence"><div class="seq-num">04</div><div class="seq-body"><h3>Administration des systèmes et réseaux</h3><p>Windows Server, Linux, Active Directory, virtualisation.</p></div></div>
-
-      <div class="section-title">Option SLAM</div>
-      <div class="sequence"><div class="seq-num">05</div><div class="seq-body"><h3>Conception et développement d’applications</h3><p>Programmation, bases de données, interfaces, tests.</p></div></div>
-    </div>
-
-    <!-- Autres fiches simplifiées -->
-    <div id="fiche-cg" class="fiche"><h2>📒 BTS CG — Comptabilité et Gestion</h2><p>Comptabilité approfondie, contrôle des opérations, gestion fiscale et sociale, analyse financière, systèmes d’information.</p></div>
-    <div id="fiche-ndrc" class="fiche"><h2>🤝 BTS NDRC</h2><p>Relation client omnicanale, négociation-vente, digitalisation (CRM, data), management commercial.</p></div>
-    <div id="fiche-elec" class="fiche"><h2>⚡ BTS Électrotechnique</h2><p>Conception d’installations, réalisation, maintenance, énergies renouvelables, automatismes.</p></div>
-    <div id="fiche-gpme" class="fiche"><h2>🏢 BTS GPME</h2><p>Relation clients/fournisseurs, gestion des risques et RH, soutien au développement de la PME.</p></div>
-    <div id="fiche-ci" class="fiche"><h2>🌍 BTS Commerce International</h2><p>Développement commercial international, import-export, négociation, langues.</p></div>
-    <div id="fiche-sam" class="fiche"><h2>📋 BTS SAM</h2><p>Soutien à la communication, information, documentation, RH et organisation.</p></div>
-    <div id="fiche-tour" class="fiche"><h2>✈️ BTS Tourisme</h2><p>Relation client touristique, élaboration de l’offre, gestion de l’information.</p></div>
-    <div id="fiche-com" class="fiche"><h2>📢 BTS Communication</h2><p>Réponse à la demande d’un annonceur, conception de solutions, conseil.</p></div>
-    <div id="fiche-banque" class="fiche"><h2>🏦 BTS Banque</h2><p>Accueil et conseil, développement commercial, risques et conformité.</p></div>
-    <div id="fiche-immo" class="fiche"><h2>🏠 BTS Professions Immobilières</h2><p>Transaction, gestion locative, droit immobilier.</p></div>
-    <div id="fiche-esf" class="fiche"><h2>👨‍👩‍👧 BTS ESF</h2><p>Expertise technologique, animation, intervention sociale et familiale.</p></div>
-    <div id="fiche-sp3s" class="fiche"><h2>🏥 BTS SP3S</h2><p>Gestion de l’offre de services, accompagnement des usagers, animation d’équipe.</p></div>
-    <div id="fiche-mhr" class="fiche"><h2>🍽️ BTS MHR</h2><p>Production / service / hébergement, management, pilotage.</p></div>
-    <div id="fiche-crsa" class="fiche"><h2>🤖 BTS CRSA</h2><p>Conception, réalisation et maintenance de systèmes automatiques.</p></div>
-    <div id="fiche-maint" class="fiche"><h2>🔧 BTS Maintenance des Systèmes</h2><p>Maintenance préventive/corrective, amélioration, organisation.</p></div>
-    <div id="fiche-ciel" class="fiche"><h2>🔒 BTS CIEL</h2><p>Cybersécurité, informatique et réseaux, électronique.</p></div>
-    <div id="fiche-diet" class="fiche"><h2>🥗 BTS Diététique</h2><p>Nutrition, biologie, activités technologiques, économie et gestion.</p></div>
-
+<!-- ACCUEIL -->
+<div id="home" class="view on">
+  <h1>Cours structurés — Études supérieures</h1>
+  <p class="lead">Clique sur une formation → les chapitres s’affichent → clique sur un chapitre pour voir le cours (explications, résumé, exercices).</p>
+  <div class="sec-title">Formations disponibles</div>
+  <div class="grid">
+    <div class="card" onclick="openForm('opti')"><div class="ic">👓</div><h3>BTS Opticien-Lunetier</h3><p>Cours détaillés disponibles</p></div>
+    <div class="card" onclick="openForm('mco')"><div class="ic">🛒</div><h3>BTS MCO</h3><p>Management commercial</p></div>
+    <div class="card" onclick="openForm('sio')"><div class="ic">💻</div><h3>BTS SIO</h3><p>Informatique</p></div>
+    <div class="card" onclick="openForm('cg')"><div class="ic">📒</div><h3>BTS CG</h3><p>Comptabilité</p></div>
+    <div class="card" onclick="openForm('ndrc')"><div class="ic">🤝</div><h3>BTS NDRC</h3><p>Relation client</p></div>
+    <div class="card" onclick="openForm('elec')"><div class="ic">⚡</div><h3>BTS Électrotechnique</h3><p>Électricité</p></div>
   </div>
 </div>
 
-<footer>
-  <p><strong>Études Sup France</strong> — Supports structurés en séquences · Contenu pédagogique original · 2026</p>
-</footer>
+<!-- ==================== OPTICIEN ==================== -->
+<div id="form-opti" class="view">
+  <h1>👓 BTS Opticien-Lunetier</h1>
+  <p class="lead">Formation Bac+2. Clique sur un chapitre pour ouvrir le cours complet.</p>
+  <div class="sec-title">Chapitres / Séquences</div>
+  <div class="seq" onclick="openCours('opti1')"><div class="num">01</div><div><h3>Anatomie et physiologie de l’œil</h3><p>Structure, cornée, cristallin, rétine, milieux transparents</p></div></div>
+  <div class="seq" onclick="openCours('opti2')"><div class="num">02</div><div><h3>Optique géométrique appliquée</h3><p>Réfraction, vergence, lentilles, dioptries</p></div></div>
+  <div class="seq" onclick="openCours('opti3')"><div class="num">03</div><div><h3>Les défauts visuels</h3><p>Myopie, hypermétropie, astigmatisme, presbytie</p></div></div>
+  <div class="seq" onclick="openCours('opti4')"><div class="num">04</div><div><h3>Examens de vue et réfraction</h3><p>Acuité, réfractométrie, skiascopie</p></div></div>
+  <div class="seq" onclick="openCours('opti5')"><div class="num">05</div><div><h3>Verres correcteurs et montures</h3><p>Types de verres, traitements, centrage</p></div></div>
+  <div class="seq" onclick="openCours('opti6')"><div class="num">06</div><div><h3>Lentilles de contact</h3><p>Types, adaptation, entretien</p></div></div>
+  <div class="seq" onclick="openCours('opti7')"><div class="num">07</div><div><h3>Prise de mesures et montage</h3><p>Écarts pupillaires, montage, contrôle</p></div></div>
+  <div class="seq" onclick="openCours('opti8')"><div class="num">08</div><div><h3>Relation client et vente conseil</h3><p>Accueil, argumentation, fidélisation</p></div></div>
 
+  <!-- COURS OPTI 1 -->
+  <div id="cours-opti1" class="cours">
+    <h2>Chapitre 01 — Anatomie et physiologie de l’œil</h2>
+    <h3>1. Structure générale de l’œil</h3>
+    <p>L’œil est un organe sphérique d’environ 24 mm de diamètre. Il est protégé par l’orbite osseuse, les paupières et le film lacrymal. On distingue trois tuniques :</p>
+    <ul>
+      <li><strong>Tunique externe</strong> : sclérotique (blanc de l’œil) + cornée (partie antérieure transparente)</li>
+      <li><strong>Tunique moyenne</strong> (uvée) : choroïde, corps ciliaire, iris</li>
+      <li><strong>Tunique interne</strong> : rétine (couche photosensible)</li>
+    </ul>
+    <h3>2. La cornée</h3>
+    <p>La cornée est la première surface réfringente de l’œil. Elle représente environ les deux tiers de la puissance totale de l’œil (environ +40 à +43 dioptries). Elle est avasculaire et nourrie par l’humeur aqueuse et les larmes. Sa transparence est essentielle à une bonne vision.</p>
+    <h3>3. Le cristallin</h3>
+    <p>Le cristallin est une lentille biconvexe transparente située derrière l’iris. Il permet l’<strong>accommodation</strong> (variation de sa courbure) grâce au muscle ciliaire. Avec l’âge, le cristallin perd de sa souplesse → presbytie.</p>
+    <h3>4. La rétine</h3>
+    <p>La rétine contient les photorécepteurs :</p>
+    <ul>
+      <li><strong>Cônes</strong> : vision des couleurs et vision fine (surtout au centre = macula / fovéa)</li>
+      <li><strong>Bâtonnets</strong> : vision en faible luminosité (périphérie)</li>
+    </ul>
+    <p>Le signal est transmis via le nerf optique au cerveau.</p>
+    <div class="memo">
+      <strong>Résumé mémo</strong><br>
+      • Cornée ≈ +40 à +43 δ<br>
+      • Cristallin = accommodation<br>
+      • Rétine = cônes (couleurs) + bâtonnets (nuit)<br>
+      • Nerf optique = transmission au cerveau
+    </div>
+    <div class="exo">
+      <strong>Exercice 1</strong> : Pourquoi la cornée est-elle la surface la plus puissante de l’œil ?<br>
+      <strong>Exercice 2</strong> : Quelle est la conséquence principale du vieillissement du cristallin ?
+    </div>
+  </div>
+
+  <!-- COURS OPTI 2 -->
+  <div id="cours-opti2" class="cours">
+    <h2>Chapitre 02 — Optique géométrique appliquée</h2>
+    <h3>1. La réfraction</h3>
+    <p>La réfraction est le changement de direction d’un rayon lumineux lorsqu’il passe d’un milieu à un autre d’indice différent. Loi de Snell-Descartes : n₁ sin i₁ = n₂ sin i₂.</p>
+    <h3>2. Vergence et dioptrie</h3>
+    <p>La vergence (puissance) d’une lentille se mesure en <strong>dioptries (δ)</strong>. Vergence V = 1 / f où f est la distance focale en mètres. Une lentille convergente a une vergence positive (+), une divergente une vergence négative (−).</p>
+    <h3>3. Formation des images</h3>
+    <p>Pour une lentille mince, on utilise les formules de conjugaison et de grandissement. En optique ophtalmique, on travaille surtout avec la notion de vergence et de foyer.</p>
+    <div class="memo">
+      <strong>Résumé</strong><br>
+      • Dioptrie = unité de vergence<br>
+      • V = 1/f (f en mètres)<br>
+      • Convergent = + / Divergent = −
+    </div>
+    <div class="exo">
+      <strong>Exercice</strong> : Quelle est la vergence d’une lentille de distance focale 25 cm ? Est-elle convergente ou divergente ?
+    </div>
+  </div>
+
+  <!-- COURS OPTI 3 -->
+  <div id="cours-opti3" class="cours">
+    <h2>Chapitre 03 — Les défauts visuels</h2>
+    <h3>1. Myopie</h3>
+    <p>L’œil est trop long (ou trop puissant). L’image d’un objet lointain se forme <strong>en avant</strong> de la rétine. Correction : verres <strong>divergents</strong> (négatifs).</p>
+    <h3>2. Hypermétropie</h3>
+    <p>L’œil est trop court (ou pas assez puissant). L’image se forme <strong>en arrière</strong> de la rétine. Correction : verres <strong>convergents</strong> (positifs).</p>
+    <h3>3. Astigmatisme</h3>
+    <p>La cornée n’est pas sphérique (elle est torique). Les rayons ne convergent pas en un seul point. Correction : verres cylindriques.</p>
+    <h3>4. Presbytie</h3>
+    <p>Perte progressive de l’accommodation liée à l’âge (généralement après 40-45 ans). On ajoute une <strong>addition</strong> pour la vision de près.</p>
+    <div class="memo">
+      <strong>Mémo rapide</strong><br>
+      Myopie → − (divergent)<br>
+      Hypermétropie → + (convergent)<br>
+      Astigmatisme → cylindre<br>
+      Presbytie → addition
+    </div>
+    <div class="exo">
+      <strong>Exercice</strong> : Un client a −3,50 (−1,25) 90°. Décrivez les défauts et le type de verres nécessaires.
+    </div>
+  </div>
+
+  <!-- COURS OPTI 4 à 8 simplifiés mais présents -->
+  <div id="cours-opti4" class="cours">
+    <h2>Chapitre 04 — Examens de vue et réfraction</h2>
+    <p>L’examen de vue comprend : mesure de l’acuité visuelle de loin et de près, réfractométrie objective (autorefractomètre, skiascopie), réfraction subjective (réfracteur), mesure de la dominance, tests binoculaires, etc.</p>
+    <div class="memo">L’acuité visuelle se note en dixièmes (ex. 10/10) ou en fraction de Snellen.</div>
+    <div class="exo">Pourquoi réalise-t-on à la fois une réfraction objective et subjective ?</div>
+  </div>
+  <div id="cours-opti5" class="cours">
+    <h2>Chapitre 05 — Verres correcteurs et montures</h2>
+    <p>Types de verres : unifocaux, progressifs, mi-distance, de proximité. Matériaux : minéral, organique, polycarbonate. Traitements : antireflet, durci, photochromique, blue-cut. Le centrage (écart pupillaire + hauteur) est crucial pour le confort.</p>
+    <div class="memo">Un mauvais centrage peut provoquer asthénopie, vision floue ou diplopie.</div>
+  </div>
+  <div id="cours-opti6" class="cours">
+    <h2>Chapitre 06 — Lentilles de contact</h2>
+    <p>Lentilles souples (journalières, bi-mensuelles, mensuelles), rigides perméables au gaz (RPG), hybrides. Adaptation : kératométrie, essai, suivi. Entretien et risques (hypoxie, infections).</p>
+  </div>
+  <div id="cours-opti7" class="cours">
+    <h2>Chapitre 07 — Prise de mesures et montage</h2>
+    <p>Écart pupillaire (EP) de loin et de près, hauteur de montage, angle pantoscopique, distance verre-œil. Montage : détourage, centrage, insertion, contrôle final (focimètre).</p>
+  </div>
+  <div id="cours-opti8" class="cours">
+    <h2>Chapitre 08 — Relation client et vente conseil</h2>
+    <p>Accueil, analyse des besoins (usage, style de vie), argumentation sur les verres et traitements, gestion des objections, fidélisation, suivi après-vente.</p>
+  </div>
+</div>
+
+<!-- ==================== MCO ==================== -->
+<div id="form-mco" class="view">
+  <h1>🛒 BTS MCO — Management Commercial Opérationnel</h1>
+  <p class="lead">Clique sur un chapitre pour ouvrir le cours.</p>
+  <div class="sec-title">Chapitres</div>
+  <div class="seq" onclick="openCours('mco1')"><div class="num">01</div><div><h3>Développement de la relation client</h3><p>Accueil, découverte, vente conseil, fidélisation</p></div></div>
+  <div class="seq" onclick="openCours('mco2')"><div class="num">02</div><div><h3>Animation et dynamisation de l’offre</h3><p>Merchandising, promotions, implantation</p></div></div>
+  <div class="seq" onclick="openCours('mco3')"><div class="num">03</div><div><h3>Gestion opérationnelle</h3><p>Stocks, marges, indicateurs, tableaux de bord</p></div></div>
+  <div class="seq" onclick="openCours('mco4')"><div class="num">04</div><div><h3>Management d’équipe</h3><p>Organisation, motivation, évaluation</p></div></div>
+
+  <div id="cours-mco1" class="cours">
+    <h2>Chapitre 01 — Développement de la relation client</h2>
+    <p>La relation client est au cœur du BTS MCO. Le parcours type est : Accueil → Découverte des besoins → Argumentation → Traitement des objections → Closing → Fidélisation.</p>
+    <h3>Techniques de découverte</h3>
+    <p>Questions ouvertes, questions fermées, reformulation, écoute active. Objectif : comprendre le besoin réel (pas seulement le produit demandé).</p>
+    <div class="memo">
+      <strong>Mémo</strong> : SONCAS (Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie) — leviers de motivation d’achat.
+    </div>
+    <div class="exo">Citez 3 questions ouvertes que vous poseriez à un client qui entre dans un rayon high-tech.</div>
+  </div>
+  <div id="cours-mco2" class="cours">
+    <h2>Chapitre 02 — Animation et dynamisation de l’offre</h2>
+    <p>Merchandising : organisation du linéaire pour maximiser les ventes. Facing, implantation verticale/horizontale, têtes de gondole, cross-merchandising.</p>
+    <div class="memo">Règle des 5S du merchandising (souvent citée) : Stock, Seuil, Signalétique, Séduction, Service.</div>
+  </div>
+  <div id="cours-mco3" class="cours">
+    <h2>Chapitre 03 — Gestion opérationnelle</h2>
+    <p>Indicateurs essentiels : taux de rotation des stocks, marge commerciale, taux de marque, taux de service, chiffre d’affaires / m².</p>
+    <div class="memo">
+      Taux de rotation = Coût d’achat des marchandises vendues / Stock moyen<br>
+      Taux de marque = Marge / Prix de vente HT
+    </div>
+    <div class="exo">Stock moyen = 15 000 €. CAMV = 60 000 €. Calculez le taux de rotation et interprétez-le.</div>
+  </div>
+  <div id="cours-mco4" class="cours">
+    <h2>Chapitre 04 — Management d’équipe</h2>
+    <p>Organisation du planning, délégation, motivation (théories de Maslow, Herzberg), entretien d’évaluation, management situationnel (Hersey & Blanchard).</p>
+  </div>
+</div>
+
+<!-- ==================== SIO ==================== -->
+<div id="form-sio" class="view">
+  <h1>💻 BTS SIO</h1>
+  <p class="lead">Options SISR et SLAM. Clique sur un chapitre.</p>
+  <div class="sec-title">Chapitres</div>
+  <div class="seq" onclick="openCours('sio1')"><div class="num">01</div><div><h3>Support et services informatiques</h3><p>Assistance, maintenance, supervision</p></div></div>
+  <div class="seq" onclick="openCours('sio2')"><div class="num">02</div><div><h3>Cybersécurité de base</h3><p>Menaces, protection, bonnes pratiques</p></div></div>
+  <div class="seq" onclick="openCours('sio3')"><div class="num">03</div><div><h3>Réseaux et modèles OSI / TCP-IP</h3><p>Couches, protocoles, adressage</p></div></div>
+  <div class="seq" onclick="openCours('sio4')"><div class="num">04</div><div><h3>Option SISR — Administration systèmes</h3><p>Windows Server, Linux, virtualisation</p></div></div>
+  <div class="seq" onclick="openCours('sio5')"><div class="num">05</div><div><h3>Option SLAM — Développement</h3><p>Programmation, bases de données, interfaces</p></div></div>
+
+  <div id="cours-sio1" class="cours"><h2>Chapitre 01 — Support et services</h2><p>Le technicien SIO assure le support de proximité et distant, la maintenance préventive et corrective, la documentation des interventions et le suivi des tickets.</p></div>
+  <div id="cours-sio2" class="cours"><h2>Chapitre 02 — Cybersécurité</h2><p>Menaces (malware, phishing, ransomware), principes de défense en profondeur, mots de passe, mises à jour, sauvegarde 3-2-1, sensibilisation des utilisateurs.</p></div>
+  <div id="cours-sio3" class="cours">
+    <h2>Chapitre 03 — Réseaux</h2>
+    <p>Modèle OSI (7 couches) et modèle TCP/IP. Adressage IPv4, masque, passerelle, DNS. Switch vs routeur.</p>
+    <div class="memo">OSI : Physique → Liaison → Réseau → Transport → Session → Présentation → Application</div>
+  </div>
+  <div id="cours-sio4" class="cours"><h2>Chapitre 04 — SISR</h2><p>Installation et administration de Windows Server / Linux, Active Directory, GPO, virtualisation (Hyper-V, Proxmox), supervision.</p></div>
+  <div id="cours-sio5" class="cours"><h2>Chapitre 05 — SLAM</h2><p>Algorithmique, langages (Python, Java, PHP, JS…), bases de données relationnelles (SQL), développement d’interfaces, tests et versionning.</p></div>
+</div>
+
+<!-- Autres formations (structure + 1-2 cours) -->
+<div id="form-cg" class="view"><h1>📒 BTS CG</h1><p class="lead">Comptabilité et Gestion</p>
+<div class="seq" onclick="openCours('cg1')"><div class="num">01</div><div><h3>Comptabilité approfondie</h3><p>Opérations courantes, immobilisations, stocks</p></div></div>
+<div class="seq" onclick="openCours('cg2')"><div class="num">02</div><div><h3>Analyse financière</h3><p>Bilan, compte de résultat, ratios</p></div></div>
+<div id="cours-cg1" class="cours"><h2>Comptabilité approfondie</h2><p>Enregistrement des opérations d’achat, vente, immobilisations, amortissements, stocks (CUMP, FIFO). Documents de synthèse.</p></div>
+<div id="cours-cg2" class="cours"><h2>Analyse financière</h2><p>Lecture du bilan et du compte de résultat. Ratios de liquidité, solvabilité, rentabilité. Fonds de roulement, BFR.</p></div>
+</div>
+
+<div id="form-ndrc" class="view"><h1>🤝 BTS NDRC</h1><p class="lead">Négociation et Digitalisation de la Relation Client</p>
+<div class="seq" onclick="openCours('ndrc1')"><div class="num">01</div><div><h3>Relation client omnicanale</h3><p>Parcours client, CRM, canaux digitaux</p></div></div>
+<div id="cours-ndrc1" class="cours"><h2>Relation client omnicanale</h2><p>Le client passe d’un canal à l’autre (magasin, site, appli, téléphone, réseaux). Le CRM centralise les données pour personnaliser la relation.</p></div>
+</div>
+
+<div id="form-elec" class="view"><h1>⚡ BTS Électrotechnique</h1>
+<div class="seq" onclick="openCours('elec1')"><div class="num">01</div><div><h3>Bases d’électrotechnique</h3><p>Lois fondamentales, courant, tension, puissance</p></div></div>
+<div id="cours-elec1" class="cours"><h2>Bases</h2><p>Loi d’Ohm U = RI. Puissance P = UI. En triphasé P = √3 × U × I × cosφ. Sécurité électrique.</p></div>
+</div>
+
+<div id="form-gpme" class="view"><h1>🏢 BTS GPME</h1><div class="seq" onclick="openCours('gpme1')"><div class="num">01</div><div><h3>Gestion de la relation clients/fournisseurs</h3><p></p></div></div><div id="cours-gpme1" class="cours"><h2>Relation clients et fournisseurs</h2><p>Processus commercial, suivi des commandes, relances, négociation fournisseurs.</p></div></div>
+<div id="form-ci" class="view"><h1>🌍 BTS Commerce International</h1><div class="seq" onclick="openCours('ci1')"><div class="num">01</div><div><h3>Techniques du commerce international</h3><p></p></div></div><div id="cours-ci1" class="cours"><h2>Commerce international</h2><p>Incoterms, documents d’accompagnement, douanes, prospection export.</p></div></div>
+<div id="form-sam" class="view"><h1>📋 BTS SAM</h1><div class="seq" onclick="openCours('sam1')"><div class="num">01</div><div><h3>Soutien à la communication</h3><p></p></div></div><div id="cours-sam1" class="cours"><h2>Communication</h2><p>Rédaction professionnelle, organisation de réunions, gestion de l’information.</p></div></div>
+<div id="form-tour" class="view"><h1>✈️ BTS Tourisme</h1><div class="seq" onclick="openCours('tour1')"><div class="num">01</div><div><h3>Relation client touristique</h3><p></p></div></div><div id="cours-tour1" class="cours"><h2>Relation client</h2><p>Accueil, conseil, construction d’offre, vente de prestations touristiques.</p></div></div>
+<div id="form-com" class="view"><h1>📢 BTS Communication</h1><div class="seq" onclick="openCours('com1')"><div class="num">01</div><div><h3>Stratégie de communication</h3><p></p></div></div><div id="cours-com1" class="cours"><h2>Stratégie</h2><p>Brief, cibles, messages, canaux, budget, évaluation.</p></div></div>
+<div id="form-banque" class="view"><h1>🏦 BTS Banque</h1><div class="seq" onclick="openCours('banque1')"><div class="num">01</div><div><h3>Conseil clientèle</h3><p></p></div></div><div id="cours-banque1" class="cours"><h2>Conseil</h2><p>Analyse des besoins, produits bancaires, conformité, devoir de conseil.</p></div></div>
+<div id="form-immo" class="view"><h1>🏠 BTS Professions Immobilières</h1><div class="seq" onclick="openCours('immo1')"><div class="num">01</div><div><h3>Transaction immobilière</h3><p></p></div></div><div id="cours-immo1" class="cours"><h2>Transaction</h2><p>Estimation, mandate, visite, négociation, avant-contrat, acte.</p></div></div>
+<div id="form-esf" class="view"><h1>👨‍👩‍👧 BTS ESF</h1><div class="seq" onclick="openCours('esf1')"><div class="num">01</div><div><h3>Intervention sociale et familiale</h3><p></p></div></div><div id="cours-esf1" class="cours"><h2>Intervention</h2><p>Accompagnement des familles, conseil technologique, animation.</p></div></div>
+<div id="form-sp3s" class="view"><h1>🏥 BTS SP3S</h1><div class="seq" onclick="openCours('sp3s1')"><div class="num">01</div><div><h3>Accompagnement des usagers</h3><p></p></div></div><div id="cours-sp3s1" class="cours"><h2>Accompagnement</h2><p>Accueil, information, orientation, suivi dans le secteur sanitaire et social.</p></div></div>
+<div id="form-mhr" class="view"><h1>🍽️ BTS MHR</h1><div class="seq" onclick="openCours('mhr1')"><div class="num">01</div><div><h3>Management d’équipe en hôtellerie</h3><p></p></div></div><div id="cours-mhr1" class="cours"><h2>Management</h2><p>Organisation du service, management opérationnel, qualité de service.</p></div></div>
+<div id="form-crsa" class="view"><h1>🤖 BTS CRSA</h1><div class="seq" onclick="openCours('crsa1')"><div class="num">01</div><div><h3>Conception de systèmes automatiques</h3><p></p></div></div><div id="cours-crsa1" class="cours"><h2>Conception</h2><p>Analyse du besoin, schémas, choix technologiques, validation.</p></div></div>
+<div id="form-maint" class="view"><h1>🔧 BTS Maintenance des Systèmes</h1><div class="seq" onclick="openCours('maint1')"><div class="num">01</div><div><h3>Maintenance préventive et corrective</h3><p></p></div></div><div id="cours-maint1" class="cours"><h2>Maintenance</h2><p>Diagnostic, interventions, GMAO, amélioration continue.</p></div></div>
+<div id="form-ciel" class="view"><h1>🔒 BTS CIEL</h1><div class="seq" onclick="openCours('ciel1')"><div class="num">01</div><div><h3>Cybersécurité et réseaux</h3><p></p></div></div><div id="cours-ciel1" class="cours"><h2>Cybersécurité</h2><p>Sécurisation des infrastructures, détection, réponse aux incidents.</p></div></div>
+<div id="form-diet" class="view"><h1>🥗 BTS Diététique</h1><div class="seq" onclick="openCours('diet1')"><div class="num">01</div><div><h3>Nutrition et alimentation</h3><p></p></div></div><div id="cours-diet1" class="cours"><h2>Nutrition</h2><p>Besoins énergétiques, macronutriments, micronutriments, équilibres alimentaires.</p></div></div>
+
+</div>
+</div>
+<footer>
+  <p><strong>Études Sup France</strong> — Cours structurés par chapitres · Contenu pédagogique original · 2026</p>
+</footer>
 <script>
-function showHome() {
-  document.getElementById('home-view').style.display = 'block';
-  document.querySelectorAll('.fiche').forEach(f => f.classList.remove('show'));
-  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-}
-function showList() {
-  showHome();
-}
-function openFiche(id) {
-  document.getElementById('home-view').style.display = 'none';
-  document.querySelectorAll('.fiche').forEach(f => f.classList.remove('show'));
-  document.getElementById('fiche-' + id).classList.add('show');
-  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-  // highlight is approximate
-  window.scrollTo(0,0);
-}
+function goHome(){document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));document.getElementById('home').classList.add('on');document.querySelectorAll('.cours').forEach(c=>c.classList.remove('show'));window.scrollTo(0,0)}
+function goList(){goHome()}
+function openForm(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));document.getElementById('form-'+id).classList.add('on');document.querySelectorAll('.cours').forEach(c=>c.classList.remove('show'));window.scrollTo(0,0)}
+function openCours(id){document.querySelectorAll('.cours').forEach(c=>c.classList.remove('show'));const el=document.getElementById('cours-'+id);if(el){el.classList.add('show');el.scrollIntoView({behavior:'smooth',block:'start'})}}
 </script>
 </body>
 </html>
