@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,448 +6,446 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Études Sup France — Cours structurés</title>
 <style>
-:root {
-  --p: #1e3a8a;
-  --pl: #3b82f6;
-  --s: #0f766e;
-  --o: #ea580c;
-  --bg: #f1f5f9;
-  --c: #fff;
-  --t: #1e293b;
-  --m: #64748b;
-  --b: #e2e8f0;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--t); line-height: 1.6; }
-a { color: #2563eb; text-decoration: none; }
-a:hover { text-decoration: underline; }
-header { background: #1e3a8a; color: #fff; padding: .7rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
-.top { max-width: 1200px; margin: 0 auto; padding: 0 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; }
-.logo { font-weight: 700; font-size: 1.2rem; }
-.logo span { color: #fbbf24; }
-nav a { color: #fff; padding: .35rem .8rem; border-radius: 6px; font-size: .9rem; cursor: pointer; }
-nav a:hover, nav a.on { background: rgba(255,255,255,.18); text-decoration: none; }
-.wrap { max-width: 1200px; margin: 0 auto; padding: 1.3rem 1.2rem 3rem; display: grid; grid-template-columns: 260px 1fr; gap: 1.4rem; }
-@media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
-.side { background: #fff; border: 1px solid var(--b); border-radius: 12px; padding: 1rem; height: fit-content; position: sticky; top: 65px; max-height: calc(100vh - 80px); overflow-y: auto; }
-.side h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--m); margin: 1rem 0 .5rem; }
-.side h3:first-child { margin-top: 0; }
-.side a { display: block; padding: .38rem .65rem; border-radius: 6px; color: var(--t); font-size: .86rem; margin-bottom: .12rem; cursor: pointer; }
-.side a:hover, .side a.on { background: #eff6ff; color: var(--p); text-decoration: none; font-weight: 500; }
-.main h1 { font-size: 1.7rem; color: var(--p); margin-bottom: .3rem; }
-.lead { color: var(--m); margin-bottom: 1.2rem; }
-.sec-title { font-size: 1.25rem; color: var(--o); margin: 1.6rem 0 .8rem; padding-bottom: .25rem; border-bottom: 2px solid #fed7aa; }
-.seq { background: #fff; border: 1px solid var(--b); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: .7rem; cursor: pointer; transition: .2s; display: flex; gap: 1rem; align-items: flex-start; }
-.seq:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(0,0,0,.06); }
-.num { background: #eff6ff; color: var(--p); font-weight: 700; font-size: .88rem; min-width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-.seq h3 { font-size: 1rem; margin-bottom: .2rem; }
-.seq p { font-size: .88rem; color: var(--m); margin: 0; }
-.cours { display: none; background: #fff; border: 1px solid var(--b); border-radius: 12px; padding: 1.4rem; margin: 1rem 0; }
-.cours.show { display: block; }
-.cours h2 { color: var(--p); margin-bottom: .6rem; }
-.cours h3 { color: var(--s); margin: 1.1rem 0 .4rem; }
-.memo { background: #f0fdf4; border-left: 4px solid #16a34a; padding: .85rem 1rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
-.exo { background: #fff7ed; border-left: 4px solid #ea580c; padding: .85rem 1rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
-.res { background: #eff6ff; border-left: 4px solid #3b82f6; padding: .85rem 1rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: .85rem; margin: 1rem 0; }
-.card { background: #fff; border: 1px solid var(--b); border-radius: 10px; padding: 1rem; cursor: pointer; transition: .2s; }
-.card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.08); border-color: #93c5fd; }
-.card .ic { font-size: 1.4rem; margin-bottom: .25rem; }
-.card h3 { font-size: .92rem; color: var(--p); margin-bottom: .15rem; }
-.card p { font-size: .8rem; color: var(--m); margin: 0; }
-footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 1.4rem; font-size: .84rem; margin-top: 2rem; }
-.view { display: none; }
-.view.on { display: block; }
-ul { margin: .4rem 0 .6rem 1.3rem; }
-li { margin-bottom: .25rem; }
-.breadcrumb { font-size: .85rem; color: var(--m); margin-bottom: 1rem; }
-.breadcrumb span { cursor: pointer; color: var(--pl); }
-.breadcrumb span:hover { text-decoration: underline; }
+:root{--p:#1e3a8a;--pl:#3b82f6;--s:#0f766e;--o:#ea580c;--bg:#f1f5f9;--c:#fff;--t:#1e293b;--m:#64748b;--b:#e2e8f0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.6}
+a{color:#2563eb;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1e3a8a;color:#fff;padding:.7rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.top{max-width:1200px;margin:0 auto;padding:0 1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.logo{font-weight:700;font-size:1.2rem}.logo span{color:#fbbf24}
+nav a{color:#fff;padding:.35rem .8rem;border-radius:6px;font-size:.9rem;cursor:pointer}
+nav a:hover,nav a.on{background:rgba(255,255,255,.18);text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:1.3rem 1.2rem 3rem;display:grid;grid-template-columns:260px 1fr;gap:1.4rem}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.side{background:#fff;border:1px solid var(--b);border-radius:12px;padding:1rem;height:fit-content;position:sticky;top:65px;max-height:calc(100vh - 80px);overflow-y:auto}
+.side h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--m);margin:1rem 0 .5rem}
+.side h3:first-child{margin-top:0}
+.side a{display:block;padding:.38rem .65rem;border-radius:6px;color:var(--t);font-size:.86rem;margin-bottom:.12rem;cursor:pointer}
+.side a:hover,.side a.on{background:#eff6ff;color:var(--p);text-decoration:none;font-weight:500}
+.main h1{font-size:1.7rem;color:var(--p);margin-bottom:.3rem}
+.lead{color:var(--m);margin-bottom:1.2rem}
+.sec-title{font-size:1.25rem;color:var(--o);margin:1.6rem 0 .8rem;padding-bottom:.25rem;border-bottom:2px solid #fed7aa}
+.seq{background:#fff;border:1px solid var(--b);border-radius:10px;padding:1rem 1.2rem;margin-bottom:.7rem;cursor:pointer;transition:.2s;display:flex;gap:1rem;align-items:flex-start}
+.seq:hover{border-color:#93c5fd;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.num{background:#eff6ff;color:var(--p);font-weight:700;font-size:.88rem;min-width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.seq h3{font-size:1rem;margin-bottom:.2rem}
+.seq p{font-size:.88rem;color:var(--m);margin:0}
+.cours{display:none;background:#fff;border:1px solid var(--b);border-radius:12px;padding:1.4rem;margin:1rem 0}
+.cours.show{display:block}
+.cours h2{color:var(--p);margin-bottom:.6rem}
+.cours h3{color:var(--s);margin:1.1rem 0 .4rem}
+.memo{background:#f0fdf4;border-left:4px solid #16a34a;padding:.85rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.exo{background:#fff7ed;border-left:4px solid #ea580c;padding:.85rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.res{background:#eff6ff;border-left:4px solid #3b82f6;padding:.85rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.85rem;margin:1rem 0}
+.card{background:#fff;border:1px solid var(--b);border-radius:10px;padding:1rem;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08);border-color:#93c5fd}
+.card .ic{font-size:1.4rem;margin-bottom:.25rem}
+.card h3{font-size:.92rem;color:var(--p);margin-bottom:.15rem}
+.card p{font-size:.8rem;color:var(--m);margin:0}
+footer{background:#0f172a;color:#94a3b8;text-align:center;padding:1.4rem;font-size:.84rem;margin-top:2rem}
+ul{margin:.4rem 0 .6rem 1.3rem}li{margin-bottom:.25rem}
+.breadcrumb{font-size:.85rem;color:var(--m);margin-bottom:1rem}
+.breadcrumb span{cursor:pointer;color:var(--pl)}.breadcrumb span:hover{text-decoration:underline}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th,td{border:1px solid var(--b);padding:.5rem .7rem;text-align:left}
+th{background:#eff6ff;color:var(--p)}
 </style>
 </head>
 <body>
 <header>
-  <div class="top">
-    <div class="logo">Études Sup <span>France</span></div>
-    <nav>
-      <a id="nav-home" class="on" onclick="goHome()">Accueil</a>
-      <a id="nav-formations" onclick="goHome()">Formations</a>
-    </nav>
-  </div>
-</header>
-
-<div class="wrap">
-  <aside class="side" id="sidebar"></aside>
-  <div class="main" id="main"></div>
+<div class="top">
+  <div class="logo">Études Sup <span>France</span></div>
+  <nav>
+    <a id="nav-home" class="on" onclick="goHome()">Accueil</a>
+    <a id="nav-formations" onclick="goHome()">Formations</a>
+  </nav>
 </div>
-
+</header>
+<div class="wrap">
+<aside class="side" id="sidebar"></aside>
+<div class="main" id="main"></div>
+</div>
 <footer>
   <p><strong>Études Sup France</strong> — Cours structurés par chapitres · Contenu pédagogique original · 2026</p>
-  <p style="margin-top:.4rem;font-size:.78rem">Contenu rédigé de façon originale. Aucune reproduction intégrale d’ouvrages protégés (Dunod, Nathan, Hachette, Ellipses, Vuibert…).</p>
+  <p style="margin-top:.4rem;font-size:.78rem">Contenu rédigé de façon originale à partir des programmes officiels. Aucune reproduction intégrale d’ouvrages protégés (Dunod, Nathan, Hachette, Ellipses, Vuibert…).</p>
 </footer>
 
 <script>
-/* =========================================================
-   DONNÉES — tout est centralisé ici
-   Pour ajouter une formation : 1 objet dans `formations`
-   Pour ajouter un chapitre : 1 entrée dans `chapitres`
-   ========================================================= */
-
 const formations = {
-  // ---- BTS ----
-  opti:  { cat: "BTS", nom: "BTS Opticien-Lunetier", icone: "👓", desc: "Cours détaillés disponibles" },
-  mco:   { cat: "BTS", nom: "BTS MCO", icone: "🛒", desc: "Management commercial opérationnel" },
-  sio:   { cat: "BTS", nom: "BTS SIO", icone: "💻", desc: "Services informatiques aux organisations" },
-  cg:    { cat: "BTS", nom: "BTS CG", icone: "📒", desc: "Comptabilité et Gestion" },
-  ndrc:  { cat: "BTS", nom: "BTS NDRC", icone: "🤝", desc: "Négociation & Digitalisation Relation Client" },
-  elec:  { cat: "BTS", nom: "BTS Électrotechnique", icone: "⚡", desc: "Électricité et automatismes" },
-  gpme:  { cat: "BTS", nom: "BTS GPME", icone: "🏢", desc: "Gestion de la PME" },
-  ci:    { cat: "BTS", nom: "BTS Commerce International", icone: "🌍", desc: "Commerce international" },
-  sam:   { cat: "BTS", nom: "BTS SAM", icone: "📋", desc: "Support à l’Action Managériale" },
-  tour:  { cat: "BTS", nom: "BTS Tourisme", icone: "✈️", desc: "Tourisme" },
-  com:   { cat: "BTS", nom: "BTS Communication", icone: "📢", desc: "Communication" },
-  banque:{ cat: "BTS", nom: "BTS Banque", icone: "🏦", desc: "Banque" },
-  immo:  { cat: "BTS", nom: "BTS Professions Immobilières", icone: "🏠", desc: "Immobilier" },
-  esf:   { cat: "BTS", nom: "BTS ESF", icone: "👨‍👩‍👧", desc: "Économie Sociale Familiale" },
-  sp3s:  { cat: "BTS", nom: "BTS SP3S", icone: "🏥", desc: "Services et Prestations des Secteurs Sanitaire et Social" },
-  mhr:   { cat: "BTS", nom: "BTS MHR", icone: "🍽️", desc: "Management en Hôtellerie-Restauration" },
-  crsa:  { cat: "BTS", nom: "BTS CRSA", icone: "🤖", desc: "Conception et Réalisation de Systèmes Automatiques" },
-  maint: { cat: "BTS", nom: "BTS Maintenance des Systèmes", icone: "🔧", desc: "Maintenance" },
-  ciel:  { cat: "BTS", nom: "BTS CIEL", icone: "🔒", desc: "Cybersécurité, Informatique et Réseaux" },
-  diet:  { cat: "BTS", nom: "BTS Diététique", icone: "🥗", desc: "Diététique" },
-
-  // ---- Exemples d’autres catégories (structure prête) ----
-  // but_info: { cat: "BUT", nom: "BUT Informatique", icone: "🖥️", desc: "Bachelor Universitaire de Technologie" },
-  // licence_maths: { cat: "Licence", nom: "Licence Maths", icone: "∫", desc: "Licence Mathématiques" },
+  opti:  { cat:"BTS", nom:"BTS Opticien-Lunetier", icone:"👓", desc:"Analyse de la vision, optique, montage" },
+  mco:   { cat:"BTS", nom:"BTS MCO", icone:"🛒", desc:"Management commercial opérationnel" },
+  sio:   { cat:"BTS", nom:"BTS SIO", icone:"💻", desc:"Services informatiques (SISR / SLAM)" },
+  cg:    { cat:"BTS", nom:"BTS CG", icone:"📒", desc:"Comptabilité et Gestion" },
+  ndrc:  { cat:"BTS", nom:"BTS NDRC", icone:"🤝", desc:"Négociation & Digitalisation Relation Client" },
+  elec:  { cat:"BTS", nom:"BTS Électrotechnique", icone:"⚡", desc:"Électricité et automatismes" },
+  gpme:  { cat:"BTS", nom:"BTS GPME", icone:"🏢", desc:"Gestion de la PME" },
+  ci:    { cat:"BTS", nom:"BTS Commerce International", icone:"🌍", desc:"Commerce international" },
+  sam:   { cat:"BTS", nom:"BTS SAM", icone:"📋", desc:"Support à l’Action Managériale" },
+  tour:  { cat:"BTS", nom:"BTS Tourisme", icone:"✈️", desc:"Tourisme" },
+  com:   { cat:"BTS", nom:"BTS Communication", icone:"📢", desc:"Communication" },
+  banque:{ cat:"BTS", nom:"BTS Banque", icone:"🏦", desc:"Banque" },
+  immo:  { cat:"BTS", nom:"BTS Professions Immobilières", icone:"🏠", desc:"Immobilier" },
+  esf:   { cat:"BTS", nom:"BTS ESF", icone:"👨‍👩‍👧", desc:"Économie Sociale Familiale" },
+  sp3s:  { cat:"BTS", nom:"BTS SP3S", icone:"🏥", desc:"Secteur sanitaire et social" },
+  mhr:   { cat:"BTS", nom:"BTS MHR", icone:"🍽️", desc:"Management Hôtellerie-Restauration" },
+  crsa:  { cat:"BTS", nom:"BTS CRSA", icone:"🤖", desc:"Systèmes automatiques" },
+  maint: { cat:"BTS", nom:"BTS Maintenance des Systèmes", icone:"🔧", desc:"Maintenance" },
+  ciel:  { cat:"BTS", nom:"BTS CIEL", icone:"🔒", desc:"Cybersécurité, Informatique et Réseaux" },
+  diet:  { cat:"BTS", nom:"BTS Diététique", icone:"🥗", desc:"Diététique" },
 };
 
-/* Chapitres : clé = id du cours (ex: "opti1")
-   Chaque chapitre contient : titre, résumé court, contenu HTML (cours + mémo + exo) */
 const chapitres = {
-  // ========== OPTICIEN ==========
+  /* ===================== OPTICIEN-LUNETIER ===================== */
   opti1: {
-    form: "opti", num: "01",
-    titre: "Anatomie et physiologie de l’œil",
-    sousTitre: "Structure, cornée, cristallin, rétine, milieux transparents",
-    contenu: `
+    form:"opti", num:"01",
+    titre:"Anatomie et physiologie de l’œil",
+    sousTitre:"Structure, cornée, cristallin, rétine, milieux transparents",
+    contenu:`
       <h3>1. Structure générale de l’œil</h3>
-      <p>L’œil est un organe sphérique d’environ 24 mm de diamètre. Il est protégé par l’orbite osseuse, les paupières et le film lacrymal. On distingue trois tuniques :</p>
+      <p>L’œil humain est un organe sensoriell approximativement sphérique (diamètre moyen ≈ 24 mm). Il est logé dans l’orbite osseuse et protégé par les paupières, les cils et le film lacrymal. On décrit classiquement trois tuniques concentriques :</p>
       <ul>
-        <li><strong>Tunique externe</strong> : sclérotique (blanc de l’œil) + cornée (partie antérieure transparente)</li>
-        <li><strong>Tunique moyenne</strong> (uvée) : choroïde, corps ciliaire, iris</li>
-        <li><strong>Tunique interne</strong> : rétine (couche photosensible)</li>
+        <li><strong>Tunique externe (fibreuse)</strong> : sclérotique (partie opaque, blanche) et cornée (partie antérieure transparente).</li>
+        <li><strong>Tunique moyenne (uvéale ou vasculaire)</strong> : choroïde (nourrit la rétine), corps ciliaire (production de l’humeur aqueuse + muscle ciliaire) et iris (contrôle de la quantité de lumière).</li>
+        <li><strong>Tunique interne (nerveuse)</strong> : la rétine, qui contient les photorécepteurs.</li>
       </ul>
       <h3>2. La cornée</h3>
-      <p>La cornée est la première surface réfringente de l’œil. Elle représente environ les deux tiers de la puissance totale de l’œil (environ +40 à +43 dioptries). Elle est avasculaire et nourrie par l’humeur aqueuse et les larmes. Sa transparence est essentielle à une bonne vision.</p>
+      <p>Première surface réfringente de l’œil. Elle contribue à environ les 2/3 de la puissance totale de l’œil (environ +40 à +43 dioptries). Elle est avasculaire : sa nutrition se fait par diffusion à partir de l’humeur aqueuse et du film lacrymal. Sa transparence dépend de l’organisation régulière des fibres de collagène et d’un taux d’hydratation contrôlé.</p>
       <h3>3. Le cristallin</h3>
-      <p>Le cristallin est une lentille biconvexe transparente située derrière l’iris. Il permet l’<strong>accommodation</strong> (variation de sa courbure) grâce au muscle ciliaire. Avec l’âge, le cristallin perd de sa souplesse → presbytie.</p>
-      <h3>4. La rétine</h3>
-      <p>La rétine contient les photorécepteurs :</p>
+      <p>Lentille biconvexe transparente située derrière l’iris. Grâce au muscle ciliaire et à la zonule de Zinn, il modifie sa courbure → <strong>accommodation</strong>. Avec l’âge, le cristallin perd de son élasticité (sclérose) → apparition de la presbytie. Il peut aussi s’opacifier (cataracte).</p>
+      <h3>4. La rétine et les photorécepteurs</h3>
+      <p>La rétine transforme le signal lumineux en signal nerveux. Deux types de photorécepteurs :</p>
       <ul>
-        <li><strong>Cônes</strong> : vision des couleurs et vision fine (surtout au centre = macula / fovéa)</li>
-        <li><strong>Bâtonnets</strong> : vision en faible luminosité (périphérie)</li>
+        <li><strong>Cônes</strong> (≈ 6 millions) : vision diurne, couleurs, haute acuité. Concentrés dans la macula et surtout la fovéa.</li>
+        <li><strong>Bâtonnets</strong> (≈ 120 millions) : vision scotopique (faible luminosité), pas de discrimination des couleurs. Plus nombreux en périphérie.</li>
       </ul>
-      <p>Le signal est transmis via le nerf optique au cerveau.</p>
-      <div class="memo"><strong>Résumé mémo</strong><br>• Cornée ≈ +40 à +43 δ<br>• Cristallin = accommodation<br>• Rétine = cônes (couleurs) + bâtonnets (nuit)<br>• Nerf optique = transmission au cerveau</div>
-      <div class="exo"><strong>Exercice 1</strong> : Pourquoi la cornée est-elle la surface la plus puissante de l’œil ?<br><strong>Exercice 2</strong> : Quelle est la conséquence principale du vieillissement du cristallin ?</div>
+      <p>Le signal est transmis via les cellules bipolaires et ganglionnaires puis le nerf optique jusqu’au cortex visuel.</p>
+      <div class="memo"><strong>Mémo</strong><br>• Cornée ≈ +40 à +43 δ (2/3 de la puissance)<br>• Cristallin = accommodation<br>• Cônes = couleurs + acuité / Bâtonnets = vision nocturne<br>• Nerf optique = voie de transmission</div>
+      <div class="exo"><strong>Exercice 1</strong> : Pourquoi la cornée apporte-t-elle la plus grande part de la puissance réfractive de l’œil ?<br><strong>Exercice 2</strong> : Expliquez le mécanisme de l’accommodation et sa dégradation avec l’âge.<br><strong>Exercice 3</strong> : Où se trouvent majoritairement les cônes et les bâtonnets ? Quelles sont les conséquences fonctionnelles ?</div>
     `
   },
   opti2: {
-    form: "opti", num: "02",
-    titre: "Optique géométrique appliquée",
-    sousTitre: "Réfraction, vergence, lentilles, dioptries",
-    contenu: `
-      <h3>1. La réfraction</h3>
-      <p>La réfraction est le changement de direction d’un rayon lumineux lorsqu’il passe d’un milieu à un autre d’indice différent. Loi de Snell-Descartes : n₁ sin i₁ = n₂ sin i₂.</p>
+    form:"opti", num:"02",
+    titre:"Optique géométrique appliquée",
+    sousTitre:"Réfraction, vergence, lentilles, dioptries",
+    contenu:`
+      <h3>1. Réfraction et loi de Snell-Descartes</h3>
+      <p>Lorsqu’un rayon lumineux passe d’un milieu d’indice n₁ à un milieu d’indice n₂, il change de direction selon : <strong>n₁ sin i₁ = n₂ sin i₂</strong>. Plus l’écart d’indice est grand, plus la déviation est importante.</p>
       <h3>2. Vergence et dioptrie</h3>
-      <p>La vergence (puissance) d’une lentille se mesure en <strong>dioptries (δ)</strong>. Vergence V = 1 / f où f est la distance focale en mètres. Une lentille convergente a une vergence positive (+), une divergente une vergence négative (−).</p>
-      <h3>3. Formation des images</h3>
-      <p>Pour une lentille mince, on utilise les formules de conjugaison et de grandissement. En optique ophtalmique, on travaille surtout avec la notion de vergence et de foyer.</p>
-      <div class="memo"><strong>Résumé</strong><br>• Dioptrie = unité de vergence<br>• V = 1/f (f en mètres)<br>• Convergent = + / Divergent = −</div>
-      <div class="exo"><strong>Exercice</strong> : Quelle est la vergence d’une lentille de distance focale 25 cm ? Est-elle convergente ou divergente ?</div>
+      <p>La vergence (ou puissance) d’une lentille se mesure en <strong>dioptries (δ ou D)</strong>. Formule fondamentale :</p>
+      <p style="text-align:center;font-size:1.15rem;margin:1rem 0"><strong>V = 1 / f</strong> &nbsp;(f en mètres)</p>
+      <ul>
+        <li>Lentille convergente → vergence positive (+)</li>
+        <li>Lentille divergente → vergence négative (−)</li>
+      </ul>
+      <p>Exemple : une lentille de distance focale 25 cm a une vergence V = 1 / 0,25 = +4 δ.</p>
+      <h3>3. Formules utiles en optique ophtalmique</h3>
+      <ul>
+        <li>Vergence d’une association de lentilles minces rapprochées : V<sub>totale</sub> ≈ V₁ + V₂</li>
+        <li>Formule de conjugaison (lentille mince) : 1/p' − 1/p = 1/f (conventions de signes à respecter)</li>
+      </ul>
+      <div class="memo"><strong>Mémo</strong><br>• Dioptrie = unité de vergence<br>• V = 1/f (f en m)<br>• Convergent = + &nbsp;/&nbsp; Divergent = −<br>• Association proche : V ≈ somme des vergences</div>
+      <div class="exo"><strong>Exercice</strong> : Calculez la vergence d’une lentille de focale −40 cm. Est-elle convergente ou divergente ? Quelle correction visuelle correspond typiquement à ce type de verre ?</div>
     `
   },
   opti3: {
-    form: "opti", num: "03",
-    titre: "Les défauts visuels",
-    sousTitre: "Myopie, hypermétropie, astigmatisme, presbytie",
-    contenu: `
+    form:"opti", num:"03",
+    titre:"Les défauts visuels (amétropies)",
+    sousTitre:"Myopie, hypermétropie, astigmatisme, presbytie",
+    contenu:`
       <h3>1. Myopie</h3>
-      <p>L’œil est trop long (ou trop puissant). L’image d’un objet lointain se forme <strong>en avant</strong> de la rétine. Correction : verres <strong>divergents</strong> (négatifs).</p>
+      <p>L’œil est trop long ou trop puissant. L’image d’un objet éloigné se forme <strong>en avant</strong> de la rétine. Le sujet voit flou de loin. Correction par verres (ou lentilles) <strong>divergents</strong> (négatifs).</p>
       <h3>2. Hypermétropie</h3>
-      <p>L’œil est trop court (ou pas assez puissant). L’image se forme <strong>en arrière</strong> de la rétine. Correction : verres <strong>convergents</strong> (positifs).</p>
+      <p>L’œil est trop court ou pas assez puissant. L’image se forme <strong>en arrière</strong> de la rétine. Correction par verres <strong>convergents</strong> (positifs). Chez le jeune, l’accommodation peut compenser partiellement.</p>
       <h3>3. Astigmatisme</h3>
-      <p>La cornée n’est pas sphérique (elle est torique). Les rayons ne convergent pas en un seul point. Correction : verres cylindriques.</p>
+      <p>La cornée (ou le cristallin) n’est pas sphérique : elle présente des rayons de courbure différents selon les méridiens. Les rayons ne convergent pas en un point unique. Correction par verres <strong>cylindriques</strong> (ou toriques).</p>
       <h3>4. Presbytie</h3>
-      <p>Perte progressive de l’accommodation liée à l’âge (généralement après 40-45 ans). On ajoute une <strong>addition</strong> pour la vision de près.</p>
-      <div class="memo"><strong>Mémo rapide</strong><br>Myopie → − (divergent)<br>Hypermétropie → + (convergent)<br>Astigmatisme → cylindre<br>Presbytie → addition</div>
-      <div class="exo"><strong>Exercice</strong> : Un client a −3,50 (−1,25) 90°. Décrivez les défauts et le type de verres nécessaires.</div>
+      <p>Perte progressive de l’amplitude d’accommodation liée à l’âge (généralement perceptible après 40-45 ans). On ajoute une <strong>addition</strong> (Add) pour la vision de près. Les verres progressifs combinent distance, intermédiaire et près.</p>
+      <table>
+        <tr><th>Défaut</th><th>Cause principale</th><th>Correction</th></tr>
+        <tr><td>Myopie</td><td>Œil trop long / trop puissant</td><td>Verres divergents (−)</td></tr>
+        <tr><td>Hypermétropie</td><td>Œil trop court / pas assez puissant</td><td>Verres convergents (+)</td></tr>
+        <tr><td>Astigmatisme</td><td>Cornée torique</td><td>Verres cylindriques</td></tr>
+        <tr><td>Presbytie</td><td>Perte d’accommodation</td><td>Addition / progressifs</td></tr>
+      </table>
+      <div class="memo"><strong>Mémo rapide</strong><br>Myopie → − &nbsp;|&nbsp; Hypermétropie → + &nbsp;|&nbsp; Astigmatisme → cylindre &nbsp;|&nbsp; Presbytie → addition</div>
+      <div class="exo"><strong>Exercice</strong> : Un client présente la prescription suivante : −3,50 (−1,25) 90° Add +2,00. Décrivez les amétropies présentes et le type d’équipement le plus adapté.</div>
     `
   },
   opti4: {
-    form: "opti", num: "04",
-    titre: "Examens de vue et réfraction",
-    sousTitre: "Acuité, réfractométrie, skiascopie",
-    contenu: `
-      <p>L’examen de vue comprend : mesure de l’acuité visuelle de loin et de près, réfractométrie objective (autorefractomètre, skiascopie), réfraction subjective (réfracteur), mesure de la dominance, tests binoculaires, etc.</p>
-      <div class="memo">L’acuité visuelle se note en dixièmes (ex. 10/10) ou en fraction de Snellen.</div>
-      <div class="exo">Pourquoi réalise-t-on à la fois une réfraction objective et subjective ?</div>
+    form:"opti", num:"04",
+    titre:"Examens de vue et réfraction",
+    sousTitre:"Acuité, réfractométrie, skiascopie, réfraction subjective",
+    contenu:`
+      <p>L’examen de vue complet combine des mesures objectives et subjectives.</p>
+      <h3>Mesures objectives</h3>
+      <ul>
+        <li><strong>Autoréfractomètre</strong> : mesure rapide de la réfraction.</li>
+        <li><strong>Skiascopie (rétinoscopie)</strong> : observation du mouvement de l’ombre pupillaire.</li>
+        <li>Kératométrie : mesure des rayons de courbure cornéens (utile pour les lentilles).</li>
+      </ul>
+      <h3>Réfraction subjective</h3>
+      <p>Avec le réfracteur (ou monture d’essai), on affine sphère, cylindre et axe en s’appuyant sur les réponses du patient (tests du « mieux ou moins bien », du cylindre croisé, du duochrome, etc.).</p>
+      <div class="memo">L’acuité visuelle se note le plus souvent en dixièmes (10/10) ou en fraction de Snellen. Une bonne réfraction subjective reste indispensable même après une mesure objective.</div>
+      <div class="exo">Pourquoi réalise-t-on systématiquement une réfraction subjective après une mesure objective ?</div>
     `
   },
   opti5: {
-    form: "opti", num: "05",
-    titre: "Verres correcteurs et montures",
-    sousTitre: "Types de verres, traitements, centrage",
-    contenu: `
-      <p>Types de verres : unifocaux, progressifs, mi-distance, de proximité. Matériaux : minéral, organique, polycarbonate. Traitements : antireflet, durci, photochromique, blue-cut. Le centrage (écart pupillaire + hauteur) est crucial pour le confort.</p>
-      <div class="memo">Un mauvais centrage peut provoquer asthénopie, vision floue ou diplopie.</div>
+    form:"opti", num:"05",
+    titre:"Verres correcteurs et montures",
+    sousTitre:"Types de verres, matériaux, traitements, centrage",
+    contenu:`
+      <h3>Types de verres</h3>
+      <ul>
+        <li>Unifocaux (distance ou près)</li>
+        <li>Bifocaux / trifocaux</li>
+        <li>Progressifs (vision de loin → intermédiaire → près)</li>
+        <li>Verres de proximité / mi-distance</li>
+      </ul>
+      <h3>Matériaux</h3>
+      <p>Minéral, organique (CR-39 et indices élevés), polycarbonate, Trivex… Le choix dépend de l’indice de réfraction souhaité, du poids, de la solidité et du prix.</p>
+      <h3>Traitements courants</h3>
+      <p>Antireflet, durci, hydrophobe/oléophobe, photochromique, filtre lumière bleue, polarisant…</p>
+      <div class="memo">Le centrage (écart pupillaire + hauteur de montage) est critique. Un mauvais centrage peut provoquer asthénopie, vision floue, diplopie ou maux de tête.</div>
     `
   },
   opti6: {
-    form: "opti", num: "06",
-    titre: "Lentilles de contact",
-    sousTitre: "Types, adaptation, entretien",
-    contenu: `
-      <p>Lentilles souples (journalières, bi-mensuelles, mensuelles), rigides perméables au gaz (RPG), hybrides. Adaptation : kératométrie, essai, suivi. Entretien et risques (hypoxie, infections).</p>
+    form:"opti", num:"06",
+    titre:"Lentilles de contact",
+    sousTitre:"Types, adaptation, entretien, risques",
+    contenu:`
+      <p>Les lentilles de contact se répartissent principalement en :</p>
+      <ul>
+        <li>Lentilles souples (journalières, bi-mensuelles, mensuelles)</li>
+        <li>Lentilles rigides perméables au gaz (RPG)</li>
+        <li>Lentilles hybrides</li>
+      </ul>
+      <p>L’adaptation repose sur la kératométrie, l’évaluation du film lacrymal, l’essai de lentilles et le suivi. L’entretien et l’hygiène sont essentiels pour limiter les risques d’infection ou d’hypoxie cornéenne.</p>
     `
   },
   opti7: {
-    form: "opti", num: "07",
-    titre: "Prise de mesures et montage",
-    sousTitre: "Écarts pupillaires, montage, contrôle",
-    contenu: `
-      <p>Écart pupillaire (EP) de loin et de près, hauteur de montage, angle pantoscopique, distance verre-œil. Montage : détourage, centrage, insertion, contrôle final (focimètre).</p>
+    form:"opti", num:"07",
+    titre:"Prise de mesures et montage",
+    sousTitre:"Écarts pupillaires, hauteur, montage, contrôle",
+    contenu:`
+      <p>Mesures principales : écart pupillaire (EP) de loin et de près, hauteur de montage, angle pantoscopique, distance verre-œil, galbe. Le montage comprend le détourage, le centrage, l’insertion dans la monture et le contrôle final au focimètre.</p>
     `
   },
   opti8: {
-    form: "opti", num: "08",
-    titre: "Relation client et vente conseil",
-    sousTitre: "Accueil, argumentation, fidélisation",
-    contenu: `
-      <p>Accueil, analyse des besoins (usage, style de vie), argumentation sur les verres et traitements, gestion des objections, fidélisation, suivi après-vente.</p>
+    form:"opti", num:"08",
+    titre:"Relation client et vente conseil",
+    sousTitre:"Accueil, besoins, argumentation, fidélisation",
+    contenu:`
+      <p>Parcours type : accueil → analyse des besoins (usage, style de vie, budget) → proposition d’équipement → argumentation sur les verres et traitements → gestion des objections → closing → suivi après-vente et fidélisation.</p>
     `
   },
 
-  // ========== MCO ==========
+  /* ===================== MCO ===================== */
   mco1: {
-    form: "mco", num: "01",
-    titre: "Développement de la relation client",
-    sousTitre: "Accueil, découverte, vente conseil, fidélisation",
-    contenu: `
-      <p>La relation client est au cœur du BTS MCO. Le parcours type est : Accueil → Découverte des besoins → Argumentation → Traitement des objections → Closing → Fidélisation.</p>
+    form:"mco", num:"01",
+    titre:"Développement de la relation client",
+    sousTitre:"Accueil, découverte, vente conseil, fidélisation",
+    contenu:`
+      <p>Le parcours client en magasin suit généralement : Accueil → Découverte des besoins → Argumentation → Traitement des objections → Closing → Fidélisation.</p>
       <h3>Techniques de découverte</h3>
-      <p>Questions ouvertes, questions fermées, reformulation, écoute active. Objectif : comprendre le besoin réel (pas seulement le produit demandé).</p>
-      <div class="memo"><strong>Mémo</strong> : SONCAS (Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie) — leviers de motivation d’achat.</div>
-      <div class="exo">Citez 3 questions ouvertes que vous poseriez à un client qui entre dans un rayon high-tech.</div>
+      <p>Questions ouvertes (quoi, comment, pourquoi…), questions fermées, reformulation, écoute active. L’objectif est de comprendre le besoin réel et non seulement le produit demandé.</p>
+      <div class="memo"><strong>SONCAS</strong> — leviers de motivation d’achat :<br>Sécurité • Orgueil • Nouveauté • Confort • Argent • Sympathie</div>
+      <div class="exo">Citez 3 questions ouvertes pertinentes pour un client qui entre dans un rayon high-tech.</div>
     `
   },
   mco2: {
-    form: "mco", num: "02",
-    titre: "Animation et dynamisation de l’offre",
-    sousTitre: "Merchandising, promotions, implantation",
-    contenu: `
-      <p>Merchandising : organisation du linéaire pour maximiser les ventes. Facing, implantation verticale/horizontale, têtes de gondole, cross-merchandising.</p>
-      <div class="memo">Règle des 5S du merchandising (souvent citée) : Stock, Seuil, Signalétique, Séduction, Service.</div>
+    form:"mco", num:"02",
+    titre:"Animation et dynamisation de l’offre",
+    sousTitre:"Merchandising, promotions, implantation",
+    contenu:`
+      <p>Le merchandising vise à organiser le linéaire pour maximiser les ventes : facing, implantation verticale ou horizontale, têtes de gondole, cross-merchandising, signalétique.</p>
+      <div class="memo">Les 5S souvent cités en merchandising : Stock, Seuil, Signalétique, Séduction, Service.</div>
     `
   },
   mco3: {
-    form: "mco", num: "03",
-    titre: "Gestion opérationnelle",
-    sousTitre: "Stocks, marges, indicateurs, tableaux de bord",
-    contenu: `
-      <p>Indicateurs essentiels : taux de rotation des stocks, marge commerciale, taux de marque, taux de service, chiffre d’affaires / m².</p>
-      <div class="memo">Taux de rotation = Coût d’achat des marchandises vendues / Stock moyen<br>Taux de marque = Marge / Prix de vente HT</div>
+    form:"mco", num:"03",
+    titre:"Gestion opérationnelle",
+    sousTitre:"Stocks, marges, indicateurs, tableaux de bord",
+    contenu:`
+      <p>Indicateurs clés à maîtriser :</p>
+      <ul>
+        <li>Taux de rotation des stocks = Coût d’achat des marchandises vendues / Stock moyen</li>
+        <li>Taux de marque = Marge commerciale / Prix de vente HT</li>
+        <li>Taux de service, CA / m², panier moyen…</li>
+      </ul>
       <div class="exo">Stock moyen = 15 000 €. CAMV = 60 000 €. Calculez le taux de rotation et interprétez-le.</div>
     `
   },
   mco4: {
-    form: "mco", num: "04",
-    titre: "Management d’équipe",
-    sousTitre: "Organisation, motivation, évaluation",
-    contenu: `
-      <p>Organisation du planning, délégation, motivation (théories de Maslow, Herzberg), entretien d’évaluation, management situationnel (Hersey & Blanchard).</p>
+    form:"mco", num:"04",
+    titre:"Management d’équipe",
+    sousTitre:"Organisation, motivation, évaluation",
+    contenu:`
+      <p>Organisation du planning, délégation, motivation (Maslow, Herzberg), entretien d’évaluation, management situationnel (Hersey & Blanchard).</p>
     `
   },
 
-  // ========== SIO ==========
+  /* ===================== SIO ===================== */
   sio1: {
-    form: "sio", num: "01",
-    titre: "Support et services informatiques",
-    sousTitre: "Assistance, maintenance, supervision",
-    contenu: `<p>Le technicien SIO assure le support de proximité et distant, la maintenance préventive et corrective, la documentation des interventions et le suivi des tickets.</p>`
+    form:"sio", num:"01",
+    titre:"Support et services informatiques",
+    sousTitre:"Assistance, maintenance, supervision",
+    contenu:`
+      <p>Le technicien SIO assure le support de proximité et distant, la maintenance préventive et corrective, la documentation des interventions et le suivi des tickets (ITIL de base).</p>
+    `
   },
   sio2: {
-    form: "sio", num: "02",
-    titre: "Cybersécurité de base",
-    sousTitre: "Menaces, protection, bonnes pratiques",
-    contenu: `<p>Menaces (malware, phishing, ransomware), principes de défense en profondeur, mots de passe, mises à jour, sauvegarde 3-2-1, sensibilisation des utilisateurs.</p>`
+    form:"sio", num:"02",
+    titre:"Cybersécurité de base",
+    sousTitre:"Menaces, protection, bonnes pratiques",
+    contenu:`
+      <p>Menaces courantes : malware, phishing, ransomware, ingénierie sociale. Principes de défense en profondeur, politique de mots de passe, mises à jour, sauvegarde 3-2-1, sensibilisation des utilisateurs.</p>
+      <div class="memo">Règle 3-2-1 : 3 copies des données, sur 2 supports différents, dont 1 hors site.</div>
+    `
   },
   sio3: {
-    form: "sio", num: "03",
-    titre: "Réseaux et modèles OSI / TCP-IP",
-    sousTitre: "Couches, protocoles, adressage",
-    contenu: `
-      <p>Modèle OSI (7 couches) et modèle TCP/IP. Adressage IPv4, masque, passerelle, DNS. Switch vs routeur.</p>
+    form:"sio", num:"03",
+    titre:"Réseaux — modèles OSI et TCP/IP",
+    sousTitre:"Couches, protocoles, adressage",
+    contenu:`
+      <p>Le modèle OSI comporte 7 couches : Physique → Liaison de données → Réseau → Transport → Session → Présentation → Application. Le modèle TCP/IP en regroupe certaines.</p>
+      <p>Notions essentielles : adressage IPv4, masque de sous-réseau, passerelle, DNS, différence switch / routeur.</p>
       <div class="memo">OSI : Physique → Liaison → Réseau → Transport → Session → Présentation → Application</div>
     `
   },
   sio4: {
-    form: "sio", num: "04",
-    titre: "Option SISR — Administration systèmes",
-    sousTitre: "Windows Server, Linux, virtualisation",
-    contenu: `<p>Installation et administration de Windows Server / Linux, Active Directory, GPO, virtualisation (Hyper-V, Proxmox), supervision.</p>`
+    form:"sio", num:"04",
+    titre:"Option SISR — Administration systèmes",
+    sousTitre:"Windows Server, Linux, virtualisation",
+    contenu:`
+      <p>Installation et administration de Windows Server et Linux, Active Directory, GPO, virtualisation (Hyper-V, Proxmox, VMware), supervision et sauvegarde.</p>
+    `
   },
   sio5: {
-    form: "sio", num: "05",
-    titre: "Option SLAM — Développement",
-    sousTitre: "Programmation, bases de données, interfaces",
-    contenu: `<p>Algorithmique, langages (Python, Java, PHP, JS…), bases de données relationnelles (SQL), développement d’interfaces, tests et versionning.</p>`
+    form:"sio", num:"05",
+    titre:"Option SLAM — Développement",
+    sousTitre:"Programmation, bases de données, interfaces",
+    contenu:`
+      <p>Algorithmique, langages (Python, Java, PHP, JavaScript…), bases de données relationnelles (SQL), développement d’interfaces, tests et gestion de versions (Git).</p>
+    `
   },
 
-  // ========== CG ==========
+  /* ===================== CG ===================== */
   cg1: {
-    form: "cg", num: "01",
-    titre: "Comptabilité approfondie",
-    sousTitre: "Opérations courantes, immobilisations, stocks",
-    contenu: `<p>Enregistrement des opérations d’achat, vente, immobilisations, amortissements, stocks (CUMP, FIFO). Documents de synthèse.</p>`
+    form:"cg", num:"01",
+    titre:"Comptabilité approfondie",
+    sousTitre:"Opérations courantes, immobilisations, stocks",
+    contenu:`
+      <p>Enregistrement des opérations d’achat et de vente, immobilisations, amortissements, stocks (CUMP, FIFO). Documents de synthèse : bilan et compte de résultat.</p>
+    `
   },
   cg2: {
-    form: "cg", num: "02",
-    titre: "Analyse financière",
-    sousTitre: "Bilan, compte de résultat, ratios",
-    contenu: `<p>Lecture du bilan et du compte de résultat. Ratios de liquidité, solvabilité, rentabilité. Fonds de roulement, BFR.</p>`
+    form:"cg", num:"02",
+    titre:"Analyse financière",
+    sousTitre:"Bilan, compte de résultat, ratios",
+    contenu:`
+      <p>Lecture du bilan et du compte de résultat. Ratios de liquidité, solvabilité et rentabilité. Fonds de roulement, besoin en fonds de roulement (BFR), trésorerie nette.</p>
+    `
   },
 
-  // ========== Autres formations (1 chapitre d’exemple) ==========
-  ndrc1: { form: "ndrc", num: "01", titre: "Relation client omnicanale", sousTitre: "Parcours client, CRM, canaux digitaux",
-    contenu: `<p>Le client passe d’un canal à l’autre (magasin, site, appli, téléphone, réseaux). Le CRM centralise les données pour personnaliser la relation.</p>` },
-  elec1: { form: "elec", num: "01", titre: "Bases d’électrotechnique", sousTitre: "Lois fondamentales, courant, tension, puissance",
-    contenu: `<p>Loi d’Ohm U = RI. Puissance P = UI. En triphasé P = √3 × U × I × cosφ. Sécurité électrique.</p>` },
-  gpme1: { form: "gpme", num: "01", titre: "Gestion de la relation clients/fournisseurs", sousTitre: "",
-    contenu: `<p>Processus commercial, suivi des commandes, relances, négociation fournisseurs.</p>` },
-  ci1:   { form: "ci", num: "01", titre: "Techniques du commerce international", sousTitre: "",
-    contenu: `<p>Incoterms, documents d’accompagnement, douanes, prospection export.</p>` },
-  sam1:  { form: "sam", num: "01", titre: "Soutien à la communication", sousTitre: "",
-    contenu: `<p>Rédaction professionnelle, organisation de réunions, gestion de l’information.</p>` },
-  tour1: { form: "tour", num: "01", titre: "Relation client touristique", sousTitre: "",
-    contenu: `<p>Accueil, conseil, construction d’offre, vente de prestations touristiques.</p>` },
-  com1:  { form: "com", num: "01", titre: "Stratégie de communication", sousTitre: "",
-    contenu: `<p>Brief, cibles, messages, canaux, budget, évaluation.</p>` },
-  banque1:{ form: "banque", num: "01", titre: "Conseil clientèle", sousTitre: "",
-    contenu: `<p>Analyse des besoins, produits bancaires, conformité, devoir de conseil.</p>` },
-  immo1: { form: "immo", num: "01", titre: "Transaction immobilière", sousTitre: "",
-    contenu: `<p>Estimation, mandate, visite, négociation, avant-contrat, acte.</p>` },
-  esf1:  { form: "esf", num: "01", titre: "Intervention sociale et familiale", sousTitre: "",
-    contenu: `<p>Accompagnement des familles, conseil technologique, animation.</p>` },
-  sp3s1: { form: "sp3s", num: "01", titre: "Accompagnement des usagers", sousTitre: "",
-    contenu: `<p>Accueil, information, orientation, suivi dans le secteur sanitaire et social.</p>` },
-  mhr1:  { form: "mhr", num: "01", titre: "Management d’équipe en hôtellerie", sousTitre: "",
-    contenu: `<p>Organisation du service, management opérationnel, qualité de service.</p>` },
-  crsa1: { form: "crsa", num: "01", titre: "Conception de systèmes automatiques", sousTitre: "",
-    contenu: `<p>Analyse du besoin, schémas, choix technologiques, validation.</p>` },
-  maint1:{ form: "maint", num: "01", titre: "Maintenance préventive et corrective", sousTitre: "",
-    contenu: `<p>Diagnostic, interventions, GMAO, amélioration continue.</p>` },
-  ciel1: { form: "ciel", num: "01", titre: "Cybersécurité et réseaux", sousTitre: "",
-    contenu: `<p>Sécurisation des infrastructures, détection, réponse aux incidents.</p>` },
-  diet1: { form: "diet", num: "01", titre: "Nutrition et alimentation", sousTitre: "",
-    contenu: `<p>Besoins énergétiques, macronutriments, micronutriments, équilibres alimentaires.</p>` },
+  /* ===================== Autres (exemples) ===================== */
+  ndrc1: { form:"ndrc", num:"01", titre:"Relation client omnicanale", sousTitre:"Parcours client, CRM, canaux digitaux",
+    contenu:`<p>Le client passe d’un canal à l’autre (magasin, site, application, téléphone, réseaux sociaux). Le CRM centralise les données pour personnaliser la relation et assurer la continuité du parcours.</p>` },
+  elec1: { form:"elec", num:"01", titre:"Bases d’électrotechnique", sousTitre:"Lois fondamentales, courant, tension, puissance",
+    contenu:`<p>Loi d’Ohm : U = R × I. Puissance en monophasé : P = U × I. En triphasé : P = √3 × U × I × cos φ. Notions de sécurité électrique (habilitation, consignation).</p>` },
+  gpme1: { form:"gpme", num:"01", titre:"Gestion de la relation clients et fournisseurs", sousTitre:"",
+    contenu:`<p>Processus commercial, suivi des commandes, relances clients, négociation et suivi fournisseurs.</p>` },
+  ci1:   { form:"ci", num:"01", titre:"Techniques du commerce international", sousTitre:"",
+    contenu:`<p>Incoterms, documents d’accompagnement, formalités douanières, prospection export et techniques de négociation internationale.</p>` },
+  sam1:  { form:"sam", num:"01", titre:"Soutien à la communication", sousTitre:"",
+    contenu:`<p>Rédaction professionnelle, organisation de réunions, gestion de l’information et des plannings.</p>` },
+  tour1: { form:"tour", num:"01", titre:"Relation client touristique", sousTitre:"",
+    contenu:`<p>Accueil, conseil, construction d’offre, vente de prestations touristiques et suivi client.</p>` },
+  com1:  { form:"com", num:"01", titre:"Stratégie de communication", sousTitre:"",
+    contenu:`<p>Brief, définition des cibles, messages, choix des canaux, budget et évaluation de campagne.</p>` },
+  banque1:{ form:"banque", num:"01", titre:"Conseil clientèle", sousTitre:"",
+    contenu:`<p>Analyse des besoins, présentation des produits bancaires, conformité et devoir de conseil.</p>` },
+  immo1: { form:"immo", num:"01", titre:"Transaction immobilière", sousTitre:"",
+    contenu:`<p>Estimation, mandate, organisation des visites, négociation, avant-contrat et acte authentique.</p>` },
+  esf1:  { form:"esf", num:"01", titre:"Intervention sociale et familiale", sousTitre:"",
+    contenu:`<p>Accompagnement des familles, conseil en économie domestique et animation d’ateliers.</p>` },
+  sp3s1: { form:"sp3s", num:"01", titre:"Accompagnement des usagers", sousTitre:"",
+    contenu:`<p>Accueil, information, orientation et suivi des usagers dans le secteur sanitaire et social.</p>` },
+  mhr1:  { form:"mhr", num:"01", titre:"Management d’équipe en hôtellerie", sousTitre:"",
+    contenu:`<p>Organisation du service, management opérationnel et qualité de service en hôtellerie-restauration.</p>` },
+  crsa1: { form:"crsa", num:"01", titre:"Conception de systèmes automatiques", sousTitre:"",
+    contenu:`<p>Analyse du besoin, schémas, choix technologiques et validation d’un système automatisé.</p>` },
+  maint1:{ form:"maint", num:"01", titre:"Maintenance préventive et corrective", sousTitre:"",
+    contenu:`<p>Diagnostic, interventions, GMAO et démarche d’amélioration continue.</p>` },
+  ciel1: { form:"ciel", num:"01", titre:"Cybersécurité et réseaux", sousTitre:"",
+    contenu:`<p>Sécurisation des infrastructures, détection d’incidents et réponse aux attaques.</p>` },
+  diet1: { form:"diet", num:"01", titre:"Nutrition et alimentation", sousTitre:"",
+    contenu:`<p>Besoins énergétiques, macronutriments, micronutriments et équilibres alimentaires.</p>` },
 };
 
-/* =========================================================
-   RENDU DYNAMIQUE
-   ========================================================= */
-
-function buildSidebar() {
-  const side = document.getElementById("sidebar");
-  const cats = {};
-  for (const [id, f] of Object.entries(formations)) {
-    if (!cats[f.cat]) cats[f.cat] = [];
-    cats[f.cat].push({ id, ...f });
+function buildSidebar(){
+  const side=document.getElementById("sidebar");
+  const cats={};
+  for(const [id,f] of Object.entries(formations)){
+    if(!cats[f.cat]) cats[f.cat]=[];
+    cats[f.cat].push({id,...f});
   }
-  let html = "";
-  for (const [cat, list] of Object.entries(cats)) {
-    html += `<h3>${cat}</h3>`;
-    list.forEach(f => {
-      html += `<a data-form="${f.id}" onclick="openForm('${f.id}')">${f.nom}</a>`;
-    });
+  let html="";
+  for(const [cat,list] of Object.entries(cats)){
+    html+=`<h3>${cat}</h3>`;
+    list.forEach(f=>{html+=`<a data-form="${f.id}" onclick="openForm('${f.id}')">${f.nom}</a>`});
   }
-  side.innerHTML = html;
+  side.innerHTML=html;
 }
 
-function goHome() {
-  document.querySelectorAll("nav a").forEach(a => a.classList.remove("on"));
+function goHome(){
+  document.querySelectorAll("nav a").forEach(a=>a.classList.remove("on"));
   document.getElementById("nav-home").classList.add("on");
-  document.querySelectorAll(".side a").forEach(a => a.classList.remove("on"));
-
-  const cards = Object.entries(formations).map(([id, f]) => `
+  document.querySelectorAll(".side a").forEach(a=>a.classList.remove("on"));
+  const cards=Object.entries(formations).map(([id,f])=>`
     <div class="card" onclick="openForm('${id}')">
       <div class="ic">${f.icone}</div>
       <h3>${f.nom}</h3>
       <p>${f.desc}</p>
-    </div>
-  `).join("");
-
-  document.getElementById("main").innerHTML = `
+    </div>`).join("");
+  document.getElementById("main").innerHTML=`
     <h1>Cours structurés — Études supérieures</h1>
     <p class="lead">Clique sur une formation → les chapitres s’affichent → clique sur un chapitre pour voir le cours (explications, résumé, exercices).</p>
     <div class="sec-title">Formations disponibles</div>
-    <div class="grid">${cards}</div>
-  `;
+    <div class="grid">${cards}</div>`;
 }
 
-function openForm(id) {
-  const f = formations[id];
-  if (!f) return;
-
-  document.querySelectorAll("nav a").forEach(a => a.classList.remove("on"));
+function openForm(id){
+  const f=formations[id];
+  if(!f) return;
+  document.querySelectorAll("nav a").forEach(a=>a.classList.remove("on"));
   document.getElementById("nav-formations").classList.add("on");
-  document.querySelectorAll(".side a").forEach(a => {
-    a.classList.toggle("on", a.dataset.form === id);
-  });
-
-  const chapList = Object.entries(chapitres)
-    .filter(([_, c]) => c.form === id)
-    .sort((a, b) => a[1].num.localeCompare(b[1].num));
-
-  const seqs = chapList.map(([cid, c]) => `
+  document.querySelectorAll(".side a").forEach(a=>a.classList.toggle("on",a.dataset.form===id));
+  const chapList=Object.entries(chapitres).filter(([_,c])=>c.form===id).sort((a,b)=>a[1].num.localeCompare(b[1].num));
+  const seqs=chapList.map(([cid,c])=>`
     <div class="seq" onclick="openCours('${cid}')">
       <div class="num">${c.num}</div>
-      <div>
-        <h3>${c.titre}</h3>
-        <p>${c.sousTitre || ""}</p>
-      </div>
-    </div>
-  `).join("");
-
-  document.getElementById("main").innerHTML = `
+      <div><h3>${c.titre}</h3><p>${c.sousTitre||""}</p></div>
+    </div>`).join("");
+  document.getElementById("main").innerHTML=`
     <div class="breadcrumb"><span onclick="goHome()">Accueil</span> › ${f.nom}</div>
     <h1>${f.icone} ${f.nom}</h1>
     <p class="lead">Clique sur un chapitre pour ouvrir le cours complet.</p>
     <div class="sec-title">Chapitres / Séquences</div>
-    ${seqs || "<p>Aucun chapitre disponible pour le moment.</p>"}
-    <div id="cours-container"></div>
-  `;
-  window.scrollTo(0, 0);
+    ${seqs||"<p>Aucun chapitre disponible pour le moment.</p>"}
+    <div id="cours-container"></div>`;
+  window.scrollTo(0,0);
 }
 
-function openCours(cid) {
-  const c = chapitres[cid];
-  if (!c) return;
-  const f = formations[c.form];
-
-  const container = document.getElementById("cours-container");
-  if (!container) return;
-
-  container.innerHTML = `
-    <div class="cours show">
-      <h2>Chapitre ${c.num} — ${c.titre}</h2>
-      ${c.contenu}
-    </div>
-  `;
-  container.scrollIntoView({ behavior: "smooth", block: "start" });
+function openCours(cid){
+  const c=chapitres[cid];
+  if(!c) return;
+  const container=document.getElementById("cours-container");
+  if(!container) return;
+  container.innerHTML=`<div class="cours show"><h2>Chapitre ${c.num} — ${c.titre}</h2>${c.contenu}</div>`;
+  container.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-/* Init */
 buildSidebar();
 goHome();
 </script>
