@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Études Sup France — Plateforme d’apprentissage</title>
+<title>Études Sup France — Plateforme</title>
 <style>
+
 :root {
   --p:#1e3a8a; --pl:#3b82f6; --s:#0f766e; --o:#ea580c;
   --bg:#f1f5f9; --c:#fff; --t:#1e293b; --m:#64748b; --b:#e2e8f0;
@@ -77,6 +78,7 @@ ul{margin:.4rem 0 .6rem 1.3rem}li{margin-bottom:.25rem}
 table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
 th,td{border:1px solid var(--b);padding:.45rem .65rem;text-align:left}
 th{background:rgba(59,130,246,.1);color:var(--p)}
+
 </style>
 </head>
 <body>
@@ -94,304 +96,1406 @@ th{background:rgba(59,130,246,.1);color:var(--p)}
     </div>
   </div>
 </header>
-
 <div class="wrap">
   <aside class="side" id="sidebar"></aside>
-  <div class="main" id="main"><div class="loading" style="padding:2rem;text-align:center;color:var(--m)">Chargement…</div></div>
+  <div class="main" id="main"><div style="padding:2rem;text-align:center;color:var(--m)">Chargement…</div></div>
 </div>
-
 <footer>
-  <p><strong>Études Sup France</strong> — Plateforme d’apprentissage · Contenu pédagogique structuré · 2026</p>
-  <p style="margin-top:.3rem;font-size:.75rem">Cours originaux + sources publiques (Wikiversité / Wikipédia). Progression sauvegardée localement.</p>
+  <p><strong>Études Sup France</strong> — Plateforme d’apprentissage · 24+ chapitres · 2026</p>
+  <p style="margin-top:.3rem;font-size:.75rem">Cours structurés · Progression locale · Favoris · QCM · Flashcards</p>
 </footer>
-
 <script>
-/* =========================================================
-   BASE DE DONNÉES DES COURS (structure JSON extensible)
-   Pour des milliers de chapitres : découper en fichiers
-   data/formations/bts-sio/reseaux/modele-osi.json etc.
-   ========================================================= */
 const COURS_DB = [
   {
-    id: "sio-osi",
-    formation: "bts-sio",
-    formationNom: "BTS SIO",
-    matiere: "Réseaux",
-    titre: "Modèle OSI et TCP/IP",
-    ordre: 1,
-    cours: `
-      <h3>1. Introduction</h3>
-      <p>Le modèle OSI (Open Systems Interconnection) est un modèle de référence en 7 couches qui décrit comment les données circulent dans un réseau. Il a été normalisé par l’ISO. Le modèle TCP/IP, plus pragmatique, est celui réellement utilisé sur Internet.</p>
-      <h3>2. Les 7 couches du modèle OSI</h3>
-      <table>
-        <tr><th>N°</th><th>Couche</th><th>Rôle principal</th><th>Exemples</th></tr>
-        <tr><td>7</td><td>Application</td><td>Interface avec l’utilisateur / applications</td><td>HTTP, FTP, SMTP, DNS</td></tr>
-        <tr><td>6</td><td>Présentation</td><td>Format des données, chiffrement, compression</td><td>SSL/TLS, JPEG, ASCII</td></tr>
-        <tr><td>5</td><td>Session</td><td>Gestion des sessions de communication</td><td>RPC, NetBIOS</td></tr>
-        <tr><td>4</td><td>Transport</td><td>Fiabilité, segmentation, contrôle de flux</td><td>TCP, UDP</td></tr>
-        <tr><td>3</td><td>Réseau</td><td>Adressage logique et routage</td><td>IP, ICMP, OSPF</td></tr>
-        <tr><td>2</td><td>Liaison de données</td><td>Trames, adressage MAC, détection d’erreurs</td><td>Ethernet, Wi-Fi, PPP</td></tr>
-        <tr><td>1</td><td>Physique</td><td>Transmission des bits (signaux électriques/optiques)</td><td>Câbles, fibres, radio</td></tr>
-      </table>
-      <h3>3. Correspondance avec TCP/IP</h3>
-      <p>TCP/IP regroupe les couches 5-6-7 en « Application », garde Transport et Réseau (Internet), et regroupe 1-2 en « Accès réseau ».</p>
-      <h3>4. Encapsulation</h3>
-      <p>Chaque couche ajoute son en-tête (et parfois une queue) : données → segment (TCP) → paquet (IP) → trame (Ethernet) → bits.</p>
-    `,
-    resume: [
-      "Le modèle OSI comporte 7 couches (de la Physique à l’Application).",
-      "TCP/IP est le modèle réellement utilisé sur Internet (4 couches conceptuelles).",
-      "Chaque couche a un rôle précis et communique avec les couches adjacentes.",
-      "L’encapsulation ajoute des en-têtes à chaque niveau."
+    "id": "cg-01",
+    "formation": "bts-cg",
+    "matiere": "Comptabilité",
+    "titre": "Bilan et compte de résultat",
+    "ordre": 1,
+    "cours": "Le bilan décrit le patrimoine de l’entreprise à une date donnée :<br>- Actif : ce que l’entreprise possède (immobilisations, stocks, créances, trésorerie).<br>- Passif : ressources (capitaux propres, dettes financières, dettes d’exploitation).<br><br>Le compte de résultat décrit l’activité sur une période :<br>- Produits (ventes, autres produits).<br>- Charges (achats, charges de personnel, dotations, etc.).<br>- Résultat = Produits − Charges.<br><br>Lien : le résultat de l’exercice vient augmenter (bénéfice) ou diminuer (perte) les capitaux propres du bilan.<br><br>Documents de synthèse obligatoires selon le référentiel comptable applicable (PCG).",
+    "resume": [
+      "Bilan = photographie du patrimoine (Actif = Passif).",
+      "Compte de résultat = film de l’activité (Produits − Charges = Résultat).",
+      "Le résultat alimente les capitaux propres."
     ],
-    points_cles: ["Physique","Liaison de données","Réseau","Transport","Session","Présentation","Application","Encapsulation","TCP vs UDP"],
-    exercices: [
-      { question: "Combien de couches possède le modèle OSI ?", correction: "7 couches." },
-      { question: "Quelle couche est responsable de l’adressage IP et du routage ?", correction: "La couche 3 – Réseau." },
-      { question: "Quelle est la différence principale entre TCP et UDP ?", correction: "TCP est orienté connexion et fiable (retransmission, contrôle de flux). UDP est non connecté et plus rapide, sans garantie de livraison." },
-      { question: "Expliquez brièvement le principe d’encapsulation.", correction: "Chaque couche ajoute son propre en-tête aux données reçues de la couche supérieure, formant ainsi une PDU (Protocol Data Unit) spécifique." }
+    "points_cles": [
+      "Actif",
+      "Passif",
+      "Capitaux propres",
+      "Résultat",
+      "PCG",
+      "Documents de synthèse"
     ],
-    qcm: [
-      { question: "Quelle couche gère l’adressage IP ?", choix: ["Physique","Liaison","Réseau","Application"], reponse: "Réseau" },
-      { question: "Combien de couches dans le modèle OSI ?", choix: ["4","5","7","9"], reponse: "7" },
-      { question: "Quel protocole appartient à la couche Transport ?", choix: ["IP","HTTP","TCP","Ethernet"], reponse: "TCP" },
-      { question: "Dans TCP/IP, les couches Session + Présentation + Application sont regroupées en :", choix: ["Transport","Application","Internet","Accès réseau"], reponse: "Application" }
+    "exercices": [
+      {
+        "question": "Un bénéfice de 40 000 € a été réalisé. Quel est l’impact sur le bilan si aucune distribution n’est faite ?",
+        "correction": "Les capitaux propres augmentent de 40 000 € (réserve ou report à nouveau)."
+      }
     ],
-    flashcards: [
-      { question: "Nombre de couches du modèle OSI ?", reponse: "7" },
-      { question: "Couche responsable du routage ?", reponse: "Couche Réseau (3)" },
-      { question: "Protocole fiable de la couche Transport ?", reponse: "TCP" },
-      { question: "Protocole non connecté de la couche Transport ?", reponse: "UDP" },
-      { question: "Adresse utilisée à la couche Liaison ?", reponse: "Adresse MAC" }
+    "qcm": [
+      {
+        "question": "Le bilan est établi :",
+        "choix": [
+          "Sur une période",
+          "À une date donnée",
+          "Tous les mois obligatoirement",
+          "Uniquement en cas de bénéfice"
+        ],
+        "reponse": "À une date donnée"
+      }
     ],
-    sources: [
-      { titre: "Modèle OSI – Wikipédia", url: "https://fr.wikipedia.org/wiki/Mod%C3%A8le_OSI" },
-      { titre: "Suite des protocoles Internet – Wikipédia", url: "https://fr.wikipedia.org/wiki/Suite_des_protocoles_Internet" }
-    ]
+    "flashcards": [
+      {
+        "question": "Équation fondamentale du bilan",
+        "reponse": "Actif = Passif"
+      },
+      {
+        "question": "Résultat = ?",
+        "reponse": "Produits − Charges"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS CG"
   },
   {
-    id: "sio-ipv4",
-    formation: "bts-sio",
-    formationNom: "BTS SIO",
-    matiere: "Réseaux",
-    titre: "Adressage IPv4",
-    ordre: 2,
-    cours: `
-      <h3>1. Structure d’une adresse IPv4</h3>
-      <p>Une adresse IPv4 est composée de 32 bits, généralement notée en notation décimale pointée (ex. 192.168.1.10). Elle se divise en partie réseau et partie hôte, déterminée par le masque de sous-réseau.</p>
-      <h3>2. Classes et CIDR</h3>
-      <p>Historiquement classes A/B/C. Aujourd’hui on utilise le CIDR (Classless Inter-Domain Routing) avec un préfixe (ex. /24).</p>
-      <h3>3. Masque de sous-réseau</h3>
-      <p>Le masque indique quels bits appartiennent au réseau. Exemple : 255.255.255.0 = /24 → 256 adresses dont 254 utilisables.</p>
-      <h3>4. Adresses spéciales</h3>
-      <ul>
-        <li>Adresse réseau : tous les bits hôte à 0</li>
-        <li>Adresse de diffusion (broadcast) : tous les bits hôte à 1</li>
-        <li>127.0.0.0/8 : loopback</li>
-        <li>Privées (RFC 1918) : 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</li>
-      </ul>
-      <h3>5. Calcul de sous-réseaux</h3>
-      <p>Pour créer N sous-réseaux, on emprunte des bits à la partie hôte. Nombre de sous-réseaux = 2<sup>n</sup>, nombre d’hôtes par sous-réseau = 2<sup>h</sup> − 2.</p>
-    `,
-    resume: [
-      "IPv4 = 32 bits, notation décimale pointée.",
-      "Masque (/xx) sépare partie réseau et partie hôte.",
-      "Adresses privées : 10/8, 172.16/12, 192.168/16.",
-      "Broadcast = tous les bits hôte à 1."
+    "id": "cg-02",
+    "formation": "bts-cg",
+    "matiere": "Analyse financière",
+    "titre": "Ratios financiers essentiels",
+    "ordre": 2,
+    "cours": "Les ratios permettent d’analyser la solvabilité, la liquidité et la rentabilité.<br><br>Liquidité :<br>- Liquidité générale = Actif circulant / Dettes à court terme<br>- Liquidité réduite = (Actif circulant − Stocks) / Dettes CT<br><br>Solvabilité / structure :<br>- Autonomie financière = Capitaux propres / Total passif<br>- Endettement = Dettes financières / Capitaux propres<br><br>Rentabilité :<br>- Rentabilité économique = Résultat d’exploitation / Capitaux économiques<br>- Rentabilité financière = Résultat net / Capitaux propres<br><br>Activité :<br>- Rotation des stocks, délai clients, délai fournisseurs.<br><br>Interprétation : comparer dans le temps et avec le secteur.",
+    "resume": [
+      "Ratios de liquidité, solvabilité et rentabilité.",
+      "Toujours comparer dans le temps et au secteur d’activité."
     ],
-    points_cles: ["32 bits","CIDR","Masque","Adresse réseau","Broadcast","Adresses privées","Calcul de sous-réseaux"],
-    exercices: [
-      { question: "Combien d’adresses utilisables dans un /24 ?", correction: "254 (256 − 2)." },
-      { question: "Donnez le masque décimal correspondant à /20.", correction: "255.255.240.0" },
-      { question: "L’adresse 192.168.1.255/24 est-elle utilisable pour un hôte ?", correction: "Non, c’est l’adresse de diffusion du réseau." }
+    "points_cles": [
+      "Liquidité générale",
+      "Autonomie financière",
+      "Rentabilité financière",
+      "Rotation des stocks",
+      "Délai clients"
     ],
-    qcm: [
-      { question: "Combien de bits dans une adresse IPv4 ?", choix: ["16","32","48","128"], reponse: "32" },
-      { question: "Quelle est une plage d’adresses privées ?", choix: ["8.8.8.0/24","192.168.0.0/16","172.32.0.0/12","224.0.0.0/4"], reponse: "192.168.0.0/16" }
+    "exercices": [
+      {
+        "question": "Actif circulant = 180 k€, stocks = 60 k€, dettes CT = 100 k€. Calculez liquidité générale et liquidité réduite.",
+        "correction": "Liquidité générale = 1,8. Liquidité réduite = 1,2."
+      }
     ],
-    flashcards: [
-      { question: "Taille d’une adresse IPv4 ?", reponse: "32 bits" },
-      { question: "Masque d’un /24 ?", reponse: "255.255.255.0" },
-      { question: "Adresses privées de classe C ?", reponse: "192.168.0.0/16" }
+    "qcm": [
+      {
+        "question": "Un ratio d’autonomie financière de 0,25 signifie :",
+        "choix": [
+          "Forte autonomie",
+          "Faible autonomie (25 % de CP)",
+          "Liquidité excellente",
+          "Rentabilité élevée"
+        ],
+        "reponse": "Faible autonomie (25 % de CP)"
+      }
     ],
-    sources: [
-      { titre: "IPv4 – Wikipédia", url: "https://fr.wikipedia.org/wiki/IPv4" }
-    ]
+    "flashcards": [
+      {
+        "question": "Formule liquidité générale",
+        "reponse": "Actif circulant / Dettes à court terme"
+      },
+      {
+        "question": "Formule rentabilité financière",
+        "reponse": "Résultat net / Capitaux propres"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS CG"
   },
   {
-    id: "opti-anatomie",
-    formation: "bts-opticien",
-    formationNom: "BTS Opticien-Lunetier",
-    matiere: "Analyse de la vision",
-    titre: "Anatomie et physiologie de l’œil",
-    ordre: 1,
-    cours: `
-      <h3>1. Structure générale</h3>
-      <p>L’œil est un organe sphérique d’environ 24 mm de diamètre. Trois tuniques :</p>
-      <ul>
-        <li><strong>Externe</strong> : sclérotique + cornée</li>
-        <li><strong>Moyenne (uvée)</strong> : choroïde, corps ciliaire, iris</li>
-        <li><strong>Interne</strong> : rétine</li>
-      </ul>
-      <h3>2. La cornée</h3>
-      <p>Première surface réfringente (~ +40 à +43 δ). Avasculaire, nourrie par l’humeur aqueuse et les larmes.</p>
-      <h3>3. Le cristallin</h3>
-      <p>Lentille biconvexe qui permet l’accommodation grâce au muscle ciliaire. Perd de sa souplesse avec l’âge → presbytie.</p>
-      <h3>4. La rétine</h3>
-      <p>Cônes (vision des couleurs, acuité, macula/fovéa) et bâtonnets (vision nocturne, périphérie).</p>
-    `,
-    resume: [
-      "Cornée ≈ 2/3 de la puissance totale de l’œil (+40 à +43 δ).",
+    "id": "ciel-01",
+    "formation": "bts-ciel",
+    "matiere": "Cybersécurité",
+    "titre": "Introduction à la cybersécurité",
+    "ordre": 1,
+    "cours": "La cybersécurité regroupe l’ensemble des mesures techniques, organisationnelles et humaines destinées à protéger les systèmes d’information contre les menaces.<br><br>Les objectifs fondamentaux (triade CIA) :<br>- Confidentialité : seules les personnes autorisées accèdent aux données.<br>- Intégrité : les données ne sont pas altérées de façon non autorisée.<br>- Disponibilité : les services et données sont accessibles quand on en a besoin.<br><br>On ajoute souvent : authenticité, non-répudiation, traçabilité.<br><br>Menaces courantes : malware (virus, ransomware, trojans), phishing, ingénierie sociale, déni de service (DoS/DDoS), exploitation de vulnérabilités, attaques par force brute, man-in-the-middle.<br><br>Défense en profondeur : multiplier les couches de protection (pare-feu, antivirus, segmentation réseau, MFA, sauvegardes, sensibilisation utilisateurs).",
+    "resume": [
+      "Triade CIA : Confidentialité, Intégrité, Disponibilité.",
+      "Menaces : malware, phishing, DoS, vulnérabilités…",
+      "Défense en profondeur = plusieurs couches de sécurité."
+    ],
+    "points_cles": [
+      "CIA",
+      "Confidentialité",
+      "Intégrité",
+      "Disponibilité",
+      "Malware",
+      "Phishing",
+      "Défense en profondeur",
+      "MFA"
+    ],
+    "exercices": [
+      {
+        "question": "Expliquez la différence entre confidentialité et intégrité.",
+        "correction": "Confidentialité = empêcher l’accès non autorisé. Intégrité = empêcher la modification non autorisée (même par quelqu’un qui a le droit de lire)."
+      },
+      {
+        "question": "Pourquoi la sensibilisation des utilisateurs est-elle essentielle ?",
+        "correction": "La majorité des incidents passent par l’humain (phishing, mots de passe faibles, erreurs de configuration). La technique seule ne suffit pas."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Que signifie le « C » de la triade CIA ?",
+        "choix": [
+          "Contrôle",
+          "Confidentialité",
+          "Cryptographie",
+          "Certification"
+        ],
+        "reponse": "Confidentialité"
+      },
+      {
+        "question": "Le ransomware est un type de :",
+        "choix": [
+          "Pare-feu",
+          "Malware",
+          "Protocole",
+          "Sauvegarde"
+        ],
+        "reponse": "Malware"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Triade CIA",
+        "reponse": "Confidentialité – Intégrité – Disponibilité"
+      },
+      {
+        "question": "Principe de défense en profondeur",
+        "reponse": "Plusieurs couches de protection complémentaires"
+      },
+      {
+        "question": "MFA signifie",
+        "reponse": "Multi-Factor Authentication (authentification multi-facteurs)"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Cybersécurité – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Cybers%C3%A9curit%C3%A9"
+      }
+    ],
+    "formationNom": "BTS CIEL"
+  },
+  {
+    "id": "ciel-02",
+    "formation": "bts-ciel",
+    "matiere": "Cybersécurité",
+    "titre": "Bases de la cryptographie",
+    "ordre": 2,
+    "cours": "La cryptographie permet de protéger la confidentialité, l’intégrité et l’authenticité des données.<br><br>Chiffrement symétrique : une même clé pour chiffrer et déchiffrer (AES, ChaCha20). Rapide, adapté aux gros volumes, mais pose le problème de la distribution de la clé.<br><br>Chiffrement asymétrique : paire de clés (publique / privée). RSA, ECC. Plus lent, utilisé pour l’échange de clés, les signatures et les certificats.<br><br>Fonctions de hachage : SHA-256, SHA-3… Produisent une empreinte fixe. Utilisées pour l’intégrité et le stockage de mots de passe (avec sel).<br><br>Signature numérique : hachage du message + chiffrement de l’empreinte avec la clé privée. Permet de vérifier l’auteur et l’intégrité.<br><br>TLS (Transport Layer Security) combine asymétrique (échange de clés / certificats) et symétrique (chiffrement du flux).",
+    "resume": [
+      "Symétrique = une clé (AES) ; Asymétrique = paire de clés (RSA/ECC).",
+      "Hachage = empreinte (SHA-256).",
+      "Signature = preuve d’origine + intégrité.",
+      "TLS = asymétrique pour le handshake + symétrique pour les données."
+    ],
+    "points_cles": [
+      "AES",
+      "RSA",
+      "ECC",
+      "SHA-256",
+      "Signature numérique",
+      "TLS",
+      "Certificat",
+      "Sel (salt)"
+    ],
+    "exercices": [
+      {
+        "question": "Pourquoi ne stocke-t-on jamais un mot de passe en clair ?",
+        "correction": "En cas de fuite de la base, les mots de passe seraient immédiatement utilisables. On stocke une empreinte (hash) avec un sel unique par utilisateur."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "AES est un algorithme :",
+        "choix": [
+          "Asymétrique",
+          "Symétrique",
+          "De hachage",
+          "De signature uniquement"
+        ],
+        "reponse": "Symétrique"
+      },
+      {
+        "question": "Pour vérifier qu’un fichier n’a pas été modifié, on utilise principalement :",
+        "choix": [
+          "Un chiffrement AES",
+          "Une fonction de hachage",
+          "Un pare-feu",
+          "Un VPN"
+        ],
+        "reponse": "Une fonction de hachage"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Chiffrement avec une seule clé ?",
+        "reponse": "Symétrique (ex. AES)"
+      },
+      {
+        "question": "Chiffrement avec paire de clés ?",
+        "reponse": "Asymétrique (ex. RSA)"
+      },
+      {
+        "question": "Rôle d’une fonction de hachage",
+        "reponse": "Produire une empreinte pour vérifier l’intégrité"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Cryptographie – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Cryptographie"
+      }
+    ],
+    "formationNom": "BTS CIEL"
+  },
+  {
+    "id": "ciel-03",
+    "formation": "bts-ciel",
+    "matiere": "Réseaux et sécurité",
+    "titre": "Sécurisation des réseaux",
+    "ordre": 3,
+    "cours": "La sécurisation d’un réseau repose sur plusieurs briques :<br><br>1. Segmentation et zonage (DMZ, VLANs, zones de confiance).<br>2. Pare-feu (firewall) : filtrage par état, règles ACL, NGFW.<br>3. IDS/IPS : détection et prévention d’intrusion.<br>4. VPN (IPsec, SSL/TLS) pour les accès distants sécurisés.<br>5. Authentification réseau (802.1X, RADIUS).<br>6. Supervision et journaux (SIEM).<br><br>Bonnes pratiques : principe du moindre privilège, surface d’attaque minimale, mises à jour, sauvegardes testées, plan de réponse à incident.",
+    "resume": [
+      "Segmentation + pare-feu + VPN + authentification forte.",
+      "DMZ pour les services exposés.",
+      "Surveillance (IDS/IPS, SIEM) et réponse à incident."
+    ],
+    "points_cles": [
+      "Pare-feu",
+      "DMZ",
+      "VLAN",
+      "VPN",
+      "IDS/IPS",
+      "802.1X",
+      "SIEM",
+      "Moindre privilège"
+    ],
+    "exercices": [
+      {
+        "question": "À quoi sert une DMZ ?",
+        "correction": "À isoler les serveurs accessibles depuis Internet (web, mail…) du réseau interne, afin de limiter la propagation d’une compromission."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Un VPN sert principalement à :",
+        "choix": [
+          "Accélérer le réseau",
+          "Créer un tunnel chiffré",
+          "Remplacer le DNS",
+          "Bloquer les publicités"
+        ],
+        "reponse": "Créer un tunnel chiffré"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Rôle d’une DMZ",
+        "reponse": "Isoler les services exposés à Internet"
+      },
+      {
+        "question": "VPN signifie",
+        "reponse": "Virtual Private Network"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS CIEL"
+  },
+  {
+    "id": "elec-01",
+    "formation": "bts-electrotechnique",
+    "matiere": "Électricité fondamentale",
+    "titre": "Loi d’Ohm et puissance électrique",
+    "ordre": 1,
+    "cours": "La loi d’Ohm relie tension (U), intensité (I) et résistance (R) : U = R × I. Elle s’applique aux conducteurs ohmiques à température constante.<br><br>La puissance électrique absorbée par un dipôle est P = U × I. En combinant avec la loi d’Ohm on obtient aussi P = R × I² = U² / R.<br><br>Unités : tension en volts (V), intensité en ampères (A), résistance en ohms (Ω), puissance en watts (W).<br><br>En courant alternatif monophasé, on distingue la puissance active P = U × I × cosφ, la puissance réactive Q = U × I × sinφ et la puissance apparente S = U × I. Le facteur de puissance cosφ caractérise le déphasage entre tension et courant.<br><br>En triphasé équilibré : P = √3 × U × I × cosφ (U = tension composée).",
+    "resume": [
+      "Loi d’Ohm : U = R × I",
+      "Puissance continue / monophasé résistif : P = U × I = R I² = U²/R",
+      "En alternatif : P = U I cosφ (active), Q = U I sinφ (réactive), S = U I (apparente)",
+      "Triphasé équilibré : P = √3 U I cosφ"
+    ],
+    "points_cles": [
+      "Loi d’Ohm",
+      "Puissance active",
+      "Puissance réactive",
+      "Facteur de puissance",
+      "Triphasé",
+      "Unités SI"
+    ],
+    "exercices": [
+      {
+        "question": "Un résistor de 47 Ω est alimenté sous 230 V. Calculez l’intensité et la puissance dissipée.",
+        "correction": "I = U/R = 230/47 ≈ 4,89 A. P = U×I ≈ 1125 W (ou P = U²/R ≈ 1125 W)."
+      },
+      {
+        "question": "Un moteur monophasé absorbe 8 A sous 230 V avec cosφ = 0,85. Calculez P, Q et S.",
+        "correction": "S = U I = 1840 VA. P = S cosφ = 1564 W. Q = S sinφ ≈ 968 var (sinφ = √(1-0,85²) ≈ 0,527)."
+      },
+      {
+        "question": "En triphasé 400 V, un récepteur absorbe 12 A par phase avec cosφ = 0,9. Quelle est la puissance active totale ?",
+        "correction": "P = √3 × 400 × 12 × 0,9 ≈ 7482 W."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "La formule de la puissance active en monophasé est :",
+        "choix": [
+          "P = U I",
+          "P = U I cosφ",
+          "P = U I sinφ",
+          "P = √3 U I"
+        ],
+        "reponse": "P = U I cosφ"
+      },
+      {
+        "question": "L’unité de la puissance réactive est :",
+        "choix": [
+          "Watt (W)",
+          "Voltampère (VA)",
+          "var",
+          "Ohm (Ω)"
+        ],
+        "reponse": "var"
+      },
+      {
+        "question": "Dans un circuit purement résistif, cosφ vaut :",
+        "choix": [
+          "0",
+          "0,5",
+          "1",
+          "√2/2"
+        ],
+        "reponse": "1"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Énoncé de la loi d’Ohm",
+        "reponse": "U = R × I"
+      },
+      {
+        "question": "Puissance active monophasé",
+        "reponse": "P = U I cosφ"
+      },
+      {
+        "question": "Puissance active triphasé équilibré",
+        "reponse": "P = √3 U I cosφ"
+      },
+      {
+        "question": "Que représente cosφ ?",
+        "reponse": "Le facteur de puissance (cosinus du déphasage u/i)"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Loi d’Ohm – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Loi_d%27Ohm"
+      },
+      {
+        "titre": "Puissance électrique – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Puissance_en_%C3%A9lectricit%C3%A9"
+      }
+    ],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "elec-02",
+    "formation": "bts-electrotechnique",
+    "matiere": "Électricité fondamentale",
+    "titre": "Courant alternatif sinusoïdal",
+    "ordre": 2,
+    "cours": "Le courant alternatif sinusoïdal est caractérisé par sa valeur efficace, sa fréquence et sa période.<br><br>Valeur efficace (RMS) : pour une sinusoïde pure, Ueff = Û / √2 et Ieff = Î / √2. Les appareils de mesure indiquent en général les valeurs efficaces.<br><br>Fréquence f (Hz) et période T = 1/f. En Europe le réseau est à 50 Hz.<br><br>Représentation de Fresnel : on représente les grandeurs sinusoïdales de même fréquence par des vecteurs (phasors). Cela simplifie les calculs d’addition de tensions ou de courants déphasés.<br><br>Impédance complexe : Z = R + jX. Pour une bobine X = Lω, pour un condensateur X = −1/(Cω), avec ω = 2πf.<br><br>Loi d’Ohm en alternatif : U = Z × I (en notation complexe).",
+    "resume": [
+      "Valeur efficace = valeur max / √2 pour une sinusoïde.",
+      "Fréquence réseau Europe : 50 Hz.",
+      "Impédance Z = R + jX ; X_L = Lω, X_C = −1/(Cω).",
+      "Représentation de Fresnel pour les calculs de circuits."
+    ],
+    "points_cles": [
+      "Valeur efficace",
+      "Fréquence",
+      "Période",
+      "Fresnel",
+      "Impédance",
+      "Réactance",
+      "Pulsation ω"
+    ],
+    "exercices": [
+      {
+        "question": "Une tension a une valeur maximale de 325 V. Quelle est sa valeur efficace ?",
+        "correction": "Ueff = 325 / √2 ≈ 230 V."
+      },
+      {
+        "question": "Calculez la réactance d’une bobine de 0,1 H à 50 Hz.",
+        "correction": "X_L = L × 2πf = 0,1 × 314 ≈ 31,4 Ω."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "La fréquence du réseau électrique en France est :",
+        "choix": [
+          "40 Hz",
+          "50 Hz",
+          "60 Hz",
+          "100 Hz"
+        ],
+        "reponse": "50 Hz"
+      },
+      {
+        "question": "La réactance d’un condensateur diminue quand :",
+        "choix": [
+          "La fréquence augmente",
+          "La fréquence diminue",
+          "La capacité diminue",
+          "La tension augmente"
+        ],
+        "reponse": "La fréquence augmente"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Relation Ueff / Û",
+        "reponse": "Ueff = Û / √2"
+      },
+      {
+        "question": "Formule de la réactance inductive",
+        "reponse": "X_L = Lω = 2πf L"
+      },
+      {
+        "question": "Formule de la réactance capacitive",
+        "reponse": "X_C = 1/(Cω)"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Courant alternatif – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Courant_alternatif"
+      }
+    ],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "elec-03",
+    "formation": "bts-electrotechnique",
+    "matiere": "Électricité fondamentale",
+    "titre": "Circuits RLC série et parallèle",
+    "ordre": 3,
+    "cours": "Circuit RLC série : l’impédance totale est Z = R + j(X_L − X_C). Le courant est le même dans tous les éléments. La résonance série se produit quand X_L = X_C, soit f0 = 1/(2π√(LC)). À la résonance, Z = R (minimale) et le courant est maximal.<br><br>Circuit RLC parallèle : la résonance parallèle (anti-résonance) correspond à une impédance maximale et un courant total minimal.<br><br>Facteur de qualité Q = (1/R)√(L/C) pour le circuit série. Un Q élevé signifie une bande passante étroite.<br><br>Applications : filtres, circuits d’accord, compensation d’énergie réactive.",
+    "resume": [
+      "RLC série : résonance quand X_L = X_C → Z minimale, I maximale.",
+      "Fréquence de résonance f0 = 1/(2π√(LC)).",
+      "Facteur de qualité Q caractérise la sélectivité."
+    ],
+    "points_cles": [
+      "RLC série",
+      "RLC parallèle",
+      "Résonance",
+      "Fréquence propre",
+      "Facteur de qualité",
+      "Bande passante"
+    ],
+    "exercices": [
+      {
+        "question": "Un circuit RLC série : R = 10 Ω, L = 0,1 H, C = 100 µF. Calculez f0 et Q.",
+        "correction": "f0 = 1/(2π√(0,1×100e-6)) ≈ 50,3 Hz. Q = (1/10)×√(0,1/100e-6) ≈ 3,16."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "À la résonance série, l’impédance est :",
+        "choix": [
+          "Maximale",
+          "Minimale et égale à R",
+          "Infinie",
+          "Égale à X_L"
+        ],
+        "reponse": "Minimale et égale à R"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Formule de la fréquence de résonance RLC",
+        "reponse": "f0 = 1/(2π√(LC))"
+      },
+      {
+        "question": "À la résonance série, que vaut Z ?",
+        "reponse": "Z = R (minimale)"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Circuit RLC – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Circuit_RLC"
+      }
+    ],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "elec-04",
+    "formation": "bts-electrotechnique",
+    "matiere": "Machines électriques",
+    "titre": "Machines asynchrones (moteurs)",
+    "ordre": 4,
+    "cours": "Le moteur asynchrone (ou moteur à induction) est le plus répandu dans l’industrie. Le stator crée un champ tournant. Le rotor (cage d’écureuil ou bobiné) est le siège de courants induits qui produisent un couple.<br><br>Glissement g = (ns − n)/ns où ns est la vitesse de synchronisme (ns = 60f/p en tr/min, p = nombre de paires de pôles).<br><br>Le couple est maximal pour un glissement critique. Au démarrage g = 1.<br><br>Démarrage : direct, étoile-triangle, démarreur progressif (soft-starter), variateur de fréquence.<br><br>Le variateur de fréquence permet de faire varier la vitesse en agissant sur f tout en maintenant le flux (U/f constant en basique).",
+    "resume": [
+      "Moteur asynchrone = moteur à induction, très robuste.",
+      "Glissement g = (ns − n)/ns.",
+      "Vitesse de synchronisme ns = 60f / p.",
+      "Démarrage et variation de vitesse : étoile-triangle, soft-starter, variateur."
+    ],
+    "points_cles": [
+      "Champ tournant",
+      "Glissement",
+      "Vitesse de synchronisme",
+      "Couple",
+      "Démarrage",
+      "Variateur de fréquence"
+    ],
+    "exercices": [
+      {
+        "question": "Un moteur 4 pôles alimenté en 50 Hz tourne à 1450 tr/min. Calculez le glissement.",
+        "correction": "ns = 60×50/2 = 1500 tr/min. g = (1500−1450)/1500 = 0,033 soit 3,3 %."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "La vitesse de synchronisme d’un moteur 2 pôles à 50 Hz est :",
+        "choix": [
+          "1500 tr/min",
+          "3000 tr/min",
+          "750 tr/min",
+          "1000 tr/min"
+        ],
+        "reponse": "3000 tr/min"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Formule de ns",
+        "reponse": "ns = 60f / p (tr/min)"
+      },
+      {
+        "question": "Définition du glissement",
+        "reponse": "g = (ns − n)/ns"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Machine asynchrone – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Machine_asynchrone"
+      }
+    ],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "elec-05",
+    "formation": "bts-electrotechnique",
+    "matiere": "Sécurité et réglementation",
+    "titre": "Sécurité électrique et habilitations",
+    "ordre": 5,
+    "cours": "La norme NF C 18-510 définit les opérations sur les ouvrages et installations électriques et les titres d’habilitation.<br><br>Les symboles d’habilitation (B0, B1, B2, BR, BC, H0, H1…) indiquent le domaine (BT/HT), le type d’opération et le niveau de responsabilité.<br><br>Protection des personnes :<br>- Contre les contacts directs : isolation, enveloppes, distances, obstacles.<br>- Contre les contacts indirects : mise à la terre + dispositifs différentiels (DDR 30 mA pour les circuits prises).<br><br>Schémas de liaison à la terre (SLT) : TT, TN (TNS, TNC), IT. Chaque schéma a ses règles de protection.<br><br>Consignation : procédure de mise hors tension et de sécurisation avant intervention (séparation, condamnation, identification, VAT – vérification d’absence de tension).",
+    "resume": [
+      "Habilitations selon NF C 18-510.",
+      "Protection différentielle 30 mA pour les circuits de prises.",
+      "Schémas TT, TN, IT.",
+      "Consignation obligatoire avant travaux hors tension."
+    ],
+    "points_cles": [
+      "Habilitation",
+      "NF C 18-510",
+      "DDR",
+      "Schémas de liaison à la terre",
+      "Consignation",
+      "VAT"
+    ],
+    "exercices": [
+      {
+        "question": "Quelle est la sensibilité du dispositif différentiel obligatoire sur les circuits de prises en locaux d’habitation ?",
+        "correction": "30 mA."
+      },
+      {
+        "question": "Citez les étapes principales d’une consignation.",
+        "correction": "Séparation (coupure), condamnation, identification, vérification d’absence de tension (VAT), éventuellement mise à la terre et en court-circuit."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Le symbole BR correspond à une habilitation :",
+        "choix": [
+          "Haute tension",
+          "Chargé d’intervention générale BT",
+          "Chargé de consignation",
+          "Non électricien"
+        ],
+        "reponse": "Chargé d’intervention générale BT"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Norme des habilitations électriques",
+        "reponse": "NF C 18-510"
+      },
+      {
+        "question": "Sensibilité DDR prises",
+        "reponse": "30 mA"
+      },
+      {
+        "question": "Étapes de consignation (sigle)",
+        "reponse": "Séparation – Condamnation – Identification – VAT"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Habilitation électrique – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Habilitation_%C3%A9lectrique"
+      }
+    ],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "elec-06",
+    "formation": "bts-electrotechnique",
+    "matiere": "Machines électriques",
+    "titre": "Transformateurs monophasés et triphasés",
+    "ordre": 6,
+    "cours": "Le transformateur est une machine statique qui transfert de l’énergie électrique d’un circuit à un autre par induction électromagnétique, sans contact électrique.<br><br>Rapport de transformation m = U1/U2 ≈ N1/N2.<br><br>En monophasé idéal : U1 I1 = U2 I2.<br><br>Pertes : pertes fer (hystérésis + Foucault) et pertes cuivre (effet Joule dans les enroulements).<br><br>Rendement η = P2 / P1.<br><br>Transformateur triphasé : trois colonnes ou cinq colonnes, couplages étoile/triangle (Yy, Dy, Yd, Dd) avec indice horaire.<br><br>Applications : distribution d’énergie, isolation galvanique, adaptation de tension.",
+    "resume": [
+      "Rapport de transformation m = N1/N2 ≈ U1/U2.",
+      "Pertes fer + pertes cuivre.",
+      "Couplages et indices horaires en triphasé."
+    ],
+    "points_cles": [
+      "Rapport de transformation",
+      "Pertes fer",
+      "Pertes cuivre",
+      "Rendement",
+      "Couplage",
+      "Indice horaire"
+    ],
+    "exercices": [
+      {
+        "question": "Un transformateur monophasé 230/24 V a un primaire de 460 spires. Combien de spires au secondaire (idéal) ?",
+        "correction": "N2 = N1 × (U2/U1) = 460 × (24/230) = 48 spires."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Le transformateur fonctionne grâce à :",
+        "choix": [
+          "L’effet Joule",
+          "L’induction électromagnétique",
+          "L’effet Seebeck",
+          "La conduction ionique"
+        ],
+        "reponse": "L’induction électromagnétique"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Formule du rapport de transformation",
+        "reponse": "m = U1/U2 ≈ N1/N2"
+      },
+      {
+        "question": "Deux types de pertes principales",
+        "reponse": "Pertes fer et pertes cuivre"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Transformateur électrique – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Transformateur_%C3%A9lectrique"
+      }
+    ],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "elec-07",
+    "formation": "bts-electrotechnique",
+    "matiere": "Distribution d’énergie",
+    "titre": "Réseaux de distribution BT et HTA",
+    "ordre": 7,
+    "cours": "La distribution électrique comporte plusieurs niveaux de tension : THT / HTB (transport), HTA (distribution moyenne tension), BT (basse tension chez l’utilisateur).<br><br>En France, la BT normalisée est 230/400 V. La HTA courante est 20 kV.<br><br>Postes de transformation HTA/BT : cabine, poste sur poteau, poste intégré.<br><br>Schémas de distribution : radial, en double dérivation, en boucle.<br><br>Protection : disjoncteurs, fusibles, relais de protection, sélectivité amont/aval.<br><br>Qualité de l’énergie : harmoniques, creux de tension, surtensions, flicker.",
+    "resume": [
+      "BT = 230/400 V, HTA courante = 20 kV.",
+      "Postes HTA/BT et schémas de distribution.",
+      "Sélectivité des protections."
+    ],
+    "points_cles": [
+      "BT",
+      "HTA",
+      "Poste de transformation",
+      "Sélectivité",
+      "Qualité de l’énergie",
+      "Harmoniques"
+    ],
+    "exercices": [
+      {
+        "question": "Pourquoi utilise-t-on de la HTA pour la distribution plutôt que de la BT sur de longues distances ?",
+        "correction": "Pour réduire les pertes en ligne (P = R I²). À puissance égale, plus la tension est élevée, plus le courant est faible."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "La tension normalisée en BT triphasée en France est :",
+        "choix": [
+          "127/220 V",
+          "230/400 V",
+          "400/690 V",
+          "20 kV"
+        ],
+        "reponse": "230/400 V"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Tension BT normalisée France",
+        "reponse": "230/400 V"
+      },
+      {
+        "question": "Pourquoi transporter en haute tension ?",
+        "reponse": "Réduire les pertes Joule (I plus faible)"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "elec-08",
+    "formation": "bts-electrotechnique",
+    "matiere": "Automatismes",
+    "titre": "Bases des automatismes et GRAFCET",
+    "ordre": 8,
+    "cours": "Un système automatisé comprend une partie opérative (actionneurs, capteurs) et une partie commande (API, relais, variateurs).<br><br>Le GRAFCET (GRAphe Fonctionnel de Commande Étape-Transition) décrit le comportement séquentiel : étapes, transitions, réceptivités, actions.<br><br>Règles d’évolution : une transition est franchie si l’étape amont est active et la réceptivité vraie. Les étapes aval s’activent, l’étape amont se désactive.<br><br>API (Automate Programmable Industriel) : entrées/sorties TOR ou analogiques, programme (ladder, structured text, GRAFCET).",
+    "resume": [
+      "Partie opérative + partie commande",
+      "GRAFCET = étapes + transitions",
+      "API = automate programmable"
+    ],
+    "points_cles": [
+      "GRAFCET",
+      "Étape",
+      "Transition",
+      "Réceptivité",
+      "API",
+      "Actionneur",
+      "Capteur"
+    ],
+    "exercices": [
+      {
+        "question": "Quels sont les deux éléments principaux d’un GRAFCET ?",
+        "correction": "Les étapes et les transitions (avec réceptivités)."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "GRAFCET signifie :",
+        "choix": [
+          "Graphique de commande",
+          "GRAphe Fonctionnel de Commande Étape-Transition",
+          "Gestion automatique",
+          "Groupe d’actionneurs"
+        ],
+        "reponse": "GRAphe Fonctionnel de Commande Étape-Transition"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Que décrit le GRAFCET ?",
+        "reponse": "Le comportement séquentiel d’un automatisme"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS Électrotechnique"
+  },
+  {
+    "id": "mco-01",
+    "formation": "bts-mco",
+    "matiere": "Relation client",
+    "titre": "Développement de la relation client et vente conseil",
+    "ordre": 1,
+    "cours": "Le parcours de vente conseil en magasin :<br>1. Accueil et prise de contact<br>2. Découverte des besoins (questions ouvertes, écoute active)<br>3. Présentation de l’offre et argumentation<br>4. Traitement des objections<br>5. Closing<br>6. Prise de congé et suivi<br><br>SONCAS : Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie – leviers de motivation.<br><br>Qualité de service et expérience client sont devenues des facteurs de différenciation majeurs.",
+    "resume": [
+      "Parcours structuré de la vente conseil.",
+      "SONCAS pour identifier les motivations d’achat.",
+      "L’expérience client dépasse le simple acte de vente."
+    ],
+    "points_cles": [
+      "Accueil",
+      "Découverte",
+      "SONCAS",
+      "Objection",
+      "Closing",
+      "Expérience client"
+    ],
+    "exercices": [
+      {
+        "question": "Proposez 3 questions ouvertes pour un client qui entre dans un rayon électroménager.",
+        "correction": "Quel usage principal recherchez-vous ? Quelles contraintes d’espace ou de budget avez-vous ? Avez-vous déjà un appareil similaire et qu’en attendez-vous de plus ?"
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Le « A » de SONCAS correspond à :",
+        "choix": [
+          "Accueil",
+          "Argent",
+          "Argumentation",
+          "Attente"
+        ],
+        "reponse": "Argent"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Les 6 leviers SONCAS",
+        "reponse": "Sécurité Orgueil Nouveauté Confort Argent Sympathie"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS MCO"
+  },
+  {
+    "id": "mco-02",
+    "formation": "bts-mco",
+    "matiere": "Animation de l’offre",
+    "titre": "Merchandising et implantation",
+    "ordre": 2,
+    "cours": "Le merchandising vise à maximiser les ventes en organisant l’espace de vente et la présentation des produits.<br><br>Implantation : verticale (même famille sur plusieurs niveaux) ou horizontale.<br>Facing : nombre de produits visibles de face.<br>Têtes de gondole et zones chaudes / zones froides.<br>Cross-merchandising : association de produits complémentaires.<br><br>Règles souvent citées : les 5S (Stock, Seuil, Signalétique, Séduction, Service) ou les principes de visibilité, accessibilité et attractivité.<br><br>Indicateurs : CA/m², taux de transformation, panier moyen.",
+    "resume": [
+      "Merchandising = organisation de l’espace pour vendre plus et mieux.",
+      "Facing, têtes de gondole, zones chaudes/froides.",
+      "Indicateurs de performance commerciale."
+    ],
+    "points_cles": [
+      "Facing",
+      "Implantation",
+      "Tête de gondole",
+      "Zone chaude",
+      "Cross-merchandising",
+      "CA/m²"
+    ],
+    "exercices": [
+      {
+        "question": "Qu’est-ce qu’une zone chaude en magasin ?",
+        "correction": "Une zone à fort passage et forte visibilité (entrée, allées principales, caisses). On y place les produits à forte marge ou en promotion."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Le facing désigne :",
+        "choix": [
+          "Le prix affiché",
+          "Le nombre de produits visibles de face",
+          "La hauteur du rayon",
+          "Le stock en réserve"
+        ],
+        "reponse": "Le nombre de produits visibles de face"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Définition du facing",
+        "reponse": "Nombre de produits d’une référence visibles de face"
+      },
+      {
+        "question": "Zone chaude",
+        "reponse": "Zone à fort trafic et forte visibilité"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS MCO"
+  },
+  {
+    "id": "ndrc-01",
+    "formation": "bts-ndrc",
+    "matiere": "Relation client",
+    "titre": "Relation client omnicanale",
+    "ordre": 1,
+    "cours": "L’omnicanalité consiste à offrir au client une expérience fluide et cohérente quel que soit le canal utilisé (magasin, site web, application, téléphone, réseaux sociaux, chat, email).<br><br>Le client passe d’un canal à l’autre sans rupture : il commence une recherche sur mobile, continue sur ordinateur, finalise en magasin ou l’inverse.<br><br>Le CRM (Customer Relationship Management) centralise les données clients (historique d’achats, interactions, préférences) pour permettre une personnalisation et un suivi unifié.<br><br>Enjeux :<br>- Unicité de la vision client<br>- Continuité du parcours<br>- Personnalisation des offres et messages<br>- Mesure de la satisfaction (NPS, CSAT) sur tous les points de contact<br><br>Les outils : CRM, plateformes de marketing automation, chatbots, outils de social listening, programmes de fidélité unifiés.",
+    "resume": [
+      "Omnicanal = expérience client sans rupture entre les canaux.",
+      "Le CRM centralise les données pour une vision 360°.",
+      "Objectifs : cohérence, personnalisation, continuité, mesure."
+    ],
+    "points_cles": [
+      "Omnicanal",
+      "CRM",
+      "Parcours client",
+      "Personnalisation",
+      "NPS",
+      "Vision 360°",
+      "Marketing automation"
+    ],
+    "exercices": [
+      {
+        "question": "Quelle différence entre multicanal et omnicanal ?",
+        "correction": "Multicanal = plusieurs canaux existent mais souvent en silos. Omnicanal = les canaux sont interconnectés et le parcours client est continu et cohérent."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Le CRM sert principalement à :",
+        "choix": [
+          "Gérer les stocks",
+          "Centraliser les données clients",
+          "Produire les factures uniquement",
+          "Remplacer le site web"
+        ],
+        "reponse": "Centraliser les données clients"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Omnicanal vs multicanal",
+        "reponse": "Omnicanal = canaux interconnectés et parcours fluide"
+      },
+      {
+        "question": "Rôle principal du CRM",
+        "reponse": "Centraliser les données et interactions clients"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Commerce omnicanal – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Commerce_omnicanal"
+      }
+    ],
+    "formationNom": "BTS NDRC"
+  },
+  {
+    "id": "ndrc-02",
+    "formation": "bts-ndrc",
+    "matiere": "Négociation",
+    "titre": "Techniques de négociation-vente",
+    "ordre": 2,
+    "cours": "La négociation-vente suit un processus structuré :<br><br>1. Préparation (objectifs, BATNA, connaissance du client et de l’offre).<br>2. Prise de contact et création de relation.<br>3. Découverte des besoins (questions ouvertes, écoute active, reformulation).<br>4. Proposition et argumentation (avantages clients, preuves).<br>5. Traitement des objections (accueil, questionnement, réponse, contrôle).<br>6. Closing (techniques de conclusion).<br>7. Suivi et fidélisation.<br><br>Méthodes classiques : SONCAS, CAP (Caractéristique – Avantage – Preuve), SPIN Selling.<br><br>En négociation pure (B2B), on distingue intérêts et positions (négociation raisonnée de Harvard).",
+    "resume": [
+      "Processus : préparation → découverte → argumentation → objections → closing → suivi.",
+      "SONCAS et CAP pour argumenter.",
+      "Négociation raisonnée : intérêts plutôt que positions."
+    ],
+    "points_cles": [
+      "BATNA",
+      "SONCAS",
+      "CAP",
+      "SPIN",
+      "Objection",
+      "Closing",
+      "Négociation raisonnée"
+    ],
+    "exercices": [
+      {
+        "question": "Qu’est-ce que la BATNA ?",
+        "correction": "Best Alternative To a Negotiated Agreement : la meilleure alternative si la négociation échoue. Elle détermine le point de réserve."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "SONCAS est un outil de :",
+        "choix": [
+          "Gestion de stock",
+          "Motivation d’achat",
+          "Comptabilité",
+          "Logistique"
+        ],
+        "reponse": "Motivation d’achat"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "BATNA signifie",
+        "reponse": "Best Alternative To a Negotiated Agreement"
+      },
+      {
+        "question": "Les 6 leviers SONCAS",
+        "reponse": "Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS NDRC"
+  },
+  {
+    "id": "opti-01",
+    "formation": "bts-opticien",
+    "matiere": "Analyse de la vision",
+    "titre": "Anatomie et physiologie de l’œil",
+    "ordre": 1,
+    "cours": "L’œil mesure environ 24 mm de diamètre. Trois tuniques :<br>- Externe : sclérotique + cornée<br>- Moyenne (uvée) : choroïde, corps ciliaire, iris<br>- Interne : rétine<br><br>Cornée : première surface réfringente (~ +40 à +43 δ), avasculaire.<br>Cristallin : lentille d’accommodation, perd de sa souplesse avec l’âge (presbytie).<br>Rétine : cônes (couleurs, acuité, macula/fovéa) et bâtonnets (vision nocturne).<br><br>Milieux transparents : cornée, humeur aqueuse, cristallin, corps vitré.",
+    "resume": [
+      "Cornée ≈ 2/3 de la puissance totale de l’œil.",
       "Cristallin = accommodation.",
-      "Cônes = couleurs + acuité ; Bâtonnets = vision scotopique."
+      "Cônes = vision fine et couleurs ; bâtonnets = vision scotopique."
     ],
-    points_cles: ["Cornée","Cristallin","Rétine","Cônes","Bâtonnets","Accommodation","Macula","Fovéa"],
-    exercices: [
-      { question: "Pourquoi la cornée apporte-t-elle la plus grande part de la puissance réfractive ?", correction: "Parce que le changement d’indice entre l’air et la cornée est très important, et sa courbure est élevée." },
-      { question: "Quelle structure permet l’accommodation ?", correction: "Le cristallin, modifié par le muscle ciliaire." }
+    "points_cles": [
+      "Cornée",
+      "Cristallin",
+      "Rétine",
+      "Cônes",
+      "Bâtonnets",
+      "Accommodation",
+      "Macula"
     ],
-    qcm: [
-      { question: "Puissance approximative de la cornée ?", choix: ["+10 δ","+20 δ","+40 à +43 δ","+60 δ"], reponse: "+40 à +43 δ" },
-      { question: "Où se trouvent principalement les cônes ?", choix: ["Périphérie rétinienne","Macula / fovéa","Corps ciliaire","Iris"], reponse: "Macula / fovéa" }
+    "exercices": [
+      {
+        "question": "Pourquoi la cornée apporte-t-elle la plus grande part de la puissance réfractive ?",
+        "correction": "Fort changement d’indice air/cornée et courbure importante."
+      }
     ],
-    flashcards: [
-      { question: "Puissance de la cornée ?", reponse: "+40 à +43 dioptries" },
-      { question: "Rôle du cristallin ?", reponse: "Accommodation" },
-      { question: "Photorécepteurs de la vision des couleurs ?", reponse: "Cônes" }
+    "qcm": [
+      {
+        "question": "Puissance approximative de la cornée ?",
+        "choix": [
+          "+10 δ",
+          "+20 δ",
+          "+40 à +43 δ",
+          "+60 δ"
+        ],
+        "reponse": "+40 à +43 δ"
+      }
     ],
-    sources: [
-      { titre: "Œil humain – Wikipédia", url: "https://fr.wikipedia.org/wiki/%C5%92il_humain" }
-    ]
+    "flashcards": [
+      {
+        "question": "Puissance de la cornée",
+        "reponse": "+40 à +43 dioptries"
+      },
+      {
+        "question": "Rôle du cristallin",
+        "reponse": "Accommodation"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Œil humain – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/%C5%92il_humain"
+      }
+    ],
+    "formationNom": "BTS Opticien-Lunetier"
   },
   {
-    id: "opti-ametropies",
-    formation: "bts-opticien",
-    formationNom: "BTS Opticien-Lunetier",
-    matiere: "Analyse de la vision",
-    titre: "Les amétropies (défauts visuels)",
-    ordre: 2,
-    cours: `
-      <h3>1. Myopie</h3>
-      <p>Œil trop long ou trop puissant → image en avant de la rétine. Correction : verres divergents (−).</p>
-      <h3>2. Hypermétropie</h3>
-      <p>Œil trop court ou pas assez puissant → image en arrière de la rétine. Correction : verres convergents (+).</p>
-      <h3>3. Astigmatisme</h3>
-      <p>Cornée (ou cristallin) torique → rayons ne convergent pas en un point unique. Correction : verres cylindriques.</p>
-      <h3>4. Presbytie</h3>
-      <p>Perte d’amplitude d’accommodation liée à l’âge. On ajoute une addition pour la vision de près.</p>
-    `,
-    resume: [
-      "Myopie → verres divergents (−)",
-      "Hypermétropie → verres convergents (+)",
+    "id": "opti-02",
+    "formation": "bts-opticien",
+    "matiere": "Analyse de la vision",
+    "titre": "Amétropies et corrections",
+    "ordre": 2,
+    "cours": "Myopie : œil trop long ou trop puissant → image en avant de la rétine → verres divergents (−).<br>Hypermétropie : œil trop court ou pas assez puissant → image en arrière → verres convergents (+).<br>Astigmatisme : cornée torique → verres cylindriques.<br>Presbytie : perte d’accommodation liée à l’âge → addition pour la vision de près.<br><br>Prescription type : sphère, cylindre, axe, addition.",
+    "resume": [
+      "Myopie → − (divergent)",
+      "Hypermétropie → + (convergent)",
       "Astigmatisme → cylindre",
       "Presbytie → addition"
     ],
-    points_cles: ["Myopie","Hypermétropie","Astigmatisme","Presbytie","Vergence","Cylindre","Addition"],
-    exercices: [
-      { question: "Un client a −3,50 (−1,25) 90°. Quels défauts présente-t-il ?", correction: "Myopie de −3,50 δ associée à un astigmatisme de −1,25 δ à 90°." }
+    "points_cles": [
+      "Myopie",
+      "Hypermétropie",
+      "Astigmatisme",
+      "Presbytie",
+      "Sphère",
+      "Cylindre",
+      "Addition"
     ],
-    qcm: [
-      { question: "Correction de la myopie ?", choix: ["Verres convergents","Verres divergents","Cylindre uniquement","Addition"], reponse: "Verres divergents" },
-      { question: "La presbytie est liée à :", choix: ["Un œil trop long","La perte d’accommodation","Une cornée torique","Un déficit en cônes"], reponse: "La perte d’accommodation" }
+    "exercices": [
+      {
+        "question": "Interprétez la prescription : −2,75 (−1,00) 85° Add +1,75",
+        "correction": "Myopie de −2,75 δ + astigmatisme de −1,00 δ à 85° + addition de +1,75 pour la près (presbytie)."
+      }
     ],
-    flashcards: [
-      { question: "Myopie → type de verre ?", reponse: "Divergent (−)" },
-      { question: "Hypermétropie → type de verre ?", reponse: "Convergent (+)" },
-      { question: "Presbytie → que rajoute-t-on ?", reponse: "Une addition" }
+    "qcm": [
+      {
+        "question": "La correction de la myopie se fait avec des verres :",
+        "choix": [
+          "Convergents",
+          "Divergents",
+          "Cylindriques uniquement",
+          "Prismatiques"
+        ],
+        "reponse": "Divergents"
+      }
     ],
-    sources: [
-      { titre: "Amétropie – Wikipédia", url: "https://fr.wikipedia.org/wiki/Am%C3%A9tropie" }
-    ]
+    "flashcards": [
+      {
+        "question": "Myopie → type de verre",
+        "reponse": "Divergent (−)"
+      },
+      {
+        "question": "Presbytie → que rajoute-t-on ?",
+        "reponse": "Une addition"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS Opticien-Lunetier"
   },
   {
-    id: "mco-relation-client",
-    formation: "bts-mco",
-    formationNom: "BTS MCO",
-    matiere: "Relation client",
-    titre: "Développement de la relation client",
-    ordre: 1,
-    cours: `
-      <h3>1. Le parcours client</h3>
-      <p>Accueil → Découverte des besoins → Argumentation → Traitement des objections → Closing → Fidélisation.</p>
-      <h3>2. Techniques de découverte</h3>
-      <p>Questions ouvertes, fermées, reformulation, écoute active. Objectif : comprendre le besoin réel.</p>
-      <h3>3. Les leviers de motivation (SONCAS)</h3>
-      <p>Sécurité • Orgueil • Nouveauté • Confort • Argent • Sympathie.</p>
-    `,
-    resume: [
-      "Parcours type : Accueil → Découverte → Argumentation → Objections → Closing → Fidélisation.",
-      "SONCAS : 6 leviers de motivation d’achat."
+    "id": "sio-01",
+    "formation": "bts-sio",
+    "matiere": "Réseaux",
+    "titre": "Modèle OSI et TCP/IP",
+    "ordre": 1,
+    "cours": "Le modèle OSI comporte 7 couches : Physique, Liaison de données, Réseau, Transport, Session, Présentation, Application.<br><br>TCP/IP regroupe les couches hautes en « Application » et les couches basses en « Accès réseau ».<br><br>Encapsulation : données → segment (TCP/UDP) → paquet (IP) → trame (Ethernet) → bits.<br><br>Couche Réseau = adressage IP et routage.<br>Couche Transport = TCP (fiable) ou UDP (non connecté).",
+    "resume": [
+      "OSI = 7 couches.",
+      "TCP/IP = modèle pratique d’Internet.",
+      "Encapsulation à chaque niveau."
     ],
-    points_cles: ["Accueil","Découverte","SONCAS","Objection","Closing","Fidélisation"],
-    exercices: [
-      { question: "Citez 3 questions ouvertes pour un client high-tech.", correction: "Quel usage principal comptez-vous en faire ? Quelles fonctionnalités sont indispensables pour vous ? Avez-vous déjà un équipement similaire ?" }
+    "points_cles": [
+      "OSI",
+      "TCP/IP",
+      "Encapsulation",
+      "TCP",
+      "UDP",
+      "IP"
     ],
-    qcm: [
-      { question: "Que signifie le « S » de SONCAS ?", choix: ["Service","Sécurité","Stock","Satisfaction"], reponse: "Sécurité" }
+    "exercices": [
+      {
+        "question": "Quelle couche est responsable du routage ?",
+        "correction": "La couche Réseau (couche 3)."
+      }
     ],
-    flashcards: [
-      { question: "Les 6 lettres de SONCAS ?", reponse: "Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie" }
+    "qcm": [
+      {
+        "question": "Combien de couches dans le modèle OSI ?",
+        "choix": [
+          "4",
+          "5",
+          "7",
+          "9"
+        ],
+        "reponse": "7"
+      }
     ],
-    sources: []
+    "flashcards": [
+      {
+        "question": "Nombre de couches OSI",
+        "reponse": "7"
+      },
+      {
+        "question": "Protocole fiable de la couche Transport",
+        "reponse": "TCP"
+      }
+    ],
+    "sources": [
+      {
+        "titre": "Modèle OSI – Wikipédia",
+        "url": "https://fr.wikipedia.org/wiki/Mod%C3%A8le_OSI"
+      }
+    ],
+    "formationNom": "BTS SIO"
   },
   {
-    id: "cg-analyse",
-    formation: "bts-cg",
-    formationNom: "BTS CG",
-    matiere: "Analyse financière",
-    titre: "Analyse financière – Ratios et FR/BFR",
-    ordre: 1,
-    cours: `
-      <h3>1. Fonds de roulement (FR)</h3>
-      <p>FR = Capitaux permanents − Actif immobilisé. Il mesure l’excédent de ressources stables.</p>
-      <h3>2. Besoin en fonds de roulement (BFR)</h3>
-      <p>BFR = Actif circulant (hors trésorerie) − Passif circulant (hors trésorerie). C’est le besoin de financement du cycle d’exploitation.</p>
-      <h3>3. Trésorerie nette</h3>
-      <p>TN = FR − BFR. Si positive, l’entreprise a un surplus de trésorerie.</p>
-      <h3>4. Ratios principaux</h3>
-      <ul>
-        <li>Liquidité générale = Actif circulant / Dettes à court terme</li>
-        <li>Autonomie financière = Capitaux propres / Total passif</li>
-        <li>Rentabilité financière = Résultat net / Capitaux propres</li>
-      </ul>
-    `,
-    resume: [
-      "FR = ressources stables − emplois stables.",
-      "BFR = besoin de financement du cycle d’exploitation.",
-      "TN = FR − BFR."
+    "id": "sio-02",
+    "formation": "bts-sio",
+    "matiere": "Réseaux",
+    "titre": "Adressage IPv4 et sous-réseaux",
+    "ordre": 2,
+    "cours": "IPv4 = 32 bits, notation décimale pointée.<br>Masque de sous-réseau (CIDR /xx) sépare partie réseau et partie hôte.<br>Adresses spéciales : réseau, broadcast, loopback (127.0.0.0/8), privées (10/8, 172.16/12, 192.168/16).<br><br>Calcul de sous-réseaux : emprunter des bits à la partie hôte.<br>Nombre de sous-réseaux = 2^n, nombre d’hôtes = 2^h − 2.",
+    "resume": [
+      "IPv4 = 32 bits.",
+      "Masque / CIDR définit le découpage.",
+      "Adresses privées RFC 1918."
     ],
-    points_cles: ["Fonds de roulement","BFR","Trésorerie nette","Ratios de liquidité","Ratios de solvabilité","Rentabilité"],
-    exercices: [
-      { question: "FR = 80 000 €, BFR = 55 000 €. Calculez la trésorerie nette et interprétez.", correction: "TN = 25 000 €. L’entreprise dispose d’un surplus de trésorerie." }
+    "points_cles": [
+      "IPv4",
+      "Masque",
+      "CIDR",
+      "Broadcast",
+      "Adresses privées",
+      "Sous-réseaux"
     ],
-    qcm: [
-      { question: "La formule de la trésorerie nette est :", choix: ["FR + BFR","FR − BFR","BFR − FR","Actif − Passif"], reponse: "FR − BFR" }
+    "exercices": [
+      {
+        "question": "Combien d’adresses utilisables dans un /26 ?",
+        "correction": "2^(32-26) − 2 = 62."
+      }
     ],
-    flashcards: [
-      { question: "Formule de la trésorerie nette ?", reponse: "FR − BFR" },
-      { question: "Que mesure le BFR ?", reponse: "Le besoin de financement du cycle d’exploitation" }
+    "qcm": [
+      {
+        "question": "Taille d’une adresse IPv4 ?",
+        "choix": [
+          "16 bits",
+          "32 bits",
+          "48 bits",
+          "128 bits"
+        ],
+        "reponse": "32 bits"
+      }
     ],
-    sources: []
+    "flashcards": [
+      {
+        "question": "Taille IPv4",
+        "reponse": "32 bits"
+      },
+      {
+        "question": "Adresses privées classe C",
+        "reponse": "192.168.0.0/16"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BTS SIO"
+  },
+  {
+    "id": "but-01",
+    "formation": "but-informatique",
+    "matiere": "Informatique fondamentale",
+    "titre": "Algorithmique de base",
+    "ordre": 1,
+    "cours": "Un algorithme est une suite finie d’instructions non ambiguës permettant de résoudre un problème.<br><br>Structures de contrôle : séquence, alternative (si… alors… sinon), boucles (pour, tant que, répéter).<br><br>Structures de données élémentaires : variables, tableaux, listes.<br><br>Complexité : on évalue le nombre d’opérations en fonction de la taille des données (notation grand O).<br><br>Bonnes pratiques : clarté, modularité, tests, documentation.",
+    "resume": [
+      "Algorithme = suite d’instructions finie et non ambiguë.",
+      "Structures de contrôle : séquence, test, boucle.",
+      "Complexité algorithmique (grand O)."
+    ],
+    "points_cles": [
+      "Algorithme",
+      "Variable",
+      "Boucle",
+      "Alternative",
+      "Complexité",
+      "Tableau"
+    ],
+    "exercices": [
+      {
+        "question": "Écrire un algorithme qui calcule la somme des n premiers entiers.",
+        "correction": "s ← 0 ; pour i de 1 à n faire s ← s + i ; fin pour ; afficher s. (Ou formule n(n+1)/2)"
+      }
+    ],
+    "qcm": [
+      {
+        "question": "La notation grand O mesure principalement :",
+        "choix": [
+          "La taille du code",
+          "La complexité / le temps d’exécution",
+          "Le nombre de variables",
+          "La portabilité"
+        ],
+        "reponse": "La complexité / le temps d’exécution"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Définition d’un algorithme",
+        "reponse": "Suite finie d’instructions non ambiguës"
+      },
+      {
+        "question": "Notation de la complexité",
+        "reponse": "Grand O (O(...))"
+      }
+    ],
+    "sources": [],
+    "formationNom": "BUT Informatique"
+  },
+  {
+    "id": "mpsi-01",
+    "formation": "cpge-mpsi",
+    "matiere": "Algèbre linéaire",
+    "titre": "Espaces vectoriels et applications linéaires",
+    "ordre": 1,
+    "cours": "Un espace vectoriel sur ℝ (ou ℂ) est un ensemble muni de deux opérations (addition et multiplication par un scalaire) vérifiant une liste d’axiomes.<br><br>Sous-espace vectoriel : partie stable et non vide.<br><br>Famille libre / génératrice / base. Dimension = cardinal d’une base.<br><br>Application linéaire : f(λu + μv) = λf(u) + μf(v).<br>Noyau et image. Théorème du rang : dim E = dim Ker f + dim Im f.<br><br>Matrices : représentation d’une application linéaire dans des bases.",
+    "resume": [
+      "Espace vectoriel = structure algébrique fondamentale.",
+      "Base → dimension.",
+      "Théorème du rang : dim E = dim Ker + dim Im."
+    ],
+    "points_cles": [
+      "Espace vectoriel",
+      "Base",
+      "Dimension",
+      "Application linéaire",
+      "Noyau",
+      "Image",
+      "Théorème du rang"
+    ],
+    "exercices": [
+      {
+        "question": "Énoncer le théorème du rang.",
+        "correction": "Pour f : E → F linéaire, dim E = dim Ker f + dim Im f."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Le théorème du rang relie :",
+        "choix": [
+          "Noyau et déterminant",
+          "Noyau et image",
+          "Trace et déterminant",
+          "Valeurs propres et vecteurs propres"
+        ],
+        "reponse": "Noyau et image"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Théorème du rang",
+        "reponse": "dim E = dim Ker f + dim Im f"
+      },
+      {
+        "question": "Définition d’une application linéaire",
+        "reponse": "f(λu+μv) = λf(u)+μf(v)"
+      }
+    ],
+    "sources": [],
+    "formationNom": "CPGE MPSI"
+  },
+  {
+    "id": "maths-01",
+    "formation": "licence-maths",
+    "matiere": "Analyse",
+    "titre": "Suites numériques",
+    "ordre": 1,
+    "cours": "Une suite (u_n) est une fonction de ℕ (ou une partie de ℕ) vers ℝ.<br><br>Convergence : u_n → L si pour tout ε > 0 il existe N tel que n ≥ N ⇒ |u_n − L| < ε.<br><br>Suites monotones et bornées : toute suite croissante majorée converge.<br><br>Suites récurrentes : u_{n+1} = f(u_n). Étude de points fixes et de stabilité.<br><br>Suites particulières : arithmétiques (u_{n+1} = u_n + r), géométriques (u_{n+1} = q u_n).",
+    "resume": [
+      "Convergence : définition ε-N.",
+      "Suite croissante majorée ⇒ convergente.",
+      "Suites arithmétiques et géométriques."
+    ],
+    "points_cles": [
+      "Convergence",
+      "Monotonie",
+      "Suite bornée",
+      "Suite arithmétique",
+      "Suite géométrique",
+      "Point fixe"
+    ],
+    "exercices": [
+      {
+        "question": "La suite u_n = 1/n converge-t-elle ? Vers quelle limite ?",
+        "correction": "Oui, vers 0."
+      }
+    ],
+    "qcm": [
+      {
+        "question": "Une suite croissante et majorée :",
+        "choix": [
+          "Diverge toujours",
+          "Converge toujours",
+          "Est constante",
+          "Est périodique"
+        ],
+        "reponse": "Converge toujours"
+      }
+    ],
+    "flashcards": [
+      {
+        "question": "Définition de la convergence d’une suite",
+        "reponse": "Pour tout ε>0 il existe N tel que n≥N ⇒ |u_n−L|<ε"
+      },
+      {
+        "question": "Suite arithmétique – raison r",
+        "reponse": "u_{n+1} = u_n + r"
+      }
+    ],
+    "sources": [],
+    "formationNom": "Licence Mathématiques"
   }
 ];
 
-/* Formations pour le menu */
-const FORMATIONS = [
-  { id:"bts-sio", nom:"BTS SIO", cat:"BTS", icone:"💻" },
-  { id:"bts-opticien", nom:"BTS Opticien-Lunetier", cat:"BTS", icone:"👓" },
-  { id:"bts-mco", nom:"BTS MCO", cat:"BTS", icone:"🛒" },
-  { id:"bts-cg", nom:"BTS CG", cat:"BTS", icone:"📒" },
-  { id:"bts-ndrc", nom:"BTS NDRC", cat:"BTS", icone:"🤝" },
-  { id:"bts-electrotechnique", nom:"BTS Électrotechnique", cat:"BTS", icone:"⚡" },
-  { id:"bts-ciel", nom:"BTS CIEL", cat:"BTS", icone:"🔒" },
-  { id:"but-informatique", nom:"BUT Informatique", cat:"BUT", icone:"🖥️" },
-  { id:"licence-maths", nom:"Licence Maths", cat:"Licence", icone:"∫" },
-  { id:"cpge-mpsi", nom:"CPGE MPSI", cat:"CPGE", icone:"📐" }
-];
+const FORMATIONS = [{"id": "bts-electrotechnique", "nom": "BTS Électrotechnique", "cat": "BTS", "icone": "⚡"}, {"id": "bts-ciel", "nom": "BTS CIEL", "cat": "BTS", "icone": "🔒"}, {"id": "bts-ndrc", "nom": "BTS NDRC", "cat": "BTS", "icone": "🤝"}, {"id": "bts-cg", "nom": "BTS CG", "cat": "BTS", "icone": "📒"}, {"id": "bts-mco", "nom": "BTS MCO", "cat": "BTS", "icone": "🛒"}, {"id": "bts-opticien", "nom": "BTS Opticien-Lunetier", "cat": "BTS", "icone": "👓"}, {"id": "bts-sio", "nom": "BTS SIO", "cat": "BTS", "icone": "💻"}, {"id": "but-informatique", "nom": "BUT Informatique", "cat": "BUT", "icone": "🖥️"}, {"id": "licence-maths", "nom": "Licence Mathématiques", "cat": "Licence", "icone": "∫"}, {"id": "cpge-mpsi", "nom": "CPGE MPSI", "cat": "CPGE", "icone": "📐"}];
 
-/* =========================================================
-   APPLICATION
-   ========================================================= */
 const App = {
   progress: JSON.parse(localStorage.getItem("esf_progress") || "{}"),
   favoris: JSON.parse(localStorage.getItem("esf_favoris") || "[]"),
@@ -717,6 +1821,7 @@ ${(c.exercices || []).map((e,i) => `${i+1}. ${e.question}\n   → ${e.correction
       ${list}`;
   }
 };
+
 
 document.addEventListener("DOMContentLoaded", () => {
   App.init();
