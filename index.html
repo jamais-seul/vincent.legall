@@ -3,210 +3,452 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Études Sup France — Ressources publiques</title>
+<title>Études Sup France — Plateforme d’apprentissage</title>
 <style>
-:root{--p:#1e3a8a;--pl:#3b82f6;--s:#0f766e;--o:#ea580c;--bg:#f1f5f9;--c:#fff;--t:#1e293b;--m:#64748b;--b:#e2e8f0}
+:root {
+  --p:#1e3a8a; --pl:#3b82f6; --s:#0f766e; --o:#ea580c;
+  --bg:#f1f5f9; --c:#fff; --t:#1e293b; --m:#64748b; --b:#e2e8f0;
+  --card:#fff; --side:#fff; --header:#1e3a8a;
+}
+[data-theme="dark"] {
+  --bg:#0f172a; --c:#1e293b; --t:#e2e8f0; --m:#94a3b8; --b:#334155;
+  --card:#1e293b; --side:#1e293b; --header:#0f172a; --p:#60a5fa; --pl:#3b82f6;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.6}
-a{color:#2563eb;text-decoration:none}a:hover{text-decoration:underline}
-header{background:#1e3a8a;color:#fff;padding:.8rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-.top{max-width:1200px;margin:0 auto;padding:0 1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
-.logo{font-weight:700;font-size:1.25rem}.logo span{color:#fbbf24}
-.search-bar{display:flex;gap:.4rem;flex:1;max-width:480px}
-.search-bar input{flex:1;padding:.5rem .8rem;border:none;border-radius:8px;font-size:.95rem}
-.search-bar button{background:#fbbf24;color:#1e3a8a;border:none;padding:.5rem 1rem;border-radius:8px;font-weight:600;cursor:pointer}
-.wrap{max-width:1200px;margin:0 auto;padding:1.3rem 1.2rem 3rem;display:grid;grid-template-columns:260px 1fr;gap:1.4rem}
-@media(max-width:900px){.wrap{grid-template-columns:1fr}}
-.side{background:#fff;border:1px solid var(--b);border-radius:12px;padding:1rem;height:fit-content;position:sticky;top:70px;max-height:calc(100vh - 90px);overflow-y:auto}
-.side h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--m);margin:1rem 0 .5rem}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.6;transition:background .2s,color .2s}
+a{color:var(--pl);text-decoration:none}a:hover{text-decoration:underline}
+header{background:var(--header);color:#fff;padding:.7rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.top{max-width:1280px;margin:0 auto;padding:0 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem}
+.logo{font-weight:700;font-size:1.2rem;cursor:pointer}.logo span{color:#fbbf24}
+.actions{display:flex;gap:.5rem;align-items:center}
+.actions button,.search-bar button{background:#fbbf24;color:#1e3a8a;border:none;padding:.4rem .8rem;border-radius:8px;font-weight:600;cursor:pointer;font-size:.85rem}
+.search-bar{display:flex;gap:.3rem}
+.search-bar input{padding:.4rem .7rem;border:none;border-radius:8px;font-size:.9rem;min-width:180px}
+.wrap{max-width:1280px;margin:0 auto;padding:1.2rem 1rem 3rem;display:grid;grid-template-columns:250px 1fr;gap:1.3rem}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static;max-height:none}}
+.side{background:var(--side);border:1px solid var(--b);border-radius:12px;padding:1rem;height:fit-content;position:sticky;top:65px;max-height:calc(100vh - 80px);overflow-y:auto}
+.side h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--m);margin:1rem 0 .4rem}
 .side h3:first-child{margin-top:0}
-.side a{display:block;padding:.38rem .65rem;border-radius:6px;color:var(--t);font-size:.86rem;margin-bottom:.12rem;cursor:pointer}
-.side a:hover,.side a.on{background:#eff6ff;color:var(--p);text-decoration:none;font-weight:500}
-.main h1{font-size:1.6rem;color:var(--p);margin-bottom:.3rem}
-.lead{color:var(--m);margin-bottom:1.2rem;font-size:.95rem}
-.sec-title{font-size:1.15rem;color:var(--o);margin:1.4rem 0 .7rem;padding-bottom:.25rem;border-bottom:2px solid #fed7aa}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.85rem;margin:1rem 0}
-.card{background:#fff;border:1px solid var(--b);border-radius:10px;padding:1rem;cursor:pointer;transition:.2s}
-.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08);border-color:#93c5fd}
-.card .ic{font-size:1.4rem;margin-bottom:.25rem}
-.card h3{font-size:.92rem;color:var(--p);margin-bottom:.15rem}
-.card p{font-size:.8rem;color:var(--m);margin:0}
-.result{background:#fff;border:1px solid var(--b);border-radius:10px;padding:1rem 1.2rem;margin-bottom:.8rem}
-.result h3{font-size:1.05rem;margin-bottom:.3rem}
-.result .meta{font-size:.8rem;color:var(--m);margin-bottom:.5rem}
-.result .extract{font-size:.9rem;color:var(--t);margin-bottom:.6rem;white-space:pre-wrap}
-.result .source-badge{display:inline-block;background:#eff6ff;color:var(--p);font-size:.75rem;padding:.15rem .5rem;border-radius:4px;margin-right:.4rem}
-.btn{display:inline-block;background:var(--pl);color:#fff;padding:.4rem .9rem;border-radius:6px;font-size:.85rem;border:none;cursor:pointer;text-decoration:none}
-.btn:hover{background:var(--p)}
-.btn-secondary{background:#e2e8f0;color:var(--t)}
-.loading{text-align:center;padding:2rem;color:var(--m)}
-.error{background:#fef2f2;border-left:4px solid #ef4444;padding:.8rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
-.attr{font-size:.78rem;color:var(--m);margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--b)}
-.pagination{display:flex;gap:.5rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap}
-.pagination button{padding:.4rem .8rem;border:1px solid var(--b);background:#fff;border-radius:6px;cursor:pointer}
-.pagination button.on{background:var(--p);color:#fff;border-color:var(--p)}
-.breadcrumb{font-size:.85rem;color:var(--m);margin-bottom:1rem}
+.side a{display:block;padding:.35rem .6rem;border-radius:6px;color:var(--t);font-size:.85rem;margin-bottom:.1rem;cursor:pointer}
+.side a:hover,.side a.on{background:rgba(59,130,246,.15);color:var(--p);text-decoration:none;font-weight:500}
+.main h1{font-size:1.55rem;color:var(--p);margin-bottom:.25rem}
+.lead{color:var(--m);margin-bottom:1rem;font-size:.93rem}
+.sec-title{font-size:1.15rem;color:var(--o);margin:1.3rem 0 .6rem;padding-bottom:.2rem;border-bottom:2px solid #fed7aa}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin:1rem 0}
+.card{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:1rem;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.1);border-color:var(--pl)}
+.card .ic{font-size:1.35rem;margin-bottom:.2rem}
+.card h3{font-size:.9rem;color:var(--p);margin-bottom:.1rem}
+.card p{font-size:.78rem;color:var(--m);margin:0}
+.breadcrumb{font-size:.82rem;color:var(--m);margin-bottom:.8rem}
 .breadcrumb span{cursor:pointer;color:var(--pl)}
-.chapitre-list{list-style:none}
-.chapitre-list li{background:#fff;border:1px solid var(--b);border-radius:8px;padding:.8rem 1rem;margin-bottom:.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.chapitre-list li:hover{border-color:#93c5fd}
-footer{background:#0f172a;color:#94a3b8;text-align:center;padding:1.4rem;font-size:.84rem;margin-top:2rem}
-.sources-info{background:#fff;border:1px solid var(--b);border-radius:10px;padding:1rem;margin:1rem 0;font-size:.88rem}
-.sources-info ul{margin:.5rem 0 0 1.2rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0}
+.tabs button{padding:.45rem .9rem;border:1px solid var(--b);background:var(--card);border-radius:8px;cursor:pointer;font-size:.85rem;color:var(--t)}
+.tabs button.on{background:var(--p);color:#fff;border-color:var(--p)}
+.panel{display:none;background:var(--card);border:1px solid var(--b);border-radius:12px;padding:1.3rem;margin-top:.5rem}
+.panel.show{display:block}
+.panel h2{color:var(--p);margin-bottom:.8rem;font-size:1.25rem}
+.panel h3{color:var(--s);margin:1rem 0 .4rem;font-size:1.05rem}
+.memo{background:rgba(22,163,74,.1);border-left:4px solid #16a34a;padding:.8rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.exo{background:rgba(234,88,12,.08);border-left:4px solid #ea580c;padding:.8rem 1rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.qcm-item{background:var(--bg);border:1px solid var(--b);border-radius:10px;padding:1rem;margin-bottom:.8rem}
+.qcm-item .choix label{display:block;padding:.35rem .5rem;margin:.2rem 0;cursor:pointer;border-radius:6px}
+.qcm-item .choix label:hover{background:rgba(59,130,246,.1)}
+.flash-card{background:var(--card);border:2px solid var(--b);border-radius:12px;padding:1.5rem;margin:1rem 0;min-height:140px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;transition:.2s}
+.flash-card:hover{border-color:var(--pl)}
+.flash-card .back{display:none}
+.flash-card.flipped .front{display:none}
+.flash-card.flipped .back{display:block}
+.progress-bar{height:8px;background:var(--b);border-radius:4px;overflow:hidden;margin:.5rem 0 1rem}
+.progress-bar div{height:100%;background:var(--s);transition:width .3s}
+.badge{display:inline-block;font-size:.7rem;padding:.15rem .45rem;border-radius:4px;margin-left:.3rem}
+.badge.done{background:#16a34a;color:#fff}
+.badge.progress{background:#ea580c;color:#fff}
+.badge.todo{background:var(--b);color:var(--m)}
+.chapitre-item{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:.9rem 1rem;margin-bottom:.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.chapitre-item:hover{border-color:var(--pl)}
+.btn{display:inline-block;background:var(--pl);color:#fff;padding:.4rem .9rem;border-radius:6px;font-size:.85rem;border:none;cursor:pointer;margin:.2rem}
+.btn:hover{opacity:.9}
+.btn-sec{background:var(--b);color:var(--t)}
+.fav{color:#fbbf24;cursor:pointer;font-size:1.1rem}
+footer{background:#0f172a;color:#94a3b8;text-align:center;padding:1.3rem;font-size:.82rem;margin-top:2rem}
+.wiki-box{background:rgba(59,130,246,.08);border:1px solid var(--pl);border-radius:10px;padding:1rem;margin:1rem 0;font-size:.9rem}
+ul{margin:.4rem 0 .6rem 1.3rem}li{margin-bottom:.25rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th,td{border:1px solid var(--b);padding:.45rem .65rem;text-align:left}
+th{background:rgba(59,130,246,.1);color:var(--p)}
 </style>
 </head>
 <body>
 <header>
   <div class="top">
-    <div class="logo">Études Sup <span>France</span></div>
+    <div class="logo" onclick="App.goHome()">Études Sup <span>France</span></div>
     <form class="search-bar" id="search-form">
-      <input type="search" id="search-input" placeholder="Rechercher un cours, un concept…" autocomplete="off">
-      <button type="submit">Rechercher</button>
+      <input type="search" id="search-input" placeholder="Rechercher un cours…">
+      <button type="submit">Chercher</button>
     </form>
+    <div class="actions">
+      <button onclick="App.toggleTheme()" title="Mode sombre">🌓</button>
+      <button onclick="App.showFavoris()" title="Favoris">⭐</button>
+      <button onclick="App.showHistory()" title="Historique">🕐</button>
+    </div>
   </div>
 </header>
 
 <div class="wrap">
   <aside class="side" id="sidebar"></aside>
-  <div class="main" id="main">
-    <div class="loading">Chargement…</div>
-  </div>
+  <div class="main" id="main"><div class="loading" style="padding:2rem;text-align:center;color:var(--m)">Chargement…</div></div>
 </div>
 
 <footer>
-  <p><strong>Études Sup France</strong> — Agrégateur de ressources éducatives ouvertes · 2026</p>
-  <p style="margin-top:.4rem;font-size:.78rem">
-    Contenu chargé dynamiquement depuis des sources publiques (Wikiversité, Wikipédia…).<br>
-    Aucun cours inventé. Respect des licences CC BY-SA. Toujours consulter la source originale.
-  </p>
+  <p><strong>Études Sup France</strong> — Plateforme d’apprentissage · Contenu pédagogique structuré · 2026</p>
+  <p style="margin-top:.3rem;font-size:.75rem">Cours originaux + sources publiques (Wikiversité / Wikipédia). Progression sauvegardée localement.</p>
 </footer>
 
 <script>
 /* =========================================================
-   DONNÉES EMBARQUÉES (équivalent des fichiers JSON)
+   BASE DE DONNÉES DES COURS (structure JSON extensible)
+   Pour des milliers de chapitres : découper en fichiers
+   data/formations/bts-sio/reseaux/modele-osi.json etc.
    ========================================================= */
-const SOURCES = [
+const COURS_DB = [
   {
-    id: "wikiversite",
-    name: "Wikiversité",
-    type: "mediawiki",
-    baseUrl: "https://fr.wikiversity.org",
-    api: "https://fr.wikiversity.org/w/api.php",
-    license: "CC BY-SA 4.0",
-    enabled: true,
-    priority: 1
+    id: "sio-osi",
+    formation: "bts-sio",
+    formationNom: "BTS SIO",
+    matiere: "Réseaux",
+    titre: "Modèle OSI et TCP/IP",
+    ordre: 1,
+    cours: `
+      <h3>1. Introduction</h3>
+      <p>Le modèle OSI (Open Systems Interconnection) est un modèle de référence en 7 couches qui décrit comment les données circulent dans un réseau. Il a été normalisé par l’ISO. Le modèle TCP/IP, plus pragmatique, est celui réellement utilisé sur Internet.</p>
+      <h3>2. Les 7 couches du modèle OSI</h3>
+      <table>
+        <tr><th>N°</th><th>Couche</th><th>Rôle principal</th><th>Exemples</th></tr>
+        <tr><td>7</td><td>Application</td><td>Interface avec l’utilisateur / applications</td><td>HTTP, FTP, SMTP, DNS</td></tr>
+        <tr><td>6</td><td>Présentation</td><td>Format des données, chiffrement, compression</td><td>SSL/TLS, JPEG, ASCII</td></tr>
+        <tr><td>5</td><td>Session</td><td>Gestion des sessions de communication</td><td>RPC, NetBIOS</td></tr>
+        <tr><td>4</td><td>Transport</td><td>Fiabilité, segmentation, contrôle de flux</td><td>TCP, UDP</td></tr>
+        <tr><td>3</td><td>Réseau</td><td>Adressage logique et routage</td><td>IP, ICMP, OSPF</td></tr>
+        <tr><td>2</td><td>Liaison de données</td><td>Trames, adressage MAC, détection d’erreurs</td><td>Ethernet, Wi-Fi, PPP</td></tr>
+        <tr><td>1</td><td>Physique</td><td>Transmission des bits (signaux électriques/optiques)</td><td>Câbles, fibres, radio</td></tr>
+      </table>
+      <h3>3. Correspondance avec TCP/IP</h3>
+      <p>TCP/IP regroupe les couches 5-6-7 en « Application », garde Transport et Réseau (Internet), et regroupe 1-2 en « Accès réseau ».</p>
+      <h3>4. Encapsulation</h3>
+      <p>Chaque couche ajoute son en-tête (et parfois une queue) : données → segment (TCP) → paquet (IP) → trame (Ethernet) → bits.</p>
+    `,
+    resume: [
+      "Le modèle OSI comporte 7 couches (de la Physique à l’Application).",
+      "TCP/IP est le modèle réellement utilisé sur Internet (4 couches conceptuelles).",
+      "Chaque couche a un rôle précis et communique avec les couches adjacentes.",
+      "L’encapsulation ajoute des en-têtes à chaque niveau."
+    ],
+    points_cles: ["Physique","Liaison de données","Réseau","Transport","Session","Présentation","Application","Encapsulation","TCP vs UDP"],
+    exercices: [
+      { question: "Combien de couches possède le modèle OSI ?", correction: "7 couches." },
+      { question: "Quelle couche est responsable de l’adressage IP et du routage ?", correction: "La couche 3 – Réseau." },
+      { question: "Quelle est la différence principale entre TCP et UDP ?", correction: "TCP est orienté connexion et fiable (retransmission, contrôle de flux). UDP est non connecté et plus rapide, sans garantie de livraison." },
+      { question: "Expliquez brièvement le principe d’encapsulation.", correction: "Chaque couche ajoute son propre en-tête aux données reçues de la couche supérieure, formant ainsi une PDU (Protocol Data Unit) spécifique." }
+    ],
+    qcm: [
+      { question: "Quelle couche gère l’adressage IP ?", choix: ["Physique","Liaison","Réseau","Application"], reponse: "Réseau" },
+      { question: "Combien de couches dans le modèle OSI ?", choix: ["4","5","7","9"], reponse: "7" },
+      { question: "Quel protocole appartient à la couche Transport ?", choix: ["IP","HTTP","TCP","Ethernet"], reponse: "TCP" },
+      { question: "Dans TCP/IP, les couches Session + Présentation + Application sont regroupées en :", choix: ["Transport","Application","Internet","Accès réseau"], reponse: "Application" }
+    ],
+    flashcards: [
+      { question: "Nombre de couches du modèle OSI ?", reponse: "7" },
+      { question: "Couche responsable du routage ?", reponse: "Couche Réseau (3)" },
+      { question: "Protocole fiable de la couche Transport ?", reponse: "TCP" },
+      { question: "Protocole non connecté de la couche Transport ?", reponse: "UDP" },
+      { question: "Adresse utilisée à la couche Liaison ?", reponse: "Adresse MAC" }
+    ],
+    sources: [
+      { titre: "Modèle OSI – Wikipédia", url: "https://fr.wikipedia.org/wiki/Mod%C3%A8le_OSI" },
+      { titre: "Suite des protocoles Internet – Wikipédia", url: "https://fr.wikipedia.org/wiki/Suite_des_protocoles_Internet" }
+    ]
   },
   {
-    id: "wikipedia_fr",
-    name: "Wikipédia (FR)",
-    type: "mediawiki",
-    baseUrl: "https://fr.wikipedia.org",
-    api: "https://fr.wikipedia.org/w/api.php",
-    license: "CC BY-SA 4.0",
-    enabled: true,
-    priority: 2
+    id: "sio-ipv4",
+    formation: "bts-sio",
+    formationNom: "BTS SIO",
+    matiere: "Réseaux",
+    titre: "Adressage IPv4",
+    ordre: 2,
+    cours: `
+      <h3>1. Structure d’une adresse IPv4</h3>
+      <p>Une adresse IPv4 est composée de 32 bits, généralement notée en notation décimale pointée (ex. 192.168.1.10). Elle se divise en partie réseau et partie hôte, déterminée par le masque de sous-réseau.</p>
+      <h3>2. Classes et CIDR</h3>
+      <p>Historiquement classes A/B/C. Aujourd’hui on utilise le CIDR (Classless Inter-Domain Routing) avec un préfixe (ex. /24).</p>
+      <h3>3. Masque de sous-réseau</h3>
+      <p>Le masque indique quels bits appartiennent au réseau. Exemple : 255.255.255.0 = /24 → 256 adresses dont 254 utilisables.</p>
+      <h3>4. Adresses spéciales</h3>
+      <ul>
+        <li>Adresse réseau : tous les bits hôte à 0</li>
+        <li>Adresse de diffusion (broadcast) : tous les bits hôte à 1</li>
+        <li>127.0.0.0/8 : loopback</li>
+        <li>Privées (RFC 1918) : 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</li>
+      </ul>
+      <h3>5. Calcul de sous-réseaux</h3>
+      <p>Pour créer N sous-réseaux, on emprunte des bits à la partie hôte. Nombre de sous-réseaux = 2<sup>n</sup>, nombre d’hôtes par sous-réseau = 2<sup>h</sup> − 2.</p>
+    `,
+    resume: [
+      "IPv4 = 32 bits, notation décimale pointée.",
+      "Masque (/xx) sépare partie réseau et partie hôte.",
+      "Adresses privées : 10/8, 172.16/12, 192.168/16.",
+      "Broadcast = tous les bits hôte à 1."
+    ],
+    points_cles: ["32 bits","CIDR","Masque","Adresse réseau","Broadcast","Adresses privées","Calcul de sous-réseaux"],
+    exercices: [
+      { question: "Combien d’adresses utilisables dans un /24 ?", correction: "254 (256 − 2)." },
+      { question: "Donnez le masque décimal correspondant à /20.", correction: "255.255.240.0" },
+      { question: "L’adresse 192.168.1.255/24 est-elle utilisable pour un hôte ?", correction: "Non, c’est l’adresse de diffusion du réseau." }
+    ],
+    qcm: [
+      { question: "Combien de bits dans une adresse IPv4 ?", choix: ["16","32","48","128"], reponse: "32" },
+      { question: "Quelle est une plage d’adresses privées ?", choix: ["8.8.8.0/24","192.168.0.0/16","172.32.0.0/12","224.0.0.0/4"], reponse: "192.168.0.0/16" }
+    ],
+    flashcards: [
+      { question: "Taille d’une adresse IPv4 ?", reponse: "32 bits" },
+      { question: "Masque d’un /24 ?", reponse: "255.255.255.0" },
+      { question: "Adresses privées de classe C ?", reponse: "192.168.0.0/16" }
+    ],
+    sources: [
+      { titre: "IPv4 – Wikipédia", url: "https://fr.wikipedia.org/wiki/IPv4" }
+    ]
   },
   {
-    id: "wikipedia_en",
-    name: "Wikipedia (EN)",
-    type: "mediawiki",
-    baseUrl: "https://en.wikipedia.org",
-    api: "https://en.wikipedia.org/w/api.php",
-    license: "CC BY-SA 4.0",
-    enabled: true,
-    priority: 3
+    id: "opti-anatomie",
+    formation: "bts-opticien",
+    formationNom: "BTS Opticien-Lunetier",
+    matiere: "Analyse de la vision",
+    titre: "Anatomie et physiologie de l’œil",
+    ordre: 1,
+    cours: `
+      <h3>1. Structure générale</h3>
+      <p>L’œil est un organe sphérique d’environ 24 mm de diamètre. Trois tuniques :</p>
+      <ul>
+        <li><strong>Externe</strong> : sclérotique + cornée</li>
+        <li><strong>Moyenne (uvée)</strong> : choroïde, corps ciliaire, iris</li>
+        <li><strong>Interne</strong> : rétine</li>
+      </ul>
+      <h3>2. La cornée</h3>
+      <p>Première surface réfringente (~ +40 à +43 δ). Avasculaire, nourrie par l’humeur aqueuse et les larmes.</p>
+      <h3>3. Le cristallin</h3>
+      <p>Lentille biconvexe qui permet l’accommodation grâce au muscle ciliaire. Perd de sa souplesse avec l’âge → presbytie.</p>
+      <h3>4. La rétine</h3>
+      <p>Cônes (vision des couleurs, acuité, macula/fovéa) et bâtonnets (vision nocturne, périphérie).</p>
+    `,
+    resume: [
+      "Cornée ≈ 2/3 de la puissance totale de l’œil (+40 à +43 δ).",
+      "Cristallin = accommodation.",
+      "Cônes = couleurs + acuité ; Bâtonnets = vision scotopique."
+    ],
+    points_cles: ["Cornée","Cristallin","Rétine","Cônes","Bâtonnets","Accommodation","Macula","Fovéa"],
+    exercices: [
+      { question: "Pourquoi la cornée apporte-t-elle la plus grande part de la puissance réfractive ?", correction: "Parce que le changement d’indice entre l’air et la cornée est très important, et sa courbure est élevée." },
+      { question: "Quelle structure permet l’accommodation ?", correction: "Le cristallin, modifié par le muscle ciliaire." }
+    ],
+    qcm: [
+      { question: "Puissance approximative de la cornée ?", choix: ["+10 δ","+20 δ","+40 à +43 δ","+60 δ"], reponse: "+40 à +43 δ" },
+      { question: "Où se trouvent principalement les cônes ?", choix: ["Périphérie rétinienne","Macula / fovéa","Corps ciliaire","Iris"], reponse: "Macula / fovéa" }
+    ],
+    flashcards: [
+      { question: "Puissance de la cornée ?", reponse: "+40 à +43 dioptries" },
+      { question: "Rôle du cristallin ?", reponse: "Accommodation" },
+      { question: "Photorécepteurs de la vision des couleurs ?", reponse: "Cônes" }
+    ],
+    sources: [
+      { titre: "Œil humain – Wikipédia", url: "https://fr.wikipedia.org/wiki/%C5%92il_humain" }
+    ]
+  },
+  {
+    id: "opti-ametropies",
+    formation: "bts-opticien",
+    formationNom: "BTS Opticien-Lunetier",
+    matiere: "Analyse de la vision",
+    titre: "Les amétropies (défauts visuels)",
+    ordre: 2,
+    cours: `
+      <h3>1. Myopie</h3>
+      <p>Œil trop long ou trop puissant → image en avant de la rétine. Correction : verres divergents (−).</p>
+      <h3>2. Hypermétropie</h3>
+      <p>Œil trop court ou pas assez puissant → image en arrière de la rétine. Correction : verres convergents (+).</p>
+      <h3>3. Astigmatisme</h3>
+      <p>Cornée (ou cristallin) torique → rayons ne convergent pas en un point unique. Correction : verres cylindriques.</p>
+      <h3>4. Presbytie</h3>
+      <p>Perte d’amplitude d’accommodation liée à l’âge. On ajoute une addition pour la vision de près.</p>
+    `,
+    resume: [
+      "Myopie → verres divergents (−)",
+      "Hypermétropie → verres convergents (+)",
+      "Astigmatisme → cylindre",
+      "Presbytie → addition"
+    ],
+    points_cles: ["Myopie","Hypermétropie","Astigmatisme","Presbytie","Vergence","Cylindre","Addition"],
+    exercices: [
+      { question: "Un client a −3,50 (−1,25) 90°. Quels défauts présente-t-il ?", correction: "Myopie de −3,50 δ associée à un astigmatisme de −1,25 δ à 90°." }
+    ],
+    qcm: [
+      { question: "Correction de la myopie ?", choix: ["Verres convergents","Verres divergents","Cylindre uniquement","Addition"], reponse: "Verres divergents" },
+      { question: "La presbytie est liée à :", choix: ["Un œil trop long","La perte d’accommodation","Une cornée torique","Un déficit en cônes"], reponse: "La perte d’accommodation" }
+    ],
+    flashcards: [
+      { question: "Myopie → type de verre ?", reponse: "Divergent (−)" },
+      { question: "Hypermétropie → type de verre ?", reponse: "Convergent (+)" },
+      { question: "Presbytie → que rajoute-t-on ?", reponse: "Une addition" }
+    ],
+    sources: [
+      { titre: "Amétropie – Wikipédia", url: "https://fr.wikipedia.org/wiki/Am%C3%A9tropie" }
+    ]
+  },
+  {
+    id: "mco-relation-client",
+    formation: "bts-mco",
+    formationNom: "BTS MCO",
+    matiere: "Relation client",
+    titre: "Développement de la relation client",
+    ordre: 1,
+    cours: `
+      <h3>1. Le parcours client</h3>
+      <p>Accueil → Découverte des besoins → Argumentation → Traitement des objections → Closing → Fidélisation.</p>
+      <h3>2. Techniques de découverte</h3>
+      <p>Questions ouvertes, fermées, reformulation, écoute active. Objectif : comprendre le besoin réel.</p>
+      <h3>3. Les leviers de motivation (SONCAS)</h3>
+      <p>Sécurité • Orgueil • Nouveauté • Confort • Argent • Sympathie.</p>
+    `,
+    resume: [
+      "Parcours type : Accueil → Découverte → Argumentation → Objections → Closing → Fidélisation.",
+      "SONCAS : 6 leviers de motivation d’achat."
+    ],
+    points_cles: ["Accueil","Découverte","SONCAS","Objection","Closing","Fidélisation"],
+    exercices: [
+      { question: "Citez 3 questions ouvertes pour un client high-tech.", correction: "Quel usage principal comptez-vous en faire ? Quelles fonctionnalités sont indispensables pour vous ? Avez-vous déjà un équipement similaire ?" }
+    ],
+    qcm: [
+      { question: "Que signifie le « S » de SONCAS ?", choix: ["Service","Sécurité","Stock","Satisfaction"], reponse: "Sécurité" }
+    ],
+    flashcards: [
+      { question: "Les 6 lettres de SONCAS ?", reponse: "Sécurité, Orgueil, Nouveauté, Confort, Argent, Sympathie" }
+    ],
+    sources: []
+  },
+  {
+    id: "cg-analyse",
+    formation: "bts-cg",
+    formationNom: "BTS CG",
+    matiere: "Analyse financière",
+    titre: "Analyse financière – Ratios et FR/BFR",
+    ordre: 1,
+    cours: `
+      <h3>1. Fonds de roulement (FR)</h3>
+      <p>FR = Capitaux permanents − Actif immobilisé. Il mesure l’excédent de ressources stables.</p>
+      <h3>2. Besoin en fonds de roulement (BFR)</h3>
+      <p>BFR = Actif circulant (hors trésorerie) − Passif circulant (hors trésorerie). C’est le besoin de financement du cycle d’exploitation.</p>
+      <h3>3. Trésorerie nette</h3>
+      <p>TN = FR − BFR. Si positive, l’entreprise a un surplus de trésorerie.</p>
+      <h3>4. Ratios principaux</h3>
+      <ul>
+        <li>Liquidité générale = Actif circulant / Dettes à court terme</li>
+        <li>Autonomie financière = Capitaux propres / Total passif</li>
+        <li>Rentabilité financière = Résultat net / Capitaux propres</li>
+      </ul>
+    `,
+    resume: [
+      "FR = ressources stables − emplois stables.",
+      "BFR = besoin de financement du cycle d’exploitation.",
+      "TN = FR − BFR."
+    ],
+    points_cles: ["Fonds de roulement","BFR","Trésorerie nette","Ratios de liquidité","Ratios de solvabilité","Rentabilité"],
+    exercices: [
+      { question: "FR = 80 000 €, BFR = 55 000 €. Calculez la trésorerie nette et interprétez.", correction: "TN = 25 000 €. L’entreprise dispose d’un surplus de trésorerie." }
+    ],
+    qcm: [
+      { question: "La formule de la trésorerie nette est :", choix: ["FR + BFR","FR − BFR","BFR − FR","Actif − Passif"], reponse: "FR − BFR" }
+    ],
+    flashcards: [
+      { question: "Formule de la trésorerie nette ?", reponse: "FR − BFR" },
+      { question: "Que mesure le BFR ?", reponse: "Le besoin de financement du cycle d’exploitation" }
+    ],
+    sources: []
   }
 ];
 
+/* Formations pour le menu */
 const FORMATIONS = [
-  { id:"bts-sio", nom:"BTS SIO", categorie:"BTS", icone:"💻", description:"Services Informatiques aux Organisations (SISR / SLAM)", motsCles:["réseaux","systèmes","cybersécurité","développement","base de données","linux","adressage IP","OSI","TCP/IP"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"bts-opticien", nom:"BTS Opticien-Lunetier", categorie:"BTS", icone:"👓", description:"Analyse de la vision, optique géométrique, montage", motsCles:["œil","cornée","cristallin","rétine","réfraction","myopie","hypermétropie","astigmatisme","presbytie","dioptrie"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"bts-mco", nom:"BTS MCO", categorie:"BTS", icone:"🛒", description:"Management Commercial Opérationnel", motsCles:["relation client","merchandising","gestion de stock","marge","management","vente conseil"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"bts-cg", nom:"BTS CG", categorie:"BTS", icone:"📒", description:"Comptabilité et Gestion", motsCles:["comptabilité","bilan","compte de résultat","amortissement","ratio","fonds de roulement"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"bts-ndrc", nom:"BTS NDRC", categorie:"BTS", icone:"🤝", description:"Négociation et Digitalisation de la Relation Client", motsCles:["CRM","omnicanal","négociation","relation client"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"bts-electrotechnique", nom:"BTS Électrotechnique", categorie:"BTS", icone:"⚡", description:"Électricité, automatismes, puissance", motsCles:["électricité","loi d'Ohm","courant","tension","puissance","triphasé"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"bts-ciel", nom:"BTS CIEL", categorie:"BTS", icone:"🔒", description:"Cybersécurité, Informatique et Réseaux", motsCles:["cybersécurité","réseaux","sécurité informatique","firewall"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"but-informatique", nom:"BUT Informatique", categorie:"BUT", icone:"🖥️", description:"Bachelor Universitaire de Technologie – Informatique", motsCles:["algorithmique","programmation","base de données","réseaux","développement web"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"licence-maths", nom:"Licence Mathématiques", categorie:"Licence", icone:"∫", description:"Licence de Mathématiques", motsCles:["analyse","algèbre","probabilités","statistiques"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] },
-  { id:"cpge-mpsi", nom:"CPGE MPSI", categorie:"CPGE", icone:"📐", description:"Classe Préparatoire MPSI", motsCles:["mathématiques","physique","sciences de l'ingénieur"], sourcesPrioritaires:["wikiversite","wikipedia_fr"] }
+  { id:"bts-sio", nom:"BTS SIO", cat:"BTS", icone:"💻" },
+  { id:"bts-opticien", nom:"BTS Opticien-Lunetier", cat:"BTS", icone:"👓" },
+  { id:"bts-mco", nom:"BTS MCO", cat:"BTS", icone:"🛒" },
+  { id:"bts-cg", nom:"BTS CG", cat:"BTS", icone:"📒" },
+  { id:"bts-ndrc", nom:"BTS NDRC", cat:"BTS", icone:"🤝" },
+  { id:"bts-electrotechnique", nom:"BTS Électrotechnique", cat:"BTS", icone:"⚡" },
+  { id:"bts-ciel", nom:"BTS CIEL", cat:"BTS", icone:"🔒" },
+  { id:"but-informatique", nom:"BUT Informatique", cat:"BUT", icone:"🖥️" },
+  { id:"licence-maths", nom:"Licence Maths", cat:"Licence", icone:"∫" },
+  { id:"cpge-mpsi", nom:"CPGE MPSI", cat:"CPGE", icone:"📐" }
 ];
 
-const MAPPINGS = {
-  "bts-sio": [
-    { chapitre:"Modèle OSI et TCP/IP", query:"modèle OSI OR TCP/IP", matiere:"Réseaux" },
-    { chapitre:"Adressage IPv4", query:"adressage IPv4 OR masque de sous-réseau", matiere:"Réseaux" },
-    { chapitre:"Cybersécurité de base", query:"cybersécurité OR phishing OR ransomware", matiere:"Sécurité" },
-    { chapitre:"Administration Linux", query:"administration Linux OR commandes Linux", matiere:"Systèmes" },
-    { chapitre:"Bases de données relationnelles", query:"SQL OR base de données relationnelle", matiere:"Développement" },
-    { chapitre:"Algorithmique et programmation", query:"algorithmique OR programmation Python", matiere:"Développement" }
-  ],
-  "bts-opticien": [
-    { chapitre:"Anatomie de l’œil", query:"anatomie de l'œil OR cornée cristallin rétine", matiere:"Analyse de la vision" },
-    { chapitre:"Optique géométrique", query:"optique géométrique OR réfraction dioptrie", matiere:"Optique" },
-    { chapitre:"Amétropies", query:"myopie hypermétropie astigmatisme presbytie", matiere:"Analyse de la vision" },
-    { chapitre:"Lentilles de contact", query:"lentilles de contact", matiere:"Équipements" }
-  ],
-  "bts-mco": [
-    { chapitre:"Relation client et vente conseil", query:"relation client OR techniques de vente", matiere:"Relation client" },
-    { chapitre:"Merchandising", query:"merchandising OR implantation linéaire", matiere:"Animation de l’offre" },
-    { chapitre:"Gestion des stocks", query:"gestion des stocks OR taux de rotation", matiere:"Gestion opérationnelle" },
-    { chapitre:"Management d’équipe", query:"management d'équipe OR motivation au travail", matiere:"Management" }
-  ],
-  "bts-cg": [
-    { chapitre:"Comptabilité générale", query:"comptabilité générale OR plan comptable", matiere:"Comptabilité" },
-    { chapitre:"Analyse financière", query:"analyse financière OR ratios financiers", matiere:"Analyse" },
-    { chapitre:"Bilan et compte de résultat", query:"bilan comptable OR compte de résultat", matiere:"Comptabilité" }
-  ],
-  "bts-electrotechnique": [
-    { chapitre:"Lois fondamentales de l’électricité", query:"loi d'Ohm OR puissance électrique", matiere:"Électricité" },
-    { chapitre:"Courants triphasés", query:"courant triphasé OR système triphasé", matiere:"Électricité" },
-    { chapitre:"Automatismes", query:"automatisme industriel OR automate programmable", matiere:"Automatismes" }
-  ],
-  "bts-ciel": [
-    { chapitre:"Fondamentaux de la cybersécurité", query:"cybersécurité OR sécurité des systèmes d'information", matiere:"Sécurité" },
-    { chapitre:"Réseaux et protocoles", query:"protocoles réseau OR TCP/IP sécurité", matiere:"Réseaux" }
-  ],
-  "but-informatique": [
-    { chapitre:"Algorithmique", query:"algorithmique OR structures de données", matiere:"Informatique" },
-    { chapitre:"Programmation", query:"programmation orientée objet OR Python Java", matiere:"Développement" },
-    { chapitre:"Bases de données", query:"bases de données OR SQL normalisation", matiere:"Données" }
-  ],
-  "licence-maths": [
-    { chapitre:"Analyse", query:"analyse mathématique OR suites fonctions", matiere:"Mathématiques" },
-    { chapitre:"Algèbre linéaire", query:"algèbre linéaire OR matrices espaces vectoriels", matiere:"Mathématiques" },
-    { chapitre:"Probabilités", query:"probabilités OR variables aléatoires", matiere:"Mathématiques" }
-  ],
-  "cpge-mpsi": [
-    { chapitre:"Analyse MPSI", query:"analyse MPSI OR suites séries", matiere:"Mathématiques" },
-    { chapitre:"Algèbre MPSI", query:"algèbre linéaire CPGE", matiere:"Mathématiques" },
-    { chapitre:"Physique", query:"mécanique OR électromagnétisme CPGE", matiere:"Physique" }
-  ]
-};
-
 /* =========================================================
-   MOTEUR
+   APPLICATION
    ========================================================= */
 const App = {
-  sources: SOURCES.filter(s => s.enabled),
-  formations: FORMATIONS,
-  mappings: MAPPINGS,
-  currentFormation: null,
-  currentPage: 1,
-  pageSize: 8,
-  lastResults: [],
-  lastTitre: "",
+  progress: JSON.parse(localStorage.getItem("esf_progress") || "{}"),
+  favoris: JSON.parse(localStorage.getItem("esf_favoris") || "[]"),
+  history: JSON.parse(localStorage.getItem("esf_history") || "[]"),
+  currentCours: null,
+  currentTab: "cours",
 
   init() {
+    if (localStorage.getItem("esf_theme") === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
     this.buildSidebar();
     this.goHome();
+  },
+
+  save() {
+    localStorage.setItem("esf_progress", JSON.stringify(this.progress));
+    localStorage.setItem("esf_favoris", JSON.stringify(this.favoris));
+    localStorage.setItem("esf_history", JSON.stringify(this.history));
+  },
+
+  toggleTheme() {
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    document.documentElement.setAttribute("data-theme", isDark ? "" : "dark");
+    localStorage.setItem("esf_theme", isDark ? "light" : "dark");
+  },
+
+  setProgress(id, status) {
+    this.progress[id] = status; // "todo" | "progress" | "done"
+    this.save();
+  },
+
+  getProgress(id) {
+    return this.progress[id] || "todo";
+  },
+
+  toggleFavori(id) {
+    const i = this.favoris.indexOf(id);
+    if (i >= 0) this.favoris.splice(i, 1);
+    else this.favoris.push(id);
+    this.save();
+    if (this.currentCours && this.currentCours.id === id) this.openCours(id);
+  },
+
+  addHistory(id) {
+    this.history = this.history.filter(x => x !== id);
+    this.history.unshift(id);
+    if (this.history.length > 30) this.history.pop();
+    this.save();
   },
 
   buildSidebar() {
     const side = document.getElementById("sidebar");
     const cats = {};
-    this.formations.forEach(f => {
-      if (!cats[f.categorie]) cats[f.categorie] = [];
-      cats[f.categorie].push(f);
+    FORMATIONS.forEach(f => {
+      if (!cats[f.cat]) cats[f.cat] = [];
+      cats[f.cat].push(f);
     });
     let html = "";
     for (const [cat, list] of Object.entries(cats)) {
@@ -219,226 +461,260 @@ const App = {
   },
 
   goHome() {
-    this.currentFormation = null;
     document.querySelectorAll(".side a").forEach(a => a.classList.remove("on"));
-    const cards = this.formations.map(f => `
-      <div class="card" onclick="App.openFormation('${f.id}')">
-        <div class="ic">${f.icone}</div>
-        <h3>${f.nom}</h3>
-        <p>${f.description}</p>
-      </div>`).join("");
+    const cards = FORMATIONS.map(f => {
+      const count = COURS_DB.filter(c => c.formation === f.id).length;
+      return `
+        <div class="card" onclick="App.openFormation('${f.id}')">
+          <div class="ic">${f.icone}</div>
+          <h3>${f.nom}</h3>
+          <p>${count} chapitre${count > 1 ? "s" : ""} disponible${count > 1 ? "s" : ""}</p>
+        </div>`;
+    }).join("");
     document.getElementById("main").innerHTML = `
-      <h1>Études Sup France — Ressources publiques</h1>
-      <p class="lead">
-        Contenu chargé dynamiquement depuis Wikiversité et Wikipédia (API MediaWiki).<br>
-        Aucun cours inventé. Clique sur une formation puis sur un chapitre pour lancer la recherche.
-      </p>
-      <div class="sources-info">
-        <strong>Sources actives :</strong>
-        <ul>
-          <li><strong>Wikiversité</strong> — CC BY-SA 4.0</li>
-          <li><strong>Wikipédia (FR & EN)</strong> — CC BY-SA 4.0</li>
-        </ul>
-        Les extraits sont récupérés en direct. Clique toujours sur « Voir la source originale ».
-      </div>
+      <h1>Plateforme d’apprentissage</h1>
+      <p class="lead">Cours structurés • Résumés • Exercices • QCM • Flashcards • Progression sauvegardée</p>
       <div class="sec-title">Formations</div>
-      <div class="grid">${cards}</div>`;
+      <div class="grid">${cards}</div>
+      <div class="sec-title">Comment utiliser</div>
+      <p style="font-size:.9rem;color:var(--m)">1. Choisis une formation → 2. Clique sur un chapitre → 3. Navigue entre Cours / Résumé / Exercices / QCM / Flashcards. Ta progression est enregistrée automatiquement.</p>`;
   },
 
   openFormation(id) {
-    const f = this.formations.find(x => x.id === id);
+    const f = FORMATIONS.find(x => x.id === id);
     if (!f) return;
-    this.currentFormation = f;
     document.querySelectorAll(".side a").forEach(a => a.classList.toggle("on", a.dataset.id === id));
 
-    const maps = this.mappings[id] || [];
-    const list = maps.map((m, i) => `
-      <li onclick="App.searchChapter('${id}', ${i})">
-        <div>
-          <strong>${m.chapitre}</strong>
-          <div style="font-size:.82rem;color:var(--m)">${m.matiere || ""}</div>
-        </div>
-        <span class="btn btn-secondary">Charger</span>
-      </li>`).join("");
+    const chapitres = COURS_DB.filter(c => c.formation === id).sort((a,b) => a.ordre - b.ordre);
+    const list = chapitres.map(c => {
+      const st = this.getProgress(c.id);
+      const badge = st === "done" ? '<span class="badge done">Terminé</span>' :
+                    st === "progress" ? '<span class="badge progress">En cours</span>' :
+                    '<span class="badge todo">À faire</span>';
+      return `
+        <div class="chapitre-item" onclick="App.openCours('${c.id}')">
+          <div>
+            <strong>${c.titre}</strong>
+            <div style="font-size:.8rem;color:var(--m)">${c.matiere}</div>
+          </div>
+          ${badge}
+        </div>`;
+    }).join("");
+
+    const done = chapitres.filter(c => this.getProgress(c.id) === "done").length;
+    const pct = chapitres.length ? Math.round(done / chapitres.length * 100) : 0;
 
     document.getElementById("main").innerHTML = `
       <div class="breadcrumb"><span onclick="App.goHome()">Accueil</span> › ${f.nom}</div>
       <h1>${f.icone} ${f.nom}</h1>
-      <p class="lead">${f.description}</p>
-      <p style="font-size:.88rem;color:var(--m)">
-        Clique sur un chapitre → recherche automatique sur Wikiversité + Wikipédia → extraits + lien vers la page originale.
-      </p>
-      <div class="sec-title">Chapitres / Thèmes</div>
-      <ul class="chapitre-list">${list || "<li>Aucun mapping défini.</li>"}</ul>
-      <div id="results-area"></div>`;
+      <p class="lead">${chapitres.length} chapitre(s) • Progression globale : ${pct}%</p>
+      <div class="progress-bar"><div style="width:${pct}%"></div></div>
+      <div class="sec-title">Chapitres</div>
+      ${list || "<p>Aucun chapitre pour le moment. (Architecture prête pour en ajouter des milliers via JSON)</p>"}`;
   },
 
-  async searchChapter(formationId, index) {
-    const f = this.formations.find(x => x.id === formationId);
-    const map = (this.mappings[formationId] || [])[index];
-    if (!f || !map) return;
+  openCours(id) {
+    const c = COURS_DB.find(x => x.id === id);
+    if (!c) return;
+    this.currentCours = c;
+    this.addHistory(id);
+    if (this.getProgress(id) === "todo") this.setProgress(id, "progress");
 
-    const area = document.getElementById("results-area");
-    area.innerHTML = `<div class="loading">Recherche en cours sur Wikiversité et Wikipédia…</div>`;
+    const isFav = this.favoris.includes(id);
+    const st = this.getProgress(id);
 
-    const allResults = [];
-    const mediaSources = this.sources.filter(s => s.type === "mediawiki");
+    document.getElementById("main").innerHTML = `
+      <div class="breadcrumb">
+        <span onclick="App.goHome()">Accueil</span> ›
+        <span onclick="App.openFormation('${c.formation}')">${c.formationNom}</span> ›
+        ${c.titre}
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem">
+        <h1>${c.titre}</h1>
+        <div>
+          <span class="fav" onclick="App.toggleFavori('${id}')" title="Favori">${isFav ? "⭐" : "☆"}</span>
+          <button class="btn btn-sec" onclick="App.markDone('${id}')">${st === "done" ? "✓ Terminé" : "Marquer terminé"}</button>
+        </div>
+      </div>
+      <p style="color:var(--m);font-size:.88rem">${c.formationNom} • ${c.matiere}</p>
 
-    for (const source of mediaSources) {
-      try {
-        const results = await this.searchMediaWiki(source, map.query);
-        results.forEach(r => {
-          r._source = source;
-          allResults.push(r);
-        });
-      } catch (e) {
-        console.warn("Erreur source", source.id, e);
-      }
-    }
+      <div class="tabs">
+        <button class="on" data-tab="cours" onclick="App.showTab('cours')">Cours</button>
+        <button data-tab="resume" onclick="App.showTab('resume')">Résumé</button>
+        <button data-tab="exercices" onclick="App.showTab('exercices')">Exercices</button>
+        <button data-tab="corriges" onclick="App.showTab('corriges')">Corrigés</button>
+        <button data-tab="qcm" onclick="App.showTab('qcm')">QCM</button>
+        <button data-tab="flashcards" onclick="App.showTab('flashcards')">Flashcards</button>
+        <button data-tab="sources" onclick="App.showTab('sources')">Sources</button>
+      </div>
 
-    const seen = new Set();
-    this.lastResults = allResults.filter(r => {
-      const key = r.title.toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
+      <div id="panel-cours" class="panel show">
+        <h2>Cours</h2>
+        ${c.cours}
+        <button class="btn" onclick="App.downloadPDF()">Télécharger PDF (texte)</button>
+      </div>
 
-    this.currentPage = 1;
-    this.lastTitre = map.chapitre;
-    this.renderResults();
-  },
+      <div id="panel-resume" class="panel">
+        <h2>Résumé</h2>
+        <ul>${(c.resume || []).map(r => `<li>${r}</li>`).join("")}</ul>
+        <div class="memo"><strong>Points clés</strong><br>${(c.points_cles || []).join(" • ")}</div>
+      </div>
 
-  async searchMediaWiki(source, query) {
-    const params = new URLSearchParams({
-      action: "query",
-      list: "search",
-      srsearch: query,
-      srnamespace: source.id === "wikiversite" ? "0|100|102|104" : "0",
-      srlimit: 12,
-      format: "json",
-      origin: "*"
-    });
-    const url = `${source.api}?${params}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
-    return (data.query && data.query.search) ? data.query.search : [];
-  },
+      <div id="panel-exercices" class="panel">
+        <h2>Exercices</h2>
+        ${(c.exercices || []).map((e,i) => `
+          <div class="exo"><strong>Exercice ${i+1}</strong><br>${e.question}</div>
+        `).join("") || "<p>Aucun exercice.</p>"}
+      </div>
 
-  async loadExtract(source, pageId) {
-    const params = new URLSearchParams({
-      action: "query",
-      prop: "extracts|info",
-      exintro: true,
-      explaintext: true,
-      inprop: "url",
-      pageids: pageId,
-      format: "json",
-      origin: "*"
-    });
-    const url = `${source.api}?${params}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const page = data.query && data.query.pages && data.query.pages[pageId];
-    return page || null;
-  },
+      <div id="panel-corriges" class="panel">
+        <h2>Corrigés</h2>
+        ${(c.exercices || []).map((e,i) => `
+          <div class="memo"><strong>Exercice ${i+1}</strong><br>${e.question}<br><em>→ ${e.correction}</em></div>
+        `).join("") || "<p>Aucun corrigé.</p>"}
+      </div>
 
-  renderResults() {
-    const area = document.getElementById("results-area");
-    if (!area) return;
+      <div id="panel-qcm" class="panel">
+        <h2>QCM</h2>
+        <div id="qcm-area">${this.renderQCM(c)}</div>
+        <button class="btn" onclick="App.checkQCM()">Vérifier les réponses</button>
+      </div>
 
-    if (!this.lastResults.length) {
-      area.innerHTML = `
-        <div class="sec-title">Résultats pour « ${this.lastTitre} »</div>
-        <div class="error">Aucun résultat trouvé. Essaie une autre requête ou vérifie ta connexion.</div>`;
-      return;
-    }
-
-    const start = (this.currentPage - 1) * this.pageSize;
-    const pageItems = this.lastResults.slice(start, start + this.pageSize);
-    const totalPages = Math.ceil(this.lastResults.length / this.pageSize);
-
-    let html = `<div class="sec-title">Résultats pour « ${this.lastTitre} » (${this.lastResults.length})</div>`;
-
-    pageItems.forEach(r => {
-      const src = r._source;
-      const wikiUrl = `${src.baseUrl}/wiki/${encodeURIComponent(r.title.replace(/ /g, "_"))}`;
-      html += `
-        <div class="result" id="res-${r.pageid}">
-          <h3>${r.title}</h3>
-          <div class="meta">
-            <span class="source-badge">${src.name}</span>
-            ${r.snippet ? r.snippet.replace(/<\/?span[^>]*>/g, "") : ""}
+      <div id="panel-flashcards" class="panel">
+        <h2>Flashcards</h2>
+        <p style="font-size:.88rem;color:var(--m);margin-bottom:1rem">Clique sur une carte pour révéler la réponse.</p>
+        ${(c.flashcards || []).map((f,i) => `
+          <div class="flash-card" onclick="this.classList.toggle('flipped')">
+            <div class="front"><strong>Q${i+1}</strong><br>${f.question}</div>
+            <div class="back"><strong>Réponse</strong><br>${f.reponse}</div>
           </div>
-          <div class="extract" id="extract-${r.pageid}">Chargement de l’extrait…</div>
-          <a class="btn" href="${wikiUrl}" target="_blank" rel="noopener">Voir la source originale</a>
-        </div>`;
-    });
+        `).join("") || "<p>Aucune flashcard.</p>"}
+      </div>
 
-    if (totalPages > 1) {
-      html += `<div class="pagination">`;
-      for (let p = 1; p <= totalPages; p++) {
-        html += `<button class="${p === this.currentPage ? "on" : ""}" onclick="App.goPage(${p})">${p}</button>`;
-      }
-      html += `</div>`;
-    }
+      <div id="panel-sources" class="panel">
+        <h2>Sources & approfondissement</h2>
+        ${(c.sources || []).length ? c.sources.map(s => `
+          <div class="wiki-box"><a href="${s.url}" target="_blank" rel="noopener">${s.titre}</a></div>
+        `).join("") : "<p>Aucune source externe liée.</p>"}
+        <p style="margin-top:1rem;font-size:.85rem;color:var(--m)">Tu peux aussi rechercher ce sujet sur Wikiversité / Wikipédia via la barre de recherche.</p>
+      </div>`;
+  },
 
-    html += `<div class="attr">
-      Extraits chargés via l’API MediaWiki.<br>
-      Licence : CC BY-SA. Toujours consulter et citer la page originale.
-    </div>`;
+  showTab(tab) {
+    document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("show"));
+    const panel = document.getElementById("panel-" + tab);
+    if (panel) panel.classList.add("show");
+  },
 
-    area.innerHTML = html;
+  renderQCM(c) {
+    return (c.qcm || []).map((q,i) => `
+      <div class="qcm-item" data-idx="${i}">
+        <strong>${i+1}. ${q.question}</strong>
+        <div class="choix">
+          ${q.choix.map(ch => `
+            <label><input type="radio" name="qcm${i}" value="${ch}"> ${ch}</label>
+          `).join("")}
+        </div>
+        <div class="resultat" style="margin-top:.5rem;font-weight:600"></div>
+      </div>
+    `).join("");
+  },
 
-    // Charger les extraits
-    pageItems.forEach(async r => {
-      try {
-        const page = await this.loadExtract(r._source, r.pageid);
-        const el = document.getElementById(`extract-${r.pageid}`);
-        if (el && page) {
-          const text = (page.extract || "").substring(0, 550);
-          el.textContent = text + (text.length >= 550 ? "…" : "");
-        }
-      } catch (e) {
-        const el = document.getElementById(`extract-${r.pageid}`);
-        if (el) el.textContent = "Extrait non disponible.";
+  checkQCM() {
+    if (!this.currentCours) return;
+    const qcm = this.currentCours.qcm || [];
+    qcm.forEach((q,i) => {
+      const item = document.querySelector(`.qcm-item[data-idx="${i}"]`);
+      if (!item) return;
+      const selected = item.querySelector(`input[name="qcm${i}"]:checked`);
+      const res = item.querySelector(".resultat");
+      if (!selected) {
+        res.textContent = "Pas de réponse";
+        res.style.color = "var(--m)";
+      } else if (selected.value === q.reponse) {
+        res.textContent = "✓ Correct";
+        res.style.color = "#16a34a";
+      } else {
+        res.textContent = `✗ Incorrect — réponse : ${q.reponse}`;
+        res.style.color = "#ef4444";
       }
     });
   },
 
-  goPage(p) {
-    this.currentPage = p;
-    this.renderResults();
-    const area = document.getElementById("results-area");
-    if (area) area.scrollIntoView({ behavior: "smooth", block: "start" });
+  markDone(id) {
+    this.setProgress(id, "done");
+    this.openCours(id);
   },
 
-  async globalSearch(q) {
-    if (!q || q.trim().length < 2) return;
-    document.getElementById("main").innerHTML = `<div class="loading">Recherche globale « ${q} »…</div>`;
+  downloadPDF() {
+    if (!this.currentCours) return;
+    const c = this.currentCours;
+    const text = `
+${c.titre}
+${c.formationNom} – ${c.matiere}
 
-    const allResults = [];
-    for (const source of this.sources) {
-      try {
-        const results = await this.searchMediaWiki(source, q);
-        results.forEach(r => { r._source = source; allResults.push(r); });
-      } catch (e) { console.warn(e); }
-    }
+=== COURS ===
+${c.cours.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()}
 
-    const seen = new Set();
-    this.lastResults = allResults.filter(r => {
-      const key = r.title.toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-    this.currentPage = 1;
-    this.lastTitre = q;
-    this.currentFormation = null;
+=== RÉSUMÉ ===
+${(c.resume || []).map(r => "• " + r).join("\n")}
 
-    document.getElementById("main").innerHTML = `<div id="results-area"></div>`;
-    this.renderResults();
+=== POINTS CLÉS ===
+${(c.points_cles || []).join(" • ")}
+
+=== EXERCICES ===
+${(c.exercices || []).map((e,i) => `${i+1}. ${e.question}\n   → ${e.correction}`).join("\n\n")}
+`;
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = c.titre.replace(/\s+/g, "_") + ".txt";
+    a.click();
+  },
+
+  showFavoris() {
+    const list = this.favoris.map(id => {
+      const c = COURS_DB.find(x => x.id === id);
+      if (!c) return "";
+      return `<div class="chapitre-item" onclick="App.openCours('${id}')"><strong>${c.titre}</strong><span>${c.formationNom}</span></div>`;
+    }).join("") || "<p>Aucun favori pour le moment.</p>";
+    document.getElementById("main").innerHTML = `
+      <div class="breadcrumb"><span onclick="App.goHome()">Accueil</span> › Favoris</div>
+      <h1>⭐ Favoris</h1>
+      ${list}`;
+  },
+
+  showHistory() {
+    const list = this.history.map(id => {
+      const c = COURS_DB.find(x => x.id === id);
+      if (!c) return "";
+      return `<div class="chapitre-item" onclick="App.openCours('${id}')"><strong>${c.titre}</strong><span>${c.formationNom}</span></div>`;
+    }).join("") || "<p>Aucun historique.</p>";
+    document.getElementById("main").innerHTML = `
+      <div class="breadcrumb"><span onclick="App.goHome()">Accueil</span> › Historique</div>
+      <h1>🕐 Historique</h1>
+      ${list}`;
+  },
+
+  globalSearch(q) {
+    if (!q || q.length < 2) return;
+    const lower = q.toLowerCase();
+    const results = COURS_DB.filter(c =>
+      c.titre.toLowerCase().includes(lower) ||
+      c.matiere.toLowerCase().includes(lower) ||
+      c.formationNom.toLowerCase().includes(lower) ||
+      (c.points_cles || []).some(p => p.toLowerCase().includes(lower)) ||
+      (c.resume || []).some(r => r.toLowerCase().includes(lower))
+    );
+    const list = results.map(c => `
+      <div class="chapitre-item" onclick="App.openCours('${c.id}')">
+        <div><strong>${c.titre}</strong><div style="font-size:.8rem;color:var(--m)">${c.formationNom} • ${c.matiere}</div></div>
+      </div>`).join("") || "<p>Aucun résultat.</p>";
+    document.getElementById("main").innerHTML = `
+      <div class="breadcrumb"><span onclick="App.goHome()">Accueil</span> › Recherche</div>
+      <h1>Résultats pour « ${q} »</h1>
+      ${list}`;
   }
 };
 
@@ -446,8 +722,7 @@ document.addEventListener("DOMContentLoaded", () => {
   App.init();
   document.getElementById("search-form").addEventListener("submit", e => {
     e.preventDefault();
-    const q = document.getElementById("search-input").value.trim();
-    App.globalSearch(q);
+    App.globalSearch(document.getElementById("search-input").value.trim());
   });
 });
 </script>
